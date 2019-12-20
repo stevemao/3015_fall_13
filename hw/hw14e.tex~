@@ -1,0 +1,120 @@
+\documentclass[11pt]{article}
+
+\include{header}
+\newcommand{\quot}[1]{"{\tt{{#1}}}"}
+\newcommand{\mybs}{$\backslash$}
+
+\begin{document}
+\homework{14}{7 November}
+
+The positive integers have representations as sequences of 1 or more
+digits.  A negative integer has the form ``$(- k )$'' where $k$
+is a positive integer.
+
+\exercise{Write a parser {\tt{intp}} that parses integers of this form.
+You can use the basic parsers provided in the file Parser.hs.
+Here is some example behavior:
+
+\begin{program*}
+\> *Expr> :t intp \\
+\> intp :: Parser Int \\
+\> *Expr> apply intp "10" \\
+\> [(10,"")] \\
+\> *Expr> apply intp "01" \\
+\> [(1,"")] \\
+\> *Expr> apply intp "(-10)" \\
+\> [(-10,"")] \\
+\> *Expr> apply intp "(-10 " \\
+\> [] \\
+\> *Expr> apply intp " -10 " \\
+\> [] \\
+\> *Expr> apply intp "0000" \\
+\> [(0,"")] \\
+\end{program*}
+}
+
+\section{Expressions}
+
+Consider the following concrete grammar for expressions.
+
+\begin{program**}
+\> expr    ::=  term ( '+' expr $\mid$ $\epsilon$) \\
+\> term    ::=  factor ( '*' expr $\mid$ $\epsilon$) \\
+\> factor    ::=  '(' expr ')' $\mid$ nat \\
+\end{program**}
+
+Here is a parser that calculates the values of expressions in this language.
+
+\begin{program*}
+\>  expr :: Parser Int  \\
+\>  expr = do t <- term  \\
+\>            do symbol "+"  \\
+\>               e <- expr  \\
+\>               return (t + e)  \\
+\>              +++ return t  \\
+\>    \\
+\>  term :: Parser Int  \\
+\>  term = do f <- factor  \\
+\>            do symbol "*"  \\
+\>               t <- term   \\
+\>               return (f * t)  \\
+\>              +++ return f  \\
+\>    \\
+\>  factor :: Parser Int  \\
+\>  factor = do symbol "("  \\
+\>              e <- expr  \\
+\>              symbol ")"  \\
+\>              return e  \\
+\>             +++ natural  \\
+\end{program*}
+
+Now, consider the following expression datatype.
+
+\begin{program*}
+\> data BinOp = Add | Times \\
+\>    deriving Show \\
+\>  \\
+\> data Exp = Const Int | BinExp BinOp Exp Exp  \\
+\>    deriving Show  \\
+\>  \\
+\end{program*}
+
+
+\exercise{Write parsers {\tt{expr', term', }} and {\tt{factor'}} of type
+  {\tt{Parser Expr}} for parsing strings into the {\tt{Expr}} type. 
+
+Here are some example runs:
+
+\begin{program*}
+\>  *Expression> parse expr' "55"  \\
+\>  parse expr' "55"  \\
+\>  [(Const 55,"")]  \\
+\>  *Expression> parse expr' "55 + 23"  \\
+\>  parse expr' "55 + 23"  \\
+\>  [(BinExp Add (Const 55) (Const 23),"")]  \\
+\>  *Expression> parse expr' "55 + 23 + 24"  \\
+\>  parse expr' "55 + 23 + 24"  \\
+\>  [(BinExp Add (Const 55) (BinExp Add (Const 23) (Const 24)),"")]  \\
+\>  *Expression> parse expr' "55 + 23 + 24 * 25"  \\
+\>  parse expr' "55 + 23 + 24 * 25"  \\
+\>  [(BinExp Add (Const 55) (BinExp Add (Const 23) (BinExp Times (Const 24) (Const 25))),"")]  \\
+\>  *Expression> parse expr' "55 + (23 + 24) * 25"  \\
+\>  parse expr' "55 + (23 + 24) * 25"  \\
+\>  [(BinExp Add (Const 55) (BinExp Times (BinExp Add (Const 23) (Const 24)) (Const 25)),"")]  \\
+\>  *Expression>   \\
+  \end{program*}  
+
+\end{document}
+
+
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw14e"
+% fill-column:79
+% End:
+
+
+
+

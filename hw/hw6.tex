@@ -1,0 +1,140 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{6}{19 September}
+
+\section{}
+
+\problem{Read Chapter 2 of Bird.}
+
+\ \\
+Here is some Haskell code for a type {\tt{Boolean}} that does not interfere with the builtin type {\tt{Bool}}.  I renamed {\tt{not}} to {\tt{neg}} so it does not conflict with the {\tt{not}} in 
+the Haskell type {\tt{Bool}}.
+
+
+\begin{program*}
+\>    \\
+\> module Boolean where     \\
+\>    \\
+\> data Boolean = FF | TT             deriving (Eq,Ord,Enum,Show)   \\
+\>    \\
+\> neg :: Boolean -> Boolean   \\
+\> neg FF  = TT   \\
+\> not TT = FF   \\
+\>    \\
+\> (/$\bf\backslash$), ($\bf\backslash$/) :: Boolean -> Boolean -> Boolean   \\
+\>    \\
+\> FF /$\bf\backslash$ x = FF   \\
+\> TT /$\bf\backslash$ x = x   \\
+\>    \\
+\> FF $\bf\backslash$/ x = x   \\
+\> TT $\bf\backslash$/ x = TT   \\
+\>    \\
+\end{program*} 
+
+
+\problem{Do problems 2.1.1, 2.1.3, 2.1.6 on pages 34 -- 35. For 2.1.3 use the operator {\tt{(.=>)}} instead of {\tt{(=>)}} or just use the prefix {\tt{implies}}.}
+
+\section{Type Classes}
+The deriving clause in the declaration of the type {\tt{Boolean}} generates
+many usefull functions for the type. Here are the declarations of these classes.
+
+\subsection{{\tt{Eq}} Typeclass}
+
+Described on page 31 of Bird.
+
+\begin{program*}
+\> class  Eq a  where   \\
+\>         (==), (/=)  ::  a -> a -> Bool   \\
+\>    \\
+\>         x /= y  = not (x == y)   \\
+\>         x == y  = not (x /= y)   \\
+\>    \\
+\end{program*}
+
+
+
+\subsection{{\tt{Ord}} Typeclass}
+
+Described on pg 32 of Bird.
+
+\begin{program*}
+\> class  (Eq a) => Ord a  where   \\
+\>     compare              :: a -> a -> Ordering   \\
+\>     (<), (<=), (>=), (>) :: a -> a -> Bool   \\
+\>     max, min             :: a -> a -> a   \\
+\>    \\
+\>     compare x y | x == y    = EQ   \\
+\>                 | x <= y    = LT   \\
+\>                 | otherwise = GT   \\
+\>    \\
+\>     x <= y  = compare x y /= GT   \\
+\>     x <  y  = compare x y == LT   \\
+\>     x >= y  = compare x y /= LT   \\
+\>     x >  y  = compare x y == GT   \\
+\>    \\
+\>     -- Note that (min x y, max x y) = (x,y) or (y,x)   \\
+\>     max x y | x <= y    =  y   \\
+\>             | otherwise =  x   \\
+\>     min x y | x <= y    =  x   \\
+\>             | otherwise =  y   \\
+\>    \\
+\end{program*}
+
+\subsection{{\tt{Enum}} Typeclass}
+
+Described on page 38 -- 40 of Bird.
+
+\begin{program*}
+\> class  Enum a  where   \\
+\>     succ, pred     :: a -> a   \\
+\>     toEnum         :: Int -> a   \\
+\>     fromEnum       :: a -> Int   \\
+\>     enumFrom       :: a -> [a]            -- [n..]   \\
+\>     enumFromThen   :: a -> a -> [a]       -- [n,n'..]   \\
+\>     enumFromTo     :: a -> a -> [a]       -- [n..m]   \\
+\>     enumFromThenTo :: a -> a -> a -> [a]  -- [n,n'..m]   \\
+\>    \\
+\>     -- Default declarations given in Prelude   \\
+\>    \\
+\>    \\
+\end{program*}
+
+\subsection{{\tt{Show}} Typeclass}
+
+Described on page 52 -- 54 of Bird.
+
+\begin{program*}
+\> class  Show a  where   \\
+\>     showsPrec :: Int -> a -> ShowS   \\
+\>     show      :: a -> String    \\
+\>     showList  :: [a] -> ShowS   \\
+\>    \\
+\>     showsPrec \underline{\hspace{1em}} x s   = show x ++ s   \\
+\>     show x            = showsPrec 0 x ""   \\
+\>     -- ... default decl for showList given in Prelude   \\
+\end{program*}
+
+To find out more, read section 6.3 of of {\tt{http://www.haskell.org/onlinereport/basic.html}}. 
+
+
+
+\problem{Write expressions that exercise the functions {\tt{( $==$, $/\!=$,
+$<$, $<=$, $>=$, $>$, succ, pred, fromEnum, toEnum, show, showList)}}  generated
+automatically for the type {\tt{Boolean}} by the Haskell deriving clause {\tt{(Eq,Ord,Enum,Show)}}.}
+
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "latex hw6; dvips hw6 -o hw6.ps; pdflatex hw6"
+% fill-column:79
+% End:
+
+
+
+

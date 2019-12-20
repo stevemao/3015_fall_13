@@ -1,0 +1,76 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{12}{5 October}
+\exercise{ Read sections 4.2, 4.3, 4.4 and 4.5 of Bird (pp. 95---128)}
+
+\exercise{Write a recursive function to implement {\tt{ordered1}} which tells
+whether a list is in strictly increasing order or not.
+\begin{program*}
+\>    ordered1 :: (Ord a) => [a] -> Bool
+\end{program*}
+Write enough test cases to convince the grader that your code is correct.
+}
+
+\exercise{ There is a function {\tt{f}} such that the following definition
+behaves as the predicate {\tt{ordered1}} defined above.  Fill in the ``???''.
+
+\begin{program*}
+\>    pairs [] = []\\
+\>    pairs m = zip m (tail m) \\
+\> \\
+\>    ordered2 m = foldr f True (pairs m)  \\
+\>      where f (x,y) z = ??? 
+\end{program*}
+To solve this problem you'll probably have to experiment with the function
+{\tt{pairs}} to see what it does.
+
+Write enough test cases to convince the grader that your code is correct.
+}
+
+
+\exercise{Implement the function {\tt{filter1}} which has the same type as, and
+behaves just like {\tt{filter}} except that it is defined using {\tt{foldr}}.
+Write enough test cases to convince the grader that your code is correct.
+}
+
+
+\exercise{Write Haskell code to implement {\tt{partition}} using the {\tt{foldr}} function.
+\begin{program*}
+\>    partition :: (a -> Bool) -> [a] -> ([a],[a])  
+\end{program*}
+
+The specification\footnote{This means that this equation characterizes
+the {\tt{partition}} function, {\em{i.e.}} for any implementation of
+partition, this property must hold.} for {\tt{partition}} is as
+follows:
+\begin{program*}
+\>    partition p l = (filter p l, filter (not . p) l)
+\end{program*}
+Recall that {\tt{(f . g)}} denotes function composition, {\em{i.e.}} {\tt{(f . g)(x) = f(g(x))}}.
+
+Write enough test cases to convince the grader that your code is correct.  You
+can use the specification to test the output of your version for correctness.
+
+}
+
+
+
+
+
+\end{document}
+
+
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw12b"
+% fill-column:79
+% End:
+
+
+
+

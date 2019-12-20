@@ -1,0 +1,60 @@
+:l Bags
+:l Bags
+[1 of 1] Compiling Bag              ( Bags.hs, interpreted )
+Ok, modules loaded: Bag.
+*Bag> let b1 = Bag [1..10]
+let b1 = Bag [1..10]
+*Bag> let b2 = Bag [10,9..1]
+let b2 = Bag [10,9..1]
+*Bag> b1 `union` b2
+b1 `union` b2
+|[1,2,3,4,5,6,7,8,9,10,10,9,8,7,6,5,4,3,2,1]|
+*Bag> b1 `subbag` b2
+b1 `subbag` b2
+True
+*Bag> b1 `subbag` b1
+b1 `subbag` b1
+True
+*Bag> empty `subbag` b1
+empty `subbag` b1
+True
+*Bag> empty `subbag` empty
+empty `subbag` empty
+True
+*Bag> b1 `subbag` empty
+b1 `subbag` empty
+False
+*Bag> Bag [1,2,3] `subbag` Bag [1,1,1,2,2,3]
+Bag [1,2,3] `subbag` Bag [1,1,1,2,2,3]
+True
+*Bag> insert 1 (Bag [1,2,3])
+insert 1 (Bag [1,2,3])
+|[1,1,2,3]|
+*Bag> insert 3 (Bag [1,2,3])
+insert 3 (Bag [1,2,3])
+|[3,1,2,3]|
+*Bag> multiplicity 3 (insert 3 (Bag [1,2,3]))
+multiplicity 3 (insert 3 (Bag [1,2,3]))
+2
+*Bag> multiplicity 1 (insert 3 (Bag [1,2,3]))
+multiplicity 1 (insert 3 (Bag [1,2,3]))
+1
+*Bag> multiplicity 10 (insert 3 (Bag [1,2,3]))
+multiplicity 10 (insert 3 (Bag [1,2,3]))
+0
+*Bag> 10 `Bag.elem` b1
+10 `Bag.elem` b1
+True
+*Bag> 10 `Bag.elem` b2
+10 `Bag.elem` b2
+True
+*Bag> 10 `Bag.elem` (remove 10 b2)
+10 `Bag.elem` (remove 10 b2)
+False
+*Bag> 10 `Bag.elem` (remove 10 (b2 `union` b2))
+10 `Bag.elem` (remove 10 (b2 `union` b2))
+True
+*Bag> 10 `Bag.elem` (remove 10 (remove 10 (b2 `union` b2)))
+10 `Bag.elem` (remove 10 (remove 10 (b2 `union` b2)))
+False
+*Bag> 

@@ -1,0 +1,38 @@
+Hugs> :l Multiset
+:l Multiset
+Multiset> MkMultiset [1,1,2,2,3]
+[| 1,1,2,2,3 |]
+Multiset> MkMultiset [1,1,2,1,2,3]
+[| 1,1,2,1,2,3 |]
+Multiset> MkMultiset [1,1,2,1,2,3] == MkMultiset [3,1,2,1,1,2]
+True
+Multiset> MkMultiset [1,1,2,1,2,3] == MkMultiset [3,1,2,1,1]
+False
+Multiset> MkMultiset [y | x <- [1..10], y <- [1..x]]
+[| 1,1,2,1,2,3,1,2,3,4,1,2,3,4,5,1,2,3,4,5,6,1,2,3,4,5,6,7,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9,10 |]
+Multiset> MkMultiset (reverse [y | x <- [1..10], y <- [1..x]])
+[| 10,9,8,7,6,5,4,3,2,1,9,8,7,6,5,4,3,2,1,8,7,6,5,4,3,2,1,7,6,5,4,3,2,1,6,5,4,3,2,1,5,4,3,2,1,4,3,2,1,3,2,1,2,1,1 |]
+Multiset> MkMultiset [y | x <- [1..10], y <- [1..x]] == MkMultiset (reverse [y | x <- [1..10], y <- [1..x]])
+True
+Multiset> insert 0 (MkMultiset (reverse [y | x <- [1..10], y <- [1..x]]))
+[| 0,10,9,8,7,6,5,4,3,2,1,9,8,7,6,5,4,3,2,1,8,7,6,5,4,3,2,1,7,6,5,4,3,2,1,6,5,4,3,2,1,5,4,3,2,1,4,3,2,1,3,2,1,2,1,1 |]
+Multiset> delete 1 (MkMultiset (reverse [y | x <- [1..10], y <- [1..x]]))
+[| 10,9,8,7,6,5,4,3,2,9,8,7,6,5,4,3,2,1,8,7,6,5,4,3,2,1,7,6,5,4,3,2,1,6,5,4,3,2,1,5,4,3,2,1,4,3,2,1,3,2,1,2,1,1 |]
+Multiset> MkMultiset [y | x <- [1..5], y <- [1..x]] `union`  MkMultiset (reverse [y | x <- [1..5], y <- [1..x]])
+[| 1,1,2,1,2,3,1,2,3,4,1,2,3,4,5,5,4,3,2,1,4,3,2,1,3,2,1,2,1,1 |]
+Multiset> MkMultiset [y | x <- [1..5], y <- [1..x]] 
+[| 1,1,2,1,2,3,1,2,3,4,1,2,3,4,5 |]
+Multiset> MkMultiset (reverse [y | x <- [1..5], y <- [1..x]] )
+[| 5,4,3,2,1,4,3,2,1,3,2,1,2,1,1 |]
+Multiset> MkMultiset [y | x <- [1..10], y <- [1..x]] `intersection` MkMultiset [y | x <- [1..5], y <- [1..x]]
+[| 1,1,2,1,2,3,1,2,3,4,1,2,3,4,5 |]
+Multiset> MkMultiset [y | x <- [1..10], y <- [1..x]] `intersection` MkMultiset [y | x <- [1..5], y <- [1..x]] == MkMultiset [y | x <- [1..5], y <- [1..x]
+True
+Multiset> 
+
+Multiset> 
+
+Multiset> ismem 1 (MkMultiset [1,2,3])
+True
+Multiset> ismem 4 (MkMultiset [1,2,3,2,2,3])
+False

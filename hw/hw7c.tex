@@ -1,0 +1,71 @@
+\documentclass[11pt]{article}
+
+\include{header}
+\newcommand{\sS}{{{Succ$\;$}}}
+\newcommand{\s}{{Succ\;}}
+
+\begin{document}
+\homework{7}{16 September}
+
+\section{}
+\problem{Read chapter 3 of Bird.}  
+\problem{Do exercise 3.3.1 on pp. 74}
+
+\goodbreak\noindent{}Recall the {\tt{foldn}} function from Bird and presented in class.
+\begin{program*}
+\> foldn :: (a -> a) -> a -> Nat -> a \\
+\> foldn h c Zero = c \\
+\> foldn h c (Succ n) = h (foldn h c n) 
+\end{program*}
+Here is the definition of the {\tt{Nat}} datatype and  some functions.
+\begin{program*}
+\> data Nat = Zero | Succ Nat \\
+\>    deriving (Eq,Ord,Show) \\
+\>  \\
+\> nat2int :: Nat -> Int \\
+\> nat2int Zero = 0 \\
+\> nat2int (Succ n) = nat2int n + 1 \\
+\>   \\
+\> int2nat :: Int -> Nat \\
+\> int2nat 0 = Zero \\
+\> int2nat (k + 1) = Succ ( int2nat k) \\
+\>  \\
+\> shownat Zero = "Zero" \\
+\> shownat (Succ k) = "Succ(" ++ shownat k ++ ")"
+\end{program*}
+Here are defintions for an identity function, addition, multiplication
+and exponentiation on {\tt{Nat}}, all defined interms of {\tt{foldn}}.
+
+\begin{program*}
+\> id\_nat n = foldn Succ Zero n \\
+\> plus n m = foldn Succ n m \\
+\> times n m = foldn (plus n) Zero m \\
+\> expt n m = foldn (times n) (Succ Zero) m \\
+\end{program*}
+
+\begin{problem}\ \vspace{.125em} \\
+\begin{description}
+\item{{\bf{a.)}}} Implement a function {\tt{nat2int1}} using {\tt{foldn}} that behaves just like {\tt{nat2int}}.
+
+\item{{\bf{b.)}}} Implement a function {\tt{shownat1}} using {\tt{foldn}} that behaves
+just like {\tt{shownat}}.  You may find the following function useful in your
+implementation.
+\begin{program*}
+\> wrap left right s = left ++ s ++ right
+\end{program*}
+\item{{\bf{c.)}}} Why can't you implement {\tt{int2nat}} using {\tt{foldn}}?
+\end{description}
+\end{problem}
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw7c"
+% fill-column:79
+% End:
+
+
+
+

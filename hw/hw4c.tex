@@ -1,0 +1,139 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\include{header}
+
+\begin{document}
+\homework{4}{7 September}
+
+\section{}
+
+\problem{Read Chapter 1 and 2 of the Bird text.}
+
+\section{info, infix operators and precedence}
+
+GHC will tell you the type, where the function is defined and, for infix
+operators, the precedence of the operator.  Here are some examples.
+
+\begin{program*}
+\> *Main> :info (\&\&) \\
+\> (\&\&) :: Bool -> Bool -> Bool    -- Defined in GHC.Base \\
+\> infixr 3 \&\& \\
+\> *Main> :info (||) \\
+\> (||) :: Bool -> Bool -> Bool    -- Defined in GHC.Base \\
+\> infixr 2 || \\
+\> *Main> :info (.) \\
+\> (.) :: (b -> c) -> (a -> b) -> a -> c   -- Defined in GHC.Base \\
+\> infixr 9 . \\
+\> *Main> :l infinity \\
+\> :l infinity \\
+\> [1 of 1] Compiling Main             ( infinity.hs, interpreted ) \\
+\> Ok, modules loaded: Main. \\
+\> *Main> :info infinity \\
+\> :info infinity \\
+\> infinity :: t   -- Defined at infinity.hs:1:0-7 \\
+\> *Main>  \\
+\end{program*}
+
+Precedence level is an integer from 0 to 9 with (9 being the highest
+precedence.)  Function application associates to the left and has precedence 10
+so, for example {\tt{f x y + 7}} is {\tt{((f x) y) + 7}}.
+
+Haskell allows users to declare your own infix operators and whether they
+associate to the left ({\tt{infixl}}) or right ({\tt{infixr}}) or do not
+associate ({\tt{infix}})).  You must also specify the precedence of the new
+operator.
+
+For example, in class I presented the definitions of conjunction ({\tt{\&\&}})
+and disjunction ({\tt{||}}) as follows:
+
+\begin{program*}
+\> False \&\&  x = False \\
+\> True \&\&  x = x \\
+\> \\
+\> False || x = x \\
+\> True || x = True \\
+\end{program*}
+This code will load, but when you try to use it you will need to specify which
+definition of {\tt{\&\&}} you mean to use.  \newpage{}For example, after loading the code
+above I get the following behavior.
+\begin{program*}
+\> *Main> True \&\& False \\
+\> True \&\& False \\
+\>  \\
+\> <interactive>:1:5: \\
+\>     Ambiguous occurrence `\&\&' \\
+\>     It could refer to either `Main.\&\&', defined at hw4c.hs:7:6 \\
+\>                           or `Prelude.\&\&', imported from Prelude
+\end{program*}
+
+The error message is indicating that the name {\tt{\&\&}} is ambiguous. You
+could fix this by specifying which of the two definitions of {\tt{\&\&}} you
+intend.
+\begin{program*}
+\> *Main> True Main.\&\& False \\
+\> False
+\end{program*}
+
+To avoid conflict with the built-in functions we might have written the
+following code which declares two new infix operators that associated to the
+right.
+
+\begin{program*}
+\> infixr 3 \&\&\& \\
+\> (\&\&\&) :: Bool -> Bool -> Bool \\
+\> False \&\&\& y = False \\
+\> True \&\&\& y = y \\
+\>  \\
+\> infixr 2 ||| \\
+\> (|||) :: Bool -> Bool -> Bool \\
+\> False ||| y = y \\
+\> True ||| y = True
+\end{program*}
+
+Now we can compute as we expect.
+\begin{program*}
+\> *Main> True \&\&\& False \\
+\> False
+\end{program*}
+
+
+
+\begin{problem}
+Rewrite\footnote{This is essentially problem 2.2.1 from Bird on page 34.} the definitions of {\tt{\&\&\&}} and {\tt{|||}} so that they behave just
+like {\tt{\&\&}} and {\tt{||}} but only using {\tt{if-then-else}} and the
+Boolean constants. Your definitions should look something like the following:
+\begin{program*}
+\> x \&\&\& y = ???  \\
+\> x ||| y = ???
+\end{program*}
+The right side of your definition ({\tt{???}}) must only use the constructs
+{\tt{True}}, {\tt{False}}, {\tt{if-then-else}}, and the variables {\tt{x}} and
+{\tt{y}}.
+\end{problem}
+
+\begin{problem}
+Declare two new infix operators implementing logical implication ({\tt{==>}})
+and exclusive-or ({\tt{<+>}}). (If you do not know the truth table for
+implication and exclusive-or, look at the expected output file.) Both operators
+should associate to the right.  Implication should have precedence 0 (so that
+it binds weaker than the other connectives) and exclusive-or should have the
+same precedence as regular disjunction ({\tt{||}}).
+\end{problem}
+
+
+Check the linked expected output file to see the tests you should run.
+
+
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw4c"
+% fill-column:79
+% End:
+
+
+
+

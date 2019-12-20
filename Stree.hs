@@ -1,0 +1,42 @@
+module Stree where
+
+import Lists
+
+data (Ord a,Eq a) => Stree a = Null | Fork (Stree a) a (Stree a) deriving (Eq,Ord,Show)
+
+flatten Null = []
+flatten (Fork t1 a t2) = flatten t1 ++ [a] ++ flatten t2
+
+
+mkStree [] = Null
+mkStree (h:t) = Fork (mkStree l1) h (mkStree l2)
+   where (l1,l2) = partition (<= h) t
+
+
+insert x Null = Fork Null x Null
+insert x (Fork t1 y t2)
+      | (x < y) = Fork (insert x t1) y t2
+      | (x == y) = Fork t1 x t2
+      | (x > y) = Fork t1 y (insert x t2)
+
+
+splitTree (Fork t1 x t2)= 
+   if t1 == Null then (x,t2) else (z, Fork t3 x t2)
+   where (z,t3) = splitTree t1
+
+headTree t = (fst . splitTree) t
+tailTree t = (snd . splitTree) t
+
+join t1 t2 = if t2 == Null then t1 else Fork t1 (headTree t2) (tailTree t2)
+
+delete x Null = Null
+delete x (Fork t1 y t2) 
+  | (x < y)  = Fork (delete x t1) y t2
+  | (x == y) = join t1 t2
+  | (x > y) =  Fork t1 y (delete x t2)
+
+mem x Null = False
+mem x (Fork t1 y t2) 
+  | (x < y)  = mem x t1
+  | (x == y) = True
+  | (x > y) =  mem x  t2

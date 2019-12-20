@@ -1,0 +1,40 @@
+*Type> :l Type
+[1 of 1] Compiling Type             ( Type_Prod.hs, interpreted )
+Ok, modules loaded: Type.
+*Type>  test unify [(TyVar "a", TyVar "a")]
+"[(a,a)] ---> []"
+*Type>  test unify [(TyVar "a", TyVar "b")]
+"[(a,b)] ---> [a := b]"
+*Type>  test unify [(TyVar "b", TyVar "a")]
+"[(b,a)] ---> [b := a]"
+*Type>  test unify [(TyVar "a", Arrow (TyVar "a") (TyVar "b"))]
+"[(a,(a -> b))] ---> *** Exception: unify: occurs check failure.
+*Type>  test unify [(TyVar "a", Arrow (TyVar "b") (TyVar "b"))]
+"[(a,(b -> b))] ---> [a := (b -> b)]"
+*Type>  test unify [(Arrow (TyVar "b") (TyVar "b"), Arrow (TyVar "b") (TyVar "b"))]
+"[((b -> b),(b -> b))] ---> []"
+*Type>  test unify [(Arrow (TyVar "a") (TyVar "b"), Arrow (TyVar "b") (TyVar "a"))]
+"[((a -> b),(b -> a))] ---> [a := b]"
+*Type>  test unify [(Arrow (TyVar "b") (TyVar "a"), Arrow (TyVar "a") (TyVar "b"))]
+"[((b -> a),(a -> b))] ---> [b := a]"
+*Type>  test unify [(Arrow (TyVar "a") (Arrow (TyVar "b") (TyVar "c")), Arrow (Arrow (TyVar "c") (TyVar "b")) (TyVar "a"))]
+"[((a -> (b -> c)),((c -> b) -> a))] ---> [b := c,a := (c -> b)]"
+*Type>  test unify [(TyVar "a", Prod (TyVar "a") (TyVar "b"))]
+"[(a,(a X b))] ---> *** Exception: unify: occurs check failure.
+*Type>  test unify [(TyVar "a", Prod (TyVar "b") (TyVar "b"))]
+"[(a,(b X b))] ---> [a := (b X b)]"
+*Type>  test unify [(Prod (TyVar "b") (TyVar "b"), Prod (TyVar "b") (TyVar "b"))]
+"[((b X b),(b X b))] ---> []"
+*Type>  test unify [(Prod (TyVar "a") (TyVar "b"), Prod (TyVar "b") (TyVar "a"))]
+"[((a X b),(b X a))] ---> [a := b]"
+*Type>  test unify [(Prod (TyVar "b") (TyVar "a"), Prod (TyVar "a") (TyVar "b"))]
+"[((b X a),(a X b))] ---> [b := a]"
+*Type>  test unify [(Prod (TyVar "a") (Prod (TyVar "b") (TyVar "c")), Prod (Prod (TyVar "c") (TyVar "b")) (TyVar "a"))]
+"[((a X (b X c)),((c X b) X a))] ---> [b := c,a := (c X b)]"
+*Type>  test unify [(Arrow (TyVar "a") (Prod (TyVar "b") (TyVar "c")), Arrow (Prod (TyVar "c") (TyVar "b")) (TyVar "a"))]
+"[((a -> (b X c)),((c X b) -> a))] ---> [b := c,a := (c X b)]"
+*Type>  test unify [(Arrow (TyVar "b") (TyVar "b"), Prod (TyVar "b") (TyVar "b"))]
+"[((b -> b),(b X b))] ---> *** Exception: unify: Arrow and Prod are not unifiable.
+*Type>  test unify [(Prod (TyVar "b") (TyVar "b"), Arrow (TyVar "b") (TyVar "b"))]
+"[((b X b),(b -> b))] ---> *** Exception: unify: Prod and Arrow are not unifiable.
+*Type> 

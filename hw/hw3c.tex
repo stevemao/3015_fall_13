@@ -1,0 +1,49 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{4}{13 September}
+
+\section{}
+
+In class we discussed the following code.
+
+\begin{program*}
+\> plus (x,y) = x + y \\
+\> plusc x y = x + y \\
+\> curry f x y  =  f(x,y) \\
+\> uncurry f (x,y) = f x y \\
+\> (f . g) x = f (g x) \\
+\> id x = x \\
+\end{program*}
+
+Recall the extensionality rule for proving functions $f,g:A\rightarrow{}B$ are equal.
+\[ f= g \definedAsM \forall{}x:A. f x = g x \]
+
+As was shown in class, prove the following using extensionality.
+
+\[\begin{array}{ll}
+% i.) & uncurry \; plusc = plus \\
+i.) & curry \; plus = plusc \\
+ii.) & curry (uncurry \; plusc) = plusc \\
+iii.) & uncurry (curry \; plus) = plus \\
+iv.) & (f . id) = f \\
+v.) & (id . f) = f 
+
+\end{array}\]
+}
+
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "latex hw3c; dvips hw3c -o hw3c.ps; pdflatex hw3c"
+% fill-column:79
+% End:
+
+
+
+

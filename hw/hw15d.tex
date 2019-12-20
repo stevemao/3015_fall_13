@@ -1,0 +1,91 @@
+\documentclass[11pt]{article}
+
+\include{header}
+\newcommand{\quot}[1]{"{\tt{{#1}}}"}
+\newcommand{\mybs}{$\backslash$}
+
+\begin{document}
+\homework{15}{12 November}
+
+\section{Parsing lambda terms}
+
+In this assignment you will write code to parse lambda terms and to build
+elements of the data type {\tt{Term}} defined as follows:
+
+\begin{program*}
+\>  data Term = V String \\
+\>            | Ap Term Term  \\
+\>            | Abs String Term  \\
+\>   deriving Eq \\
+\end{program*}
+
+
+\noindent{} Here is concrete syntax for this language which is slightly
+modified here to simplify the assignment.  A right recursive BNF specification
+for the language of lambda terms with pairing and spreads is given as follows:
+
+\[\begin{array}{lcl}
+term & ::=  & {\mathit{term1}} \;\;(term \;| \;\epsilon) \vspace{.25em} \\
+{\mathit{term1}} & ::= &  \;\;\; {\mathit{identifier}} \\
+&& | \;\;  \quot{{\mathbf{lambda}}} \;\; {\mathit{identifier}} \;\; \quot{.} \;\; term \\
+&& | \;\;  \quot{(} \;\; term \;\; \quot{)} \\
+\end{array}
+\]
+
+\noindent{}A {\it{term}} is a white-space separated sequence of one or more
+elements of the {\it{term1}} syntactic class.  If there is more than one
+{\it{term1}} in the sequence then it is interpreted as an application (an
+{\tt{Ap}}) which associates to the left\footnote{Since left associativity is a
+bit tricky to implement in the parser, I have provided code for the {\it{term}}
+parser.}.
+
+\noindent{}Thus:
+\begin{program*}
+\> *Lambda\_parser> applyParser pTerm "x y z" \\
+\> Ap (Ap (V "x") (V "y")) (V "z") \\
+\end{program*}
+
+\noindent{} Elements of the syntactic class {\it{term1}} take one of
+the following forms: it is an {\it{identifier}}; it is an abstraction
+which starts with the keyword {\bf{lambda}} or it is a {\it{term}}
+which is enclosed in parenthesis.
+
+\noindent{}You can build your {\it{identifier}} parser with the parser
+{\tt{identifier}} (which is in the file {\em{Parser.hs}}) though you
+need to make sure that the keyword {\tt{lambda}} is {\em{not}}
+included among the class of identifiers for this language.
+
+\exercise{Write {\tt{Term}} parsers {\tt{pV}} for variables, {\tt{pAbs}} for
+abstractions (lambda terms), a parser {\tt{pParenTerm}}for terms enclosed in
+parenthesis, and the {\tt{pTerm1}} parser for the class {\it{term1}}.  }
+
+\exercise[Extra credit]{Extend your parser for abstractions so that it allows
+one or more variable names between the keyword {\tt{lambda}} and the ``.''.  Do
+not change the type {\tt{Term}}, simply generate nested {\tt{Abs}} terms as the
+following examples show.
+\begin{program*}
+\> *Lambda\_parser> applyParser pTerm "lambda x . x" \\
+\> Abs "x" (V "x") \\
+\> *Lambda\_parser> applyParser pTerm "lambda x y . y x" \\
+\> Abs "x" (Abs "y" (Ap (V "y") (V "x"))) \\
+\> *Lambda\_parser> applyParser pTerm "lambda x y . z" \\
+\> Abs "x" (Abs "y" (V "z")) \\
+\end{program*} 
+
+}
+
+
+\end{document}
+
+
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw15d"
+% fill-column:79
+% End:
+
+
+
+

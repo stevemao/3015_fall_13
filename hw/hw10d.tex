@@ -1,0 +1,86 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{10}{9 October}
+
+\section{Sets}
+
+In class we showed how to model a data-type of sets using lists and instantiating the type as an instance of the {\tt{Eq}} and {\tt{Show}} type classes.  Here's the code we developed in class with some additional functionality added.
+
+\begin{verbatim}
+module Set where
+
+data Set a = Set [a] 
+
+subset (Set xs) (Set ys) = null (filter (notin ys) xs)
+  where notin xs x = not (x `Prelude.elem` xs)
+
+instance  (Eq a ) => Eq (Set a) where
+   xs == ys =  xs `subset` ys && ys `subset` xs
+
+instance (Eq a, Show a) => Show (Set a) where
+  show (Set xs) = fix $ show  $unique xs
+    where fix xs = '{' : (take (length xs -2) (drop 1 xs) ++ "}")
+          unique [] = []
+          unique (x:xs) = x: unique (filter (/=x) xs)
+
+empty = Set []
+
+insert x (Set xs) = Set (x:xs)
+
+elem x (Set xs) = x `Prelude.elem` xs
+
+union (Set xs) (Set ys) = Set (xs ++ ys)
+
+remove x (Set []) = (Set [])
+remove x (Set (y:ys)) = if x == y then (Set ys) else insert y (remove x (Set ys))
+\end{verbatim}
+
+Recall that for sets, order of the elements and the multiplicity (how many
+times they occur in the list) are not significant. This is reflected in set
+equality - two sets are equal iff they contain the same elements.  A {\em{Bag}}
+or {\em{Multiset}} is a structure there the order of the elements is not
+significant but their multiplicities are.  We can characterize equality for
+multisets if we have a function that counts the number of times an element
+occurs in the mutiset.  For $m,n::Bag \; a$ and a function $count :: a
+\rightarrow (Bag\,a) \rightarrow \,Int$ that counts the number of ioccurences
+of an element in a bag, we define equality as follows:
+\[\  m == n \definedAs \forall {}x::a .\; count \,x\, m == count\, x\, n\]
+Note that for bags $m$ and $n$, $m$ is a subbag of $n$ if the following holds:
+\[\  m \subseteq n \definedAs \forall {}x::a .\; count \,x\, m \le count\, x\, n\]
+For bags $m$ and $n$ you could prove the following theorem holds:
+\[\ m == n \Leftrightarrow m \subseteq n \wedge n\subseteq m\] This definition
+provides an alternative path to implementing equality for bags.
+\begin{exercise}
+Use the code above as a template to implement a data-type of bags. You should
+instantiate the type as an instace of the {\tt{Eq}} and {\tt{Show}} type
+classes.  For the {\tt{show}} function I like a display the looks like ``$\mid$[
+1,2,3]$\mid$'' for ``Bag [1,2,3]'' - but maybe you have a better idea.
+
+You should also implement the following functions and constants:
+\begin{verbatim}
+subbag :: (Eq a) => Bag a -> Bag a -> Bool
+empty :: Bag a
+insert :: a -> Bag a -> Bag a
+elem :: (Eq a) => a -> Bag a -> Bool
+multiplicity :: (Num t, Eq a) => a -> Bag a -> t
+union :: Bag t -> Bag t -> Bag t
+remove :: (Eq a) => a -> Bag a -> Bag a
+\end{verbatim}
+\end{exercise}
+
+
+
+
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw10d"
+% fill-column:79
+% End:
+

@@ -1,0 +1,182 @@
+Microsoft Windows [Version 6.1.7601]
+Copyright (c) 2009 Microsoft Corporation.  All rights reserved.
+
+c:\Users\jlc\Work\src\haskell>ghci
+ghci
+GHCi, version 6.12.3: http://www.haskell.org/ghc/  :? for help
+Loading package ghc-prim ... linking ... done.
+Loading package integer-gmp ... linking ... done.
+Loading package base ... linking ... done.
+Loading package ffi-1.0 ... linking ... done.
+Prelude> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+Ok, modules loaded: Sets.
+*Sets> [\x -> x] == [\x->x]
+
+<interactive>:1:0:
+    No instance for (Eq (t -> t))
+      arising from a use of `==' at <interactive>:1:0-19
+    Possible fix: add an instance declaration for (Eq (t -> t))
+    In the expression: [\ x -> x] == [\ x -> x]
+    In the definition of `it': it = [\ x -> x] == [\ x -> x]
+*Sets> :t ([]==)
+([]==) :: (Eq a) => [a] -> Bool
+*Sets> [] == [\x -> x]
+
+<interactive>:1:0:
+    No instance for (Eq (t -> t))
+      arising from a use of `==' at <interactive>:1:0-14
+    Possible fix: add an instance declaration for (Eq (t -> t))
+    In the expression: [] == [\ x -> x]
+    In the definition of `it': it = [] == [\ x -> x]
+*Sets> null [\x -> x]
+False
+*Sets> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+Ok, modules loaded: Sets.
+*Sets> Set [1,2,3] == Set [3,2,1]
+True
+*Sets> Set [1,2,3] == Set []
+True
+*Sets> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+Ok, modules loaded: Sets.
+*Sets> Set [1,2,3] == Set []
+False
+*Sets> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+Ok, modules loaded: Sets.
+*Sets> Set [1,2,3] == Set [1,1,2,3]
+True
+*Sets> Set [1,2,3] == Set [3, 1,1,2,3]
+True
+*Sets> Set [1,2,3,4] == Set [3, 1,1,2,3]
+False
+*Sets> Set [1,2,3] == Set [4, 3, 1,1,2,3]
+False
+*Sets> 
+*Sets> :t filter
+filter :: (a -> Bool) -> [a] -> [a]
+*Sets> 10 /= 11
+True
+*Sets> :t filter (/=10)
+filter (/=10) :: (Num a) => [a] -> [a]
+*Sets> :t (/=)
+(/=) :: (Eq a) => a -> a -> Bool
+*Sets> /=
+
+<interactive>:1:0: parse error on input `/='
+*Sets> filter (/= 10) [1..10]
+[1,2,3,4,5,6,7,8,9]
+*Sets> filter (/= 10) [10,10,10,9]
+[9]
+*Sets> filter (/= 10) [10,10,10,9]
+[9]
+*Sets> 
+*Sets> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+Ok, modules loaded: Sets.
+*Sets> Set [1,2,3] == Set [4, 3, 1,1,2,3]
+False
+*Sets> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+
+Sets.hs:12:43: Not in scope: `sx'
+Failed, modules loaded: none.
+Prelude> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+
+Sets.hs:12:33:
+    Couldn't match expected type `Bool'
+           against inferred type `a -> Bool'
+    In the first argument of `filter', namely `notin'
+    In the first argument of `null', namely `(filter notin ys)'
+    In the first argument of `not', namely
+        `(null (filter notin ys) xs)'
+Failed, modules loaded: none.
+Prelude> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+
+Sets.hs:12:26:
+    Couldn't match expected type `[a]'
+           against inferred type `[a1] -> [a1]'
+    In the first argument of `null', namely `(filter (notin ys))'
+    In the first argument of `not', namely
+        `(null (filter (notin ys)) xs)'
+    In the expression: not (null (filter (notin ys)) xs)
+Failed, modules loaded: none.
+Prelude> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+Ok, modules loaded: Sets.
+*Sets> :t notin
+notin :: (Eq a) => [a] -> a -> Bool
+*Sets> :t notin [1..10]
+notin [1..10] :: (Num t, Enum t) => t -> Bool
+*Sets> notin [1..10] 7
+False
+*Sets> notin [1..10] 11
+True
+*Sets> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+Ok, modules loaded: Sets.
+*Sets> subset [1..10] [1..100]
+True
+*Sets> subset [1..100] [1..10]
+False
+*Sets> subset [1..10] [1..10]
+True
+*Sets> subset [] [1..10]
+True
+*Sets> subset  [1..10] []
+False
+*Sets> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+Ok, modules loaded: Sets.
+*Sets> subset  [1..10] []
+
+<interactive>:1:0: Not in scope: `subset'
+*Sets> Set [1..10] == Set []
+False
+*Sets> Set [1..10] == Set [10,9..1]]
+
+<interactive>:1:28: parse error on input `]'
+*Sets> Set [1..10] == Set [10,9..1]
+True
+*Sets> Set [1,1,2] == Set [2,1,1,2]
+True
+*Sets> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+
+Sets.hs:19:27:
+    Class `Show' used as a type
+    In the instance declaration for `Show (Show a)'
+Failed, modules loaded: none.
+Prelude> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+Ok, modules loaded: Sets.
+*Sets> Set [1,2,3]
+[1,2,3]
+Prelude> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+Ok, modules loaded: Sets.
+*Sets> Set [1,2,3]
+1,2,3
+*Sets> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+Ok, modules loaded: Sets.
+*Sets> Set [1,2,3]
+{1,2,3}
+*Sets> Set [1,1,2]
+{1,1,2}
+Prelude> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+Ok, modules loaded: Sets.
+*Sets> Set [1,1,2]
+{1,2}
+*Sets> Set [2,1]
+{2,1}
+*Sets> Set [2,1,1]
+{2,1}
+*Sets> Set [2,1,1,2]
+{2,1}
+*Sets> 

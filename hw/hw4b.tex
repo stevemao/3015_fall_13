@@ -1,0 +1,65 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{4}{9 September}
+
+\section{}
+
+\noindent{}In class we discussed the following code.
+
+\begin{program**}
+\>     plus (x,y) = x + y \\
+\>     plusc x y = x + y \\
+\>     curry f x y  =  f(x,y) \\
+\>     uncurry f (x,y) = f x y \\
+\>     (f . g) x = f (g x) \\
+\>     id x = x \\
+\end{program**}
+
+\noindent{}Recall the extensionality rule for proving functions $f,g:A\rightarrow{}B$ are equal.
+\[ f = g \definedAs \forall{}x:A. \;f x = g x \hspace{2.5in} \]
+
+We gave a proof in class of the following identity.
+
+\begin{lemma}
+For every function $f$ where $f::A \rightarrow B$, the following equality holds
+\[ f .\; id = f\]
+\end{lemma}
+\Proof To show these functions are equal, by extensionality, we must show that
+\[\forall{}x:A. (f\,.\;id)x = f\, x\]  Choose an arbitrary $x\in{}A$ and show
+$(f\,.\;id)x = f\, x$.  Starting on the left side:
+\[(f.\; id)\;x \byEq{(.)} f(id\; x) \byEq{id} f \,x\]
+So the identity holds.
+\qed
+
+
+\noindent{}Following the proofs given in class, prove the following equalities using extensionality.
+\problem{
+\begin{program**}
+\>  \\
+\>       {\rm{i.)}}  curry  plus = plusc \\
+\>       {\rm{ii.)}}  curry (uncurry  plusc) = plusc \\
+\>       {\rm{iii.)}}  uncurry (curry  plus) = plus \\
+\end{program**}
+}
+
+\problem{Haskell has a built-in function called {\tt{flip}} having the following type:
+\begin{center}
+{\tt{(a -> b -> c) -> b -> a -> c}}
+\end{center}
+Write a bit of Haskell code that has this type.}
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw4b"
+% fill-column:79
+% End:
+
+
+
+

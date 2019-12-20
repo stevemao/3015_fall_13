@@ -1,0 +1,17 @@
+import System.IO
+import Data.Char
+
+main = chat [] 
+
+chat xs = 
+    do putStrLn $ "queue so far = " ++ (show xs) 
+       putStr $ ">  "
+       hFlush stdout
+       i <- getLine
+       case i of 
+          "?" -> do putStrLn $ "commands are: \"dequeue\", \"quit\" or, to queue up a number type the number."
+                    chat xs
+          "dequeue" ->  return () -- fix this case
+          "quit" -> return ()
+          "" -> return ()
+          _ -> return () -- fix this case

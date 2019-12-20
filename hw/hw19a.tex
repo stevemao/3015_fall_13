@@ -1,0 +1,94 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{19}{20 November}
+
+
+\exercise{ Read chapter 10 in Bird.}
+
+\section{Type Derivations}
+
+
+\subsection{Proof Rules}
+
+Sequents in the system (which represent the state of a type derivation) are of
+the form:
+
+\[\Gamma,E \vdash M : T\]
+In this structure, $\Gamma$ is a {\em{context}} representing a state of
+knowledge about the types of some variables.  Contexts have the form:
+ \[\Gamma = [x_1:\tau_1,\cdots{},x_k:\tau_k]\]
+where the $x_i$'s are variables and $\tau_i$'s are types.
+
+$E$ is a list of constraints between pairs
+of types and in the rules is presented as follows:
+\[E=\{\tau_{(1,1)} = \tau_{(1,2)}, \cdots , \tau_{(k,1)} = \tau_{(k,2)}\}\]
+wher $\tau_{i,j}$'s are types.  
+
+We write $\Gamma\backslash{}x$ to denote the list obtained from $\Gamma$ by
+deleting all pairs whose first element is $x$.
+
+As presented in the last homework, The proof rules for Wand's type
+inference system including product types are given as follows:
+
+
+\AxiomRule{\Gamma,\{\alpha=\tau\}}{x:\tau}{Ax} {\hspace{.25in}} if $(x,\alpha)\in\Gamma$.
+\vspace{.125in}\\
+
+\SequentRule{\Gamma,E\cup{}\{\tau=\alpha\rightarrow\beta\}}{\lambda{}x.M : \tau}{[x:\alpha]{\tt{++}}(\Gamma\backslash{x}),\,E}{M:\beta}{Abs}
+{\hspace{.25in}} where $\alpha$ and $\beta$ are fresh.
+\vspace{.125in}\\
+
+\SequentRuleTwo{\Gamma,E_1\cup{}E_2}{MN:\tau}{\Gamma,E_1}{M:\alpha\rightarrow\tau}{\Gamma,E_2}{N:\alpha}{App}
+{\hspace{.25in}} where $\alpha$ is fresh.
+\vspace{.125in}\\
+
+\SequentRuleTwo{\Gamma,E_1\cup{}E_2\cup{}\{\tau=\alpha\times\beta\}}{\pair{M,N} : \tau}{\Gamma,E_1}{M:\alpha}{\Gamma,E_2}{N:\beta}{Pair}
+{\hspace{.25in}} where $\alpha$ and $\beta$ are fresh.
+\vspace{.125in}\\
+
+\SequentRuleTwo{\Gamma,E_1\cup{}E_2}{\spread{M}{x,y}{N}:\tau}{\Gamma,E_1}{M:\alpha\times\beta}{\{x:\alpha,y:\beta\}\cup((\Gamma\backslash{}x)\backslash{}y),E_2}{N:\tau}{Spread}
+{\hspace{.25in}}
+\begin{tabular}{l}
+ where $\alpha$ and \\
+ $\beta$ are fresh.
+\end{tabular}
+\vspace{.125in}\\
+
+In the last homework, some sample deriviations were given.  Recall that to
+prove a sequent of the form $\Gamma,E\vdash{}M:\tau$ you leave $E$ blank and
+work backwards (up) until you get to tghe leaves and then compute the
+constraint sets $E$ coming back down through the derivation tree.  I strongly
+urge you to study the examples in HW 18.
+
+\exercise{
+Complete the following devivation trees and compute the constraint sets $E$.
+
+\[\begin{array}{ll}
+i.) & [z:(\alpha\rightarrow\alpha)\rightarrow\beta],E\vdash z(\lambda{}w.w):\tau \\
+ii.) &  [y:\beta],E\vdash (\lambda{}x.x)y : \tau \\
+iii.) &  [x:\alpha,y:\beta],E\vdash spread(\pair{x,y};z,w.\pair{w,z}): \tau \\
+\end{array}
+\]
+
+
+
+}
+
+
+\end{document}
+
+
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw19a"
+% fill-column:79
+% End:
+
+
+
+

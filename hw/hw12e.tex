@@ -1,0 +1,91 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{12}{30 October}
+
+Here is some code for a calculator language similar to the one presented by
+Hadi in class Tuesday extended to include additional constructors - a {\tt{Let}} statement,
+{\tt{if-then-else}}, {\tt{FF}}, {\tt{Not}}, {\tt{And}}, and {\tt{Or}}.  
+
+
+In the evaluator\footnote{This is like C, C++ and Ruby, 0 is interpreted as
+false and {\em{any}} non-zero value is interpreted as true.}, rather than
+include Boolean values, you will interpret false {\tt{FF}} as 0 and and any
+non-zero value as true.  So, in the context of the Boolean slot in an
+{\tt{if-then-else}} expression, something like {\tt{Const 19}} is interpreted as
+true and {\tt{Const 0}} is interpreted as false.  
+
+
+\begin{program*}
+\>   \\
+\> data BinOp = Plus | Minus | Times | Div | And | Or  deriving Show  \\
+\>   \\
+\> meaning Plus = (+)  \\
+\> meaning Minus x y =  x - y  \\
+\> meaning Times = (*)  \\
+\> meaning Div = div  \\
+\> meaning And = 0 -- <- your code here (remember an Int is false if it is (==0) and true otherwise)  \\
+\> meaning Or = 0 -- <- your code here  \\
+\>   \\
+\> data Exp = \\
+\>     | Const Int   \\
+\>     | Var String   \\
+\>     | BinExp BinOp Exp Exp   \\
+\>     | Let String Exp Exp   \\
+\>     | If Exp Exp Exp   \\
+\>     | FF   \\
+\>     | Not Exp   \\ 
+\>       deriving Show   \\ 
+\>   \\
+\> type Assignment = (String -> Int)  \\
+\> update :: (String,Int) -> Assignment -> Assignment  \\
+\> update (x,v) f = (y -> if x == y then v else f y)  \\
+\>   \\
+\> a0 :: Assignment  \\
+\> a0 x = error ("undefined variable " ++ x)  \\
+\>   \\
+\> eval :: Assignment -> Exp  -> Int  \\
+\> eval a (Const k) = k  \\
+\> eval a (Var s) = a s  \\
+\> eval a (BinExp op e1 e2) = (meaning op) (eval a e1) (eval  a e2)  \\
+\> eval a (Let x e1 e2) = 0 -- <- your code here  \\
+\> eval a (If b e1 e2) = 0 -- <- your code here   \\
+\> eval a FF = 0 -- <- your code here  \\
+\> eval a (Not e) = 0 -- <- your code here  \\
+\end{program*}
+
+For a {\tt{Let}} expression of the form {\tt{Let x e1 e2}} evaluate {\tt{e1}}
+in using the current assignment - call the resulting value {\tt{v}}. Now, make
+a new assignment in which the string {\tt{x}} gets bound to {\tt{v}} and use
+that assignment to evaluate {\tt{e2}}.
+
+\exercise{You need to fill in the missing code.}
+
+\exercise{You can check your code ont he test cases included - but ALSO write some test cases of your own.  The extensiveness of your test code
+will count toward the credit on this homework.  (Stuff like having
+a {\tt{Let}}-expression as the Boolean in an {\tt{If-then-else}} construct is
+the kind of creative and interesting test cases we hope to see.)}
+
+
+
+
+
+
+
+
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "\\>  "
+% comment-end: "\\\\  "
+% compile-command: "pdflatex hw12e"
+% fill-column:79
+% End:
+
+
+
+

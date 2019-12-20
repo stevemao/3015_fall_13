@@ -1,0 +1,100 @@
+\documentclass[11pt]{article}
+\usepackage{qtree}
+\include{header}
+
+
+\begin{document}
+\homework{16}{2 November}
+
+This is an exercise in some rather complex recursion on Rose trees and Binary
+trees. You will implement the mapping (similar to the one described in class)
+of Rose trees to Binary Trees and the inverse mapping binary trees to rose
+trees.
+
+\begin{program*}
+\> data Rose a = Node a [Rose a] deriving (Eq,Show) \\
+\> data BTree a = Empty | Fork a (BTree a) (BTree a) deriving (Eq,Show) 
+\end{program*}
+
+The mapping is called the {\em{natural correspondence}} between trees and
+binary trees \cite[pp.332]{knuthv1}.  Given a rose tree (with arbitrary but
+finite branching) you construct a binary tree where the left fork for each node
+in the binary tree is the translation of the leftmost child of the
+corresponding node in the rose tree and the right fork is the binary tree
+resulting form translating the right sibling of the node in the translated rose
+tree.  Since root nodes in rose trees have no siblings, the binary trees
+resulting from the translation always have the form {\tt{(Fork x t Empty)}}.
+
+Here are some examples:\ \\
+
+\begin{example}\ \\
+\begin{program*}
+\>         (Rose 1 [Rose 2 []]) $\stackrel{nat}{\longrightarrow}$  Fork 1 (Fork 2 Empty Empty) Empty \\ 
+\end{program*}
+\begin{centering}
+\begin{tabular}{ccc}
+\hspace{1.5in}\Tree [.1 [ 2 ] ] & {\mbox{{\hspace{1.25in}}}}&  \Tree [.1 [ [.2 [ $\bot$ ] [ $\bot$ ] ] ] [ $\bot$ ]  ] \\
+\end{tabular}
+\end{centering}
+\end{example}
+
+\begin{example}\ \\
+\begin{program*}
+\> (Node 1 [Node 2 [Node 3 []]]) $\stackrel{nat}{\longrightarrow}$  Fork 1 (Fork 2 (Fork 3 Empty Empty) Empty) Empty \\
+\end{program*}
+\begin{tabular}{ccc}
+\hspace{1.5in}\Tree [.1 [.2 [ 3 ] ] ] & {\mbox{{\hspace{1.25in}}}}  &  \Tree [.1 [ [.2  [.3  [ $\bot$ ]  [ $\bot$ ] ] [ $\bot$ ] ] ] [ $\bot$ ]  ] \\
+\end{tabular}
+\end{example}
+\newpage
+
+\begin{example}\ \\
+\begin{program*}
+\> (Node 1 [Node 2 [Node 3 []],Node 4 []]) $\stackrel{nat}{\longrightarrow}$ \\
+\>     Fork 1 (Fork 2 (Fork 3 Empty Empty) (Fork 4 Empty Empty)) Empty
+\end{program*}
+\begin{tabular}{ccc}
+\hspace{1.25in}\Tree [.1 [ [.2 [ 3 ] ] ] [ 4 ]  ] 
+& {\mbox{\hspace{1.5in}}} &  
+\Tree [.1  [ [.2 [ [.3 [ $\bot$ ] [ $\bot$ ] ] ] [ [.4  [ $\bot$ ]  [ $\bot$ ] ] ] ] ] [ $\bot$ ] ] \\
+\end{tabular}
+\end{example}
+
+\begin{example}\ \\
+\begin{program*}
+\> Rose 1 [Rose 2 [],Rose 3 [],Rose 4 []] $\stackrel{nat}{\longrightarrow}$ \\
+\>     Fork 1 (Fork 2 Empty (Fork 3 Empty (Fork 4 Empty Empty))) Empty
+\end{program*}
+\begin{tabular}{ccc}
+\hspace{1.25in}\Tree [.1 [ [ 2 ] [ 3 ]  [ 4 ]  ] ]
+& {\mbox{\hspace{1.5in}}} &  
+\Tree [.1  [ [.2  [ $\bot$ ] [.3  [ $\bot$ ] [.4 [ $\bot$ ]  [ $\bot$ ] ] ] ] [ $\bot$ ] ] ]
+\end{tabular}
+
+\end{example}
+
+\exercise{Write a function {\tt{nat::Rose a $\rightarrow$ Btree a}} that
+implements the natural transformation by recursion on the structure of rose
+trees.}
+
+
+\exercise{Write a function {\tt{inv::Btree a $\rightarrow$ Rose a }} that implements the inverse mapping.}
+
+\bibliographystyle{plain}
+\bibliography{./homework}
+
+\end{document}
+
+
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "\\>  "
+% comment-end: "\\\\"
+% compile-command: "pdflatex hw16c"
+% fill-column:79
+% End:
+
+
+
+

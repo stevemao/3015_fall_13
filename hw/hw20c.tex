@@ -1,0 +1,69 @@
+\documentclass[11pt]{article}
+
+\include{header}
+\newcommand{\quot}[1]{"{\tt{{#1}}}"}
+\newcommand{\mybs}{$\backslash$}
+
+\begin{document}
+\homework{20}{15 November}
+
+We have been discussing the type classes Functor, Applicative and
+Monoid.  You can read about Foldable in Chapter 11 of LYAHFGG.
+
+In this assignment you must instantiate a tree datatype as an instance
+of the Functor type class and as an instance of the Applicative type
+class.  
+
+\begin{program**}
+\> data Tree a = Leaf $\mid$ Node (Tree a) a (Tree a)  deriving (Eq,Show)\\
+\end{program**}
+
+Mapping over a tree is straightforward so the instantiation of Tree as an
+instance of Functor is easy.  Your implementation of Tree as an instance of the
+Applicative type class behave more like the {\it{ZipList}} instantiation as an
+instance of Applicative than the standard list instantiation does. In other
+words, the Applicative operator $\langle{}*\rangle$ (which for trees will be of
+type {\it{Tree (a $\rightarrow$ b) $\rightarrow$ Tree a $\rightarrow$ Tree b}})
+should apply nodes pairwise. If $t_1$ and $t_2$ are trees, $t_1 \langle*\rangle
+t_2$ should apply the function in the root node of $t_1$ to the value stored in
+the root node of $t_2$ and the function stored in the root of the left subtree
+of $t_1$ should be applied to the value stored in the left subtree of $t_2$ and
+so on.  Like the {\it{zip}} function, if either tree runs out of values (gets
+to a Leaf), the resulting value should just be {\it{Leaf}}.  Here are some
+small example behaviors.
+
+\begin{program**}
+\> *Tree$\rangle$ (Node Leaf (+7) Leaf) $\langle{}*\rangle$ Leaf \\
+\> Leaf \\
+\> *Tree$\rangle$ Leaf $\langle{}*\rangle$ (Node Leaf 1 Leaf) \\
+\> Leaf \\
+\> *Tree$\rangle$ (Node Leaf (+7) Leaf) $\langle{}*\rangle$ (Node Leaf 7 Leaf) \\
+\> Node Leaf 14 Leaf \\
+\> *Tree$\rangle$ (Node Leaf (+7) Leaf) $\langle{}*\rangle$ (Node Leaf 7 (Node Leaf 12 Leaf)) \\
+\> Node Leaf 14 Leaf \\
+\> *Tree$\rangle$ (Node Leaf (+7) Leaf) $\langle{}*\rangle$ (Node (Node Leaf 12 Leaf) 7 Leaf) \\
+\> Node Leaf 14 Leaf \\
+\> *Tree$\rangle$  \\
+\end{program**}
+
+As noted in the discussion of {\it{ZipList}} as an instance of Applicative
+(read LYAHFGG) this means {\it{pure :: a $\rightarrow$ Tree a}} must result in
+an infinite tree. So {\it{pure x}} is an infinite tree of nodes containing the
+value $x$.  HINT: Lipova\u{c}a used {\em{repeat}} in his definition of
+{\it{pure}} for {\it{ZipList}} but you could have also done it by a recursive
+call to {\it{pure}} in its own defintion.  
+
+\end{document}
+
+
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw20c"
+% fill-column:79
+% End:
+
+
+
+

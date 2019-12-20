@@ -1,0 +1,32 @@
+Prelude> :l hw7
+[1 of 1] Compiling Main             ( hw7.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> nat2int Zero
+0
+*Main> nat2int1 Zero
+0
+*Main> nat2int1 (int2nat 10)
+10
+*Main> (int2nat 10)
+Succ (Succ (Succ (Succ (Succ (Succ (Succ (Succ (Succ (Succ Zero)))))))))
+*Main> nat2int it
+10
+*Main> it
+10
+*Main> nat2int1 (Succ Zero)
+1
+*Main> shownat1 (int2nat 0)
+"Zero"
+*Main> shownat1 (int2nat 1)
+"Succ(Zero)"
+*Main> shownat1 (int2nat 2)
+"Succ(Succ(Zero))"
+*Main> shownat1 (int2nat 3)
+"Succ(Succ(Succ(Zero)))"
+*Main> shownat1 (int2nat 4)
+"Succ(Succ(Succ(Succ(Zero))))"
+*Main> [ shownat i | i <- map int2nat [1..8]]
+["Succ Zero","Succ(Succ Zero)","Succ(Succ(Succ Zero))","Succ(Succ(Succ(Succ Zero)))","Succ(Succ(Succ(Succ(Succ Zero))))","Succ(Succ(Succ(Succ(Succ(Succ Zero)))))","Succ(Succ(Succ(Succ(Succ(Succ(Succ Zero))))))","Succ(Succ(Succ(Succ(Succ(Succ(Succ(Succ Zero)))))))"]
+*Main> [ shownat1 i | i <- map int2nat [1..8]]
+["Succ(Zero)","Succ(Succ(Zero))","Succ(Succ(Succ(Zero)))","Succ(Succ(Succ(Succ(Zero))))","Succ(Succ(Succ(Succ(Succ(Zero)))))","Succ(Succ(Succ(Succ(Succ(Succ(Zero))))))","Succ(Succ(Succ(Succ(Succ(Succ(Succ(Zero)))))))","Succ(Succ(Succ(Succ(Succ(Succ(Succ(Succ(Zero))))))))"]
+*Main> 

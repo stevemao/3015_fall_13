@@ -1,0 +1,12 @@
+\begin{thebibliography}{1}
+
+\bibitem{hudak_errata}
+{\tt{http://www.haskell.org/soe/Bug/erata.htm}}.
+
+\bibitem{hudak}
+Paul Hudak.
+\newblock {\em The Haskell School of Expression: Learning Functional
+  Programming through Multimedia}.
+\newblock Cambridge University Press, 2000.
+
+\end{thebibliography}

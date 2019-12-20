@@ -1,0 +1,6 @@
+module OneTwoTree where
+
+data OneTwoTree a = 
+   Leaf | 
+   Node1 a (OneTwoTree a) | 
+   Node2 a (OneTwoTree a) (OneTwoTree a) deriving Show

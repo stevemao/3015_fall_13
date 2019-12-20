@@ -1,0 +1,99 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{4}{6 September}
+
+\section{}
+
+\noindent{}In class we discussed the following code.
+
+\begin{program**}
+\>     plus (x,y) = x + y \\
+\>     plusc x y = x + y \\
+\>     curry f x y  =  f(x,y) \\
+\>     uncurry f (x,y) = f x y \\
+\>     (f . g) x = f (g x) \\
+\>     id x = x \\
+\end{program**}
+
+\noindent{}Recall the extensionality rule for proving functions $f,g:a\rightarrow{}b$ are equal.
+\[ f = g \definedAs \forall{}x:a. \;f x = g x \hspace{2.5in} \]
+
+Heree's a proof that the identity function is a right identory for function composition.
+
+\begin{lemma}
+For every function $f$ where $f::a \rightarrow b$, the following equality holds
+\[ f .\; id = f\]
+\end{lemma}
+\Proof To show these functions are equal, by extensionality, we must show that
+\[\forall{}x:a. (f\,.\;id)x = f\, x\]  Choose an arbitrary $x$ of type $a$ and show
+$(f\,.\;id)x = f\, x$.  Starting on the left side:
+\[(f.\; id)\;x \byEq{def.\,of\,(.)} f(id\; x) \byEq{def.\,of\,id} f \,x\]
+So the identity holds.
+\qed
+
+We also proved in class that the compostion $(uncurry\,.\,curry) = id$.
+
+\begin{theorem}
+$(uncurry\,.\,curry) = id$.  \Proof The type of $(uncurry\,.\,curry)$ is
+$((a,b)\rightarrow{}c)\rightarrow((a,b)\rightarrow{}c)$. The type of $id$ is
+$a\rightarrow{}a$ where $a$ can be any type, so letting
+$a=((a,b)\rightarrow{}c)$ gives $id
+::((a,b)\rightarrow{}c)\rightarrow((a,b)\rightarrow{}c)$.  Since the left and
+right sides have the same function type, we apply extensionality to prove the
+following:
+\[\forall{}f::((a,b)\rightarrow{}c).\; (uncurry\,.\,curry) f = id f\]
+Choose arbitrary $f::((a,b)\rightarrow{}c)$ and show
+\[(uncurry\,.\,curry)\, f = id \]
+Notice that $((uncurry\,.\,curry) f)$ has type $((a,b)\rightarrow{}c)$ so we
+apply extensionality again and prove the following:
+\[\forall{}(x,y)::(a,b).\;((uncurry\,.\,curry) f) (x,y) = id \;f\; (x,y)\]
+Choose an arbitrary pair $(x,y)$ of type $(a,b)$ and show that 
+the equality holds.  Starting on the left we get the following sequence of equalities:
+\[\begin{array}{l}
+((uncurry\;.\;curry) f) (x,y) \\
+{\by{compose}} \\
+= uncurry \;(curry\, f)\, (x,y)\\
+ {\by{uncurry}} \\
+= (curry\, f)\; x\; y \\
+ \by{curry} \\
+= f(x, y)
+\end{array}\]
+
+On the right side of we get the following:
+\[id\;f\;(x,y) \byDef{id} f(x,y)\]
+
+\qed
+
+\end{theorem}
+
+
+\problem{
+\noindent{}Following the proofs given in class, prove the following
+equalities using extensionality.  
+\begin{description}
+\item{i.)}  $curry  \;.\; uncurry = id$
+\item{ii.)} $id\;.\;f = f $
+\end{description}
+}
+
+\problem{Haskell has a built-in function called {\tt{flip}} having the following type:
+\begin{center}
+{\tt{(a -> b -> c) -> b -> a -> c}}
+\end{center}
+Write a bit of Haskell code that has this type.}
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw4d"
+% fill-column:79
+% End:
+
+
+
+

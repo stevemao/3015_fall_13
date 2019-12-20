@@ -1,0 +1,129 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{9}{1 October}
+
+
+\section{Datatypes and Structural Induction}
+
+As discussed in class, Haskell datatypes have corresponding structural induction princples. 
+
+\subsection{Nat}
+
+The datatype definition for natural numbers was given as:\\
+
+\begin{program**}
+\> datatype Nat = Zero $\mid$ Succ Nat \\
+\end{program**}
+
+\goodbreak\noindent{}The induction principle for the type {\it{Nat}} is 
+
+\[(P(\Zero) \wedge \forall{}k::Nat.\;P(k) \Rightarrow P(\Succ{}k)) \Rightarrow \forall{}n::Nat.\;P(n)\]
+
+Thus to show a property $P$ holds for every finite natural number, show two things:
+\begin{description}
+\item{\bf{Case} \it{Zero}:}   Show $P(\Zero)$.\vspace{-.5em}
+\item{\bf{Case} \it{Succ}:}  For arbitrary $k::Nat$ assume $P(k)$ and show $P(\Succ{}k)$.
+\end{description}
+
+Note, if we want to reason about possibly infinte elements of the type we add
+the case to show $P(\bot)$. This is true for each of the induction principles
+below.
+
+\subsection{Lists}
+
+Recall the defintion of lists containing elements of type $a$.
+\begin{program**}
+\> datatype  List a = Nil $\mid$  Cons a (List a)
+\end{program**}
+The induction principle for finite lists is \[\begin{array}{l}
+(P({\mathit{Nil}}) \;\;\wedge\;\; \forall{}x::a.\;\forall{}xs:: List\; a. \; P(xs) \Rightarrow P({\mathit{Cons}} \,x\,xs))  \;\; \Rightarrow \forall{}ys:: List\; a.\; P(ys)
+\end{array}\]
+Thus to show a property $P$ holds for every list, show two things:
+\begin{description}
+\item{\bf{Case} {\it{Nil}}:}  Show $P({\mathit{Nil}})$.\vspace{-.5em}
+\item{\bf{Case} {\it{Cons}}:} For arbitrary $x::a$ and $xs:: List \;a$ assume $P(xs)$
+and show $P({\mathit{Cons}}\;x\;xs)$.
+\end{description}
+
+
+\subsection{Binary Trees}
+Recall the definition of the datatype for binary trees containing elements of type $a$.
+\begin{program**}
+\> datatype  BTree a = Leaf $\mid$  Node a (BTree a) (BTree a)
+\end{program**}
+The induction principle for finite binay trees is 
+\[\begin{array}{l}
+(P({\mathit{Leaf}})\\ \;\;\wedge\;\; \forall{}x\!::\!a.\;\forall{}t_l,t_r\!::\!BTree\;a. \; (P(t_l) \wedge P(t_r)) \Rightarrow P({\mathit{Node}}(v,t_l,t_r)))  \\\;\;\;\; \Rightarrow \forall{}t\!::\!BTree\;a.\; P(t)
+\end{array}\]
+
+Thus to show a property $P$ holds for every $BTree$, show two things:
+\begin{description}
+\item{\bf{Case} {\it{Leaf}}:} Show $P({\mathit{Leaf}})$.\vspace{-.5em}
+\item{\bf{Case} {\it{Node}}:} For arbitrary $x\!::\!a$ and $t_l,t_r\!::\!BTree\;a$ assume $P(t_l)$ and assume $P(t_r)$ and show $P({\mathit{Node}}(v,t_l,t_r))$.
+\end{description}
+
+
+\section{Assignment}
+
+Write the structural induction principles for the finite instances of the following types.
+
+\begin{enumerate}
+\item{} Trees having nodes with both one and with two children.
+\begin{program**}
+\> OneTwoTree a = Empty $\mid$ Single a (OneTwoTree a) $\mid$ Branch a (OneTwoTree a) (OneTwoTree a)\\
+\> \\
+\> \\
+\> \\
+\> \\
+\end{program**}
+
+\item{} Trees whose nodes have exactly three children.
+\begin{program**}
+\> ThreeTree a = Leaf $\mid$ Node a (ThreeTree a) (ThreeTree a) (ThreeTree a) \\
+\> \\
+\> \\
+\> \\
+\> \\
+\end{program**}
+
+\item{} A data type for propositional formulas.
+\begin{program**}
+\> Formula = Bottom  $\mid$ Not Formula $\mid$ Implies Formula Formula  \\
+\> \\
+\> \\
+\> \\
+\> \\
+\end{program**}
+
+
+\end{enumerate}
+ 
+
+
+
+
+\end{document}
+
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw9e"
+% fill-column:79
+% End:
+
+
+
+
+
+
+
+
+
+
+
+
+

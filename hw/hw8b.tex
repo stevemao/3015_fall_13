@@ -1,0 +1,70 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{8}{21 September}
+
+Recall the function {\tt{last}} which was defined by recursion on the structure of the list.
+
+\begin{program*}
+\> last [] = error "last: nil." \\
+\> last (x:xs) = if null xs then x else last xs\\
+\end{program*}
+
+You need to implement the following functions by recursion on the structure of
+at least one of the list arguments:
+
+\begin{problem}
+{\tt{ismem :: (Eq a) => a -> [a] -> Bool}} 
+\begin{quotation}A call to the function {\tt{ismem}} of
+the form {\tt{(ismem x ys)}} returns {\tt{True}} if {\tt{x}} is in the list
+{\tt{ys}} and returns {\tt{False}} otherwise.
+\end{quotation}
+\end{problem}
+
+\begin{problem}
+{\tt{allaremem :: (Eq a) => [a] -> [a] -> Bool}}
+\begin{quotation}
+  A call to {\tt{allaremem}} of the form {\tt{(allaremem xs ys)}} returns
+  {\tt{True}} if all the elements in the list {\tt{xs}} occur in the list
+  {\tt{ys}} and returns {\tt{False}} otherwise. In analogy with subsets, you
+  might think of this as a sublist function, it returns true if the first list
+  is a sublist of the second (disregarding order.) You may find your
+  implementation of {\tt{ismem}} useful in defining {\tt{allaremem}}.
+\end{quotation}
+\end{problem}
+
+\begin{problem}
+{\tt{find :: (Eq a) => a -> [(a, b)] -> b}}
+\begin{quotation}
+ A call of the form {\tt{(find x xys)}} returns {\tt{y}} (where {\tt{y}} has
+  type {\tt{b}}) if there is a pair of the form {\tt{(x,y)}} in the list {\tt{xys}}
+  and raises an exception otherwise.
+Here's a big hint on {\tt{find}}, the left side of the definition of
+find could appear as follows:
+
+\begin{program*}
+\> find x [] =  ... \\
+\> find x ((y,z): yzs) = ...
+\end{program*}
+ Setting up the left side of the definition like this allows for pattern
+matching on the structure of the pairs in the list argument.  
+\end{quotation}
+\end{problem}
+
+
+
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw8b"
+% fill-column:79
+% End:
+
+
+
+

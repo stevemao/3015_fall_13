@@ -1,0 +1,857 @@
+Microsoft Windows [Version 6.1.7601]
+Copyright (c) 2009 Microsoft Corporation.  All rights reserved.
+
+c:\Users\jlc\Work\src\haskell>ghci
+ghci
+GHCi, version 6.12.3: http://www.haskell.org/ghc/  :? for help
+Loading package ghc-prim ... linking ... done.
+Loading package integer-gmp ... linking ... done.
+Loading package base ... linking ... done.
+Loading package ffi-1.0 ... linking ... done.
+Prelude>  foldr(\x acc -> if p x then (xs, x:ys) else (x:xs,ys)) ([],[])
+
+<interactive>:1:53: parse error on input `else'
+Prelude>  foldr(\x acc -> if p x then (xs, x:ys) else (x:xs,ys)) ([],[])
+
+<interactive>:1:19: Not in scope: `p'
+
+<interactive>:1:29: Not in scope: `xs'
+
+<interactive>:1:35: Not in scope: `ys'
+
+<interactive>:1:47: Not in scope: `xs'
+
+<interactive>:1:50: Not in scope: `ys'
+Prelude>  \p -> foldr(\x (xs,ys) -> if p x then (xs, x:ys) else (x:xs,ys)) ([],[])
+
+<interactive>:1:35: Not in scope: `xs'
+
+<interactive>:1:41: Not in scope: `ys'
+
+<interactive>:1:53: Not in scope: `xs'
+
+<interactive>:1:56: Not in scope: `ys'
+Prelude>  \p -> foldr(\x (xs,ys) -> if p x then (xs, x:ys) else (x:xs,ys)) ([],[])
+
+<interactive>:1:0:
+    No instance for (Show ((a -> Bool) -> [a] -> ([a], [a])))
+      arising from a use of `print' at <interactive>:1:0-71
+    Possible fix:
+      add an instance declaration for
+      (Show ((a -> Bool) -> [a] -> ([a], [a])))
+    In a stmt of an interactive GHCi command: print it
+Prelude> :dir
+unknown command ':dir'
+use :? for help.
+Prelude> :! dir
+ Volume in drive C has no label.
+ Volume Serial Number is F0F5-BEBA
+
+ Directory of c:\Users\jlc\Work\src\haskell
+
+09/26/2012  09:53 PM    <DIR>          .
+09/26/2012  09:53 PM    <DIR>          ..
+09/07/2011  08:08 PM               371 #allen_hw5.hs#
+10/28/2008  12:43 PM             1,013 #calculator.hs#
+09/29/2011  05:45 PM             7,920 #InfEngine.hs#
+11/02/2011  11:59 AM             4,398 #JustificationLogic.hs#
+09/06/2011  02:35 PM                87 #lambda.hs#
+10/11/2011  07:42 AM               471 #set.hs#
+10/06/2011  10:47 AM             3,485 #Unification.hs#
+10/02/2012  09:41 AM    <DIR>          3015
+09/08/2011  03:58 PM               805 5010.hs
+09/08/2011  03:17 PM                49 5010.hs~
+09/07/2011  08:04 PM               389 allen_hw5.hs
+09/08/2009  01:39 PM               253 all_pairs.hs
+09/08/2009  12:07 PM                86 all_pairs.hs~
+10/28/2008  09:29 AM               690 calc.hs
+10/28/2008  09:19 AM               321 calc.hs~
+01/07/2011  01:42 PM    <DIR>          calculator
+10/28/2008  10:52 AM             1,050 calculator.hs
+10/28/2008  09:49 AM                69 calculator.hs~
+10/01/2009  12:45 PM             5,697 calculator.lhs
+09/05/2012  07:47 AM               502 cantor.hs
+04/04/2007  05:10 PM               380 cantor.hs~
+08/24/2010  07:47 PM             5,004 class1.txt
+08/26/2010  02:33 PM               133 class2.hs
+08/26/2010  12:50 PM                 0 class2.hs~
+09/02/2011  10:18 AM                 0 class4.hs
+09/13/2012  10:48 AM               192 class6.hs
+09/13/2012  10:05 AM                38 class6.hs~
+09/18/2012  10:49 AM               397 class7.hs
+09/18/2012  10:01 AM                24 class7.hs~
+09/26/2012  09:53 PM               290 class9.hs
+09/25/2012  10:20 AM                36 class9.hs~
+04/01/2008  04:44 AM                72 cMap.hs
+11/15/2011  04:51 PM    <DIR>          ComputationalSemantics
+04/29/2011  08:41 AM               202 concatmap.hs
+04/29/2011  07:56 AM               203 concatmap.hs~
+01/07/2011  01:42 PM    <DIR>          Constraints
+03/19/2008  02:59 AM             3,490 constraints.hs
+03/18/2008  04:58 AM               263 constraints.hs~
+12/06/2006  02:04 PM                85 cp.hs
+12/06/2006  02:03 PM                53 cp.hs~
+11/14/2006  05:17 PM               680 cps.hs
+11/13/2006  03:39 PM               648 cps.hs~
+09/21/2011  09:29 PM               882 debruijn.hs
+09/15/2011  03:52 PM               882 debruin.hs
+09/15/2011  03:44 PM               545 debruin.hs~
+09/26/2011  08:43 AM               311 debruin_example.txt
+09/21/2011  09:31 PM               311 debruin_example.txt~
+08/27/2008  01:33 PM                 9 derivative.hs
+03/23/2007  02:52 PM                72 derivative.hs~
+09/01/2009  02:14 PM                77 div_example.hs
+09/01/2009  01:58 PM                22 div_example.hs~
+07/16/2011  08:12 AM    <DIR>          Doxastic
+09/29/2009  01:17 PM             1,214 Expr.hs
+10/04/2007  10:27 AM               568 expressions.hs
+10/04/2007  10:17 AM               137 expressions.hs~
+10/16/2007  04:21 PM               308 E_type.hs
+10/16/2007  04:15 PM               128 E_type.hs~
+05/02/2008  05:00 AM                98 fix.hs
+10/11/2007  10:03 AM                82 fix.hs~
+10/02/2007  12:10 PM               187 fold.hs
+10/02/2007  10:11 AM                68 fold.hs~
+10/24/2011  08:38 AM             4,225 foo.hs
+10/24/2011  08:36 AM             4,242 foo.hs~
+02/04/2011  03:32 PM             6,214 FPH.hs
+09/24/2007  05:02 PM             1,009 graphics.hs
+09/24/2007  04:45 PM               304 graphics.hs~
+09/20/2007  10:04 AM               258 graphics_test.hs
+11/26/2007  03:59 PM             2,792 hw17.hs
+11/26/2007  03:58 PM             2,790 hw17.hs~
+09/29/2011  02:38 PM             7,918 InfEngine.hs
+04/04/2007  05:04 PM               193 joes_cantor.hs
+10/23/2011  03:08 PM             3,632 JustificationLogic.hs
+10/23/2011  11:29 AM                35 JustificationLogic.hs~
+09/29/2011  03:54 PM                51 kb.bak
+09/29/2011  03:51 PM                51 kb.txt
+09/06/2011  02:36 PM               756 lambda.hs
+11/27/2007  10:01 AM                87 lambda.hs~
+11/29/2011  11:37 AM    <DIR>          LambdaAp
+10/25/2011  10:47 AM               527 LambdaParser.hs
+10/25/2011  10:43 AM               188 LambdaParser.hs~
+10/25/2007  06:44 PM                44 last.hs
+10/25/2007  06:43 PM                36 last.hs~
+10/01/2009  12:01 PM             1,310 Lexp.hs
+10/01/2009  11:58 AM             1,317 Lexp.hs~
+03/19/2008  04:56 AM               345 Lists.hs
+11/07/2007  06:09 PM               343 Lists.hs~
+09/08/2011  10:33 AM               199 map_fold.hs
+09/08/2011  10:15 AM                39 map_fold.hs~
+01/07/2011  01:42 PM    <DIR>          memgen
+04/14/2010  08:53 AM               130 monad.hs
+11/08/2007  12:38 PM             1,357 Multiset.hs
+11/07/2007  05:44 PM               768 Multiset.hs~
+10/25/2011  02:32 PM             3,040 Parser.hs
+10/25/2011  10:28 AM             2,991 Parser.hs~
+03/16/2009  07:26 PM             4,434 Parser.lhs
+03/16/2009  06:51 PM             4,434 Parser.lhs~
+10/25/2011  10:21 AM             1,302 Parsers.hs
+10/20/2011  10:49 AM             1,304 Parsers.hs~
+10/01/2009  11:58 AM             4,325 Parsing.lhs
+10/01/2009  02:48 PM               215 partition.hs
+10/01/2009  02:45 PM               176 partition.hs~
+10/09/2010  08:23 AM               391 practice.hs
+10/09/2010  08:18 AM               387 practice.hs~
+08/24/2010  02:32 PM               566 qsort.hs
+08/24/2010  01:59 PM               158 qsort.hs~
+08/24/2010  12:48 PM               171 quicksort.hs
+08/24/2010  12:47 PM               180 quicksort.hs~
+11/01/2011  09:19 AM                 0 RecursiveContents'hs
+11/01/2011  10:46 AM               662 RecursiveContents.hs
+11/01/2011  09:11 AM               582 RecursiveContents.hs~
+11/01/2011  09:11 AM               705 RecursiveContents1.hs
+11/01/2011  09:11 AM               704 RecursiveContents1.hs~
+11/01/2011  09:21 AM               582 RecursiveContents2.hs
+10/16/2007  05:26 PM               389 rose.hs
+09/18/2007  04:12 PM                47 rose.hs~
+04/17/2007  06:28 PM                92 seive.hs
+04/17/2007  03:49 PM               236 seive.hs~
+11/06/2007  02:15 PM               483 set.hs
+11/06/2007  02:06 PM               199 set.hs~
+09/30/2010  05:40 PM               216 Set1.hs
+10/11/2011  10:51 AM               330 Set2.hs
+10/11/2011  10:41 AM               103 Set2.hs~
+10/13/2011  07:08 AM             2,522 Sets.hs
+11/29/2010  02:47 PM             2,520 Sets.hs~
+04/15/2008  07:25 AM               364 soduku.hs
+04/15/2008  07:10 AM                34 soduku.hs~
+01/07/2011  01:42 PM    <DIR>          SOE
+09/06/2011  10:17 PM               619 strong_hw_5.hs
+09/06/2011  10:16 PM             1,588 strong_hw_5.hs~
+11/29/2007  03:50 PM                92 take.hs
+11/28/2007  05:45 PM                79 take.hs~
+10/06/2011  07:08 AM               193 Term.hs
+09/01/2009  01:01 PM                64 test
+08/26/2010  01:01 PM                39 test.hs
+09/24/2007  12:25 PM                98 test.hs~
+10/09/2010  07:52 AM               387 tests.hs
+10/09/2010  07:16 AM                84 tests.hs~
+09/01/2009  01:01 PM                63 test~
+09/27/2011  10:50 AM             1,280 Tree.hs
+09/27/2011  09:55 AM                 0 Tree.hs~
+11/20/2007  09:48 AM               324 twos.hs
+11/20/2007  09:23 AM                17 twos.hs~
+10/06/2011  09:39 AM             1,651 TypeInf.hs
+10/05/2011  04:04 PM             1,638 TypeInf.hs~
+10/06/2011  10:44 AM               927 TypeInference.hs
+10/06/2011  10:25 AM               279 TypeInference.hs~
+10/06/2011  07:07 AM             3,497 Unification.hs
+10/05/2011  02:54 PM             3,622 Unification.hs~
+09/28/2007  03:16 PM                62 union.hs
+09/25/2007  05:08 PM                43 union.hs~
+08/31/2010  03:05 PM                 0 xxxyyy.hs
+             143 File(s)        138,397 bytes
+              10 Dir(s)  300,805,246,976 bytes free
+Prelude> :cd 3015
+Prelude> "l MyTree
+
+<interactive>:1:9:
+    lexical error in string/character literal at end of input
+Prelude> :l MyTree
+[1 of 1] Compiling MyTree           ( MyTree.hs, interpreted )
+Ok, modules loaded: MyTree.
+*MyTree> :! cd
+c:\Users\jlc\Work\src\haskell\3015
+*MyTree> :t Leaf
+Leaf :: Tree a
+*MyTree> :t Leaf1
+Leaf1 :: Tree1 a
+*MyTree> :t Node
+Node :: a -> Tree a -> Tree a -> Tree a
+*MyTree> Leaf
+
+<interactive>:1:0:
+    No instance for (Show (Tree a))
+      arising from a use of `print' at <interactive>:1:0-3
+    Possible fix: add an instance declaration for (Show (Tree a))
+    In a stmt of an interactive GHCi command: print it
+*MyTree> :l MyTree
+[1 of 1] Compiling MyTree           ( MyTree.hs, interpreted )
+Ok, modules loaded: MyTree.
+*MyTree> Leaf
+Leaf
+*MyTree> :t Leaf
+Leaf :: Tree a
+*MyTree> show Leaf
+"Leaf"
+*MyTree> :t show
+show :: (Show a) => a -> String
+*MyTree> Node 42 Leaf (Node 43 Leaf Leaf)
+Node 42 Leaf (Node 43 Leaf Leaf)
+*MyTree> :t Node 42 Leaf (Node 43 Leaf Leaf)
+Node 42 Leaf (Node 43 Leaf Leaf) :: (Num t) => Tree t
+*MyTree> :t Node 42 Leaf (Node "43" Leaf Leaf)
+
+<interactive>:1:5:
+    No instance for (Num [Char])
+      arising from the literal `42' at <interactive>:1:5-6
+    Possible fix: add an instance declaration for (Num [Char])
+    In the first argument of `Node', namely `42'
+    In the expression: Node 42 Leaf (Node "43" Leaf Leaf)
+*MyTree> :t Left
+Left :: a -> Either a b
+*MyTree> :t Node (Right 42) Leaf (Node (Left "43") Leaf Leaf)
+Node (Right 42) Leaf (Node (Left "43") Leaf Leaf)
+  :: (Num t) => Tree (Either [Char] t)
+*MyTree> :l MyTree
+[1 of 1] Compiling MyTree           ( MyTree.hs, interpreted )
+Ok, modules loaded: MyTree.
+*MyTree> :l MyTree
+[1 of 1] Compiling MyTree           ( MyTree.hs, interpreted )
+Ok, modules loaded: MyTree.
+*MyTree> :t Left1 42
+Left1 42 :: (Num t) => Either1 t b
+*MyTree> :t Left 
+Left :: a -> Either a b
+*MyTree> :t Right
+Right :: b -> Either a b
+*MyTree> :t Left (Right 42)
+Left (Right 42) :: (Num t) => Either (Either a t) b
+*MyTree> :l MyTree
+[1 of 1] Compiling MyTree           ( MyTree.hs, interpreted )
+Ok, modules loaded: MyTree.
+*MyTree> mkTree [1..10]
+Node 1 Leaf (Node 2 Leaf (Node 3 Leaf (Node 4 Leaf (Node 5 Leaf (Node 6 Leaf (Node 7 Leaf (Node 8 Leaf (Node 9 Leaf (Node 10 Leaf Leaf)))))))))
+*MyTree> :t take
+take :: Int -> [a] -> [a]
+*MyTree> take 3 [1..10]
+[1,2,3]
+*MyTree> drop 3 [1..10]
+[4,5,6,7,8,9,10]
+*MyTree> :l MyTree
+[1 of 1] Compiling MyTree           ( MyTree.hs, interpreted )
+
+MyTree.hs:7:23:
+    Couldn't match expected type `Tree t' against inferred type `[t]'
+    In the second argument of `Node', namely `lefts'
+    In the expression: Node x lefts rights
+    In the definition of `mkTree':
+        mkTree (x : xs)
+                 = Node x lefts rights
+                 where
+                     lefts = take half xs
+                     rights = drop half xs
+                     half = length xs `div` 2
+Failed, modules loaded: none.
+Prelude> :l MyTree
+[1 of 1] Compiling MyTree           ( MyTree.hs, interpreted )
+
+MyTree.hs:7:38: parse error on input `)'
+Failed, modules loaded: none.
+Prelude> :l MyTree
+[1 of 1] Compiling MyTree           ( MyTree.hs, interpreted )
+Ok, modules loaded: MyTree.
+*MyTree> mkTree [1..10]
+Node 1 (Node 2 (Node 3 Leaf Leaf) (Node 4 Leaf (Node 5 Leaf Leaf))) (Node 6 (Node 7 Leaf (Node 8 Leaf Leaf)) (Node 9 Leaf (Node 10 Leaf Leaf)))
+*MyTree> :l MyTree
+[1 of 1] Compiling MyTree           ( MyTree.hs, interpreted )
+Ok, modules loaded: MyTree.
+*MyTree> :t flatten
+flatten :: Tree a -> [a]
+*MyTree> flatten (mkTree [1..10])
+[1,2,3,4,5,6,7,8,9,10]
+*MyTree> mkTree "xyzzy"
+Node 'x' (Node 'y' Leaf (Node 'z' Leaf Leaf)) (Node 'z' Leaf (Node 'y' Leaf Leaf))
+*MyTree> flatten $ mkTree "xyzzy"
+"xyzzy"
+*MyTree> flatten mkTree "xyzzy"
+
+<interactive>:1:8:
+    Couldn't match expected type `Tree a'
+           against inferred type `[a1] -> Tree a1'
+    In the first argument of `flatten', namely `mkTree'
+    In the expression: flatten mkTree "xyzzy"
+    In the definition of `it': it = flatten mkTree "xyzzy"
+*MyTree> :t mkTree
+mkTree :: [a] -> Tree a
+*MyTree> :l MyTree
+[1 of 1] Compiling MyTree           ( MyTree.hs, interpreted )
+
+MyTree.hs:16:26:
+    Ambiguous occurrence `sum'
+    It could refer to either `MyTree.sum', defined at MyTree.hs:15:0
+                          or `Prelude.sum', imported from Prelude
+
+MyTree.hs:16:37:
+    Ambiguous occurrence `sum'
+    It could refer to either `MyTree.sum', defined at MyTree.hs:15:0
+                          or `Prelude.sum', imported from Prelude
+Failed, modules loaded: none.
+Prelude> :l MyTree
+[1 of 1] Compiling MyTree           ( MyTree.hs, interpreted )
+Ok, modules loaded: MyTree.
+*MyTree> mkTree [1..10]
+Node 1 (Node 2 (Node 3 Leaf Leaf) (Node 4 Leaf (Node 5 Leaf Leaf))) (Node 6 (Node 7 Leaf (Node 8 Leaf Leaf)) (Node 9 Leaf (Node 10 Leaf Leaf)))
+*MyTree> sumT $ mkTree [1..10]
+55
+*MyTree> sum [1..10]
+55
+*MyTree> :l MyTree
+[1 of 1] Compiling MyTree           ( MyTree.hs, interpreted )
+Ok, modules loaded: MyTree.
+*MyTree> prodT $ mkTree [1..10]
+3628800
+*MyTree> prod [1..10]
+
+<interactive>:1:0: Not in scope: `prod'
+*MyTree> product [1..10]
+3628800
+*MyTree> :t sumT
+sumT :: (Num t) => Tree t -> t
+*MyTree> :l MyTree
+[1 of 1] Compiling MyTree           ( MyTree.hs, interpreted )
+Ok, modules loaded: MyTree.
+*MyTree> :t foldT
+foldT :: t -> (t -> t -> t) -> Tree t -> t
+*MyTree> :t foldl
+foldl :: (a -> b -> a) -> a -> [b] -> a
+*MyTree> :l MyTree
+[1 of 1] Compiling MyTree           ( MyTree.hs, interpreted )
+Ok, modules loaded: MyTree.
+*MyTree> sum1 $ mkTree [1..10]
+55
+*MyTree> sumT $ mkTree [1..10]
+55
+*MyTree> :l MyTree
+[1 of 1] Compiling MyTree           ( MyTree.hs, interpreted )
+Ok, modules loaded: MyTree.
+*MyTree> :t foldT
+foldT :: t -> (t1 -> t -> t -> t) -> Tree t1 -> t
+*MyTree> :l MyTree
+[1 of 1] Compiling MyTree           ( MyTree.hs, interpreted )
+Ok, modules loaded: MyTree.
+*MyTree> sum1 $ mkTree [1..10]
+55
+*MyTree> sumT $ mkTree [1..10]
+55
+*MyTree> :l MyTree
+[1 of 1] Compiling MyTree           ( MyTree.hs, interpreted )
+Ok, modules loaded: MyTree.
+*MyTree> sum_lengths ["xyzyy", ['a'..'z']]
+
+<interactive>:1:12:
+    Couldn't match expected type `Tree [a]'
+           against inferred type `[a1]'
+    In the first argument of `sum_lengths', namely
+        `["xyzyy", ['a' .. 'z']]'
+    In the expression: sum_lengths ["xyzyy", ['a' .. 'z']]
+    In the definition of `it': it = sum_lengths ["xyzyy", ['a' .. 'z']]
+*MyTree> sum_lengths $ mkTree ["xyzyy", ['a'..'z']]
+31
+*MyTree> :t sum_lengths
+sum_lengths :: Tree [a] -> Int
+*MyTree> sum_lengths (Node "xyzzy" Leaf Leaf)
+5
+*MyTree> :l MyTree
+[1 of 1] Compiling MyTree           ( MyTree.hs, interpreted )
+
+MyTree.hs:33:36:
+    Couldn't match expected type `Tree a' against inferred type `[a1]'
+      Expected type: (t -> a) -> Tree t -> Tree a
+      Inferred type: (t -> a) -> Tree t -> [a1]
+    In the second argument of `Node', namely `(mapT f ls)'
+    In the expression: Node (f x) (mapT f ls) (mapT f rs)
+Failed, modules loaded: none.
+Prelude> :l MyTree
+[1 of 1] Compiling MyTree           ( MyTree.hs, interpreted )
+Ok, modules loaded: MyTree.
+*MyTree> map show [100..105]
+["100","101","102","103","104","105"]
+*MyTree> map show [1,100..1000]
+["1","100","199","298","397","496","595","694","793","892","991"]
+*MyTree> map show [1,100..10000]
+["1","100","199","298","397","496","595","694","793","892","991","1090","1189","1288","1387","1486","1585","1684","1783","1882","1981","2080","2179","2278","2377","2476","2575","2674","2773","2872","2971","3070","3169","3268","3367","3466","3565","3664","3763","3862","3961","4060","4159","4258","4357","4456","4555","4654","4753","4852","4951","5050","5149","5248","5347","5446","5545","5644","5743","5842","5941","6040","6139","6238","6337","6436","6535","6634","6733","6832","6931","7030","7129","7228","7327","7426","7525","7624","7723","7822","7921","8020","8119","8218","8317","8416","8515","8614","8713","8812","8911","9010","9109","9208","9307","9406","9505","9604","9703","9802","9901","10000"]
+*MyTree> map show [1,100..1100]
+["1","100","199","298","397","496","595","694","793","892","991","1090"]
+*MyTree> mkTree $ map show [1,100..1100]
+Node "1" (Node "100" (Node "199" Leaf (Node "298" Leaf Leaf)) (Node "397" Leaf (Node "496" Leaf Leaf))) (Node "595" (Node "694" Leaf (Node "793" Leaf Leaf)) (Node "892" (Node "991" Leaf Leaf) (Node "1090" Leaf Leaf)))
+*MyTree> mapT length (mkTree $ map show [1,100..1100])
+Node 1 (Node 3 (Node 3 Leaf (Node 3 Leaf Leaf)) (Node 3 Leaf (Node 3 Leaf Leaf))) (Node 3 (Node 3 Leaf (Node 3 Leaf Leaf)) (Node 3 (Node 3 Leaf Leaf) (Node 4 Leaf Leaf)))
+*MyTree> sumT $ mapT length (mkTree $ map show [1,100..1100])
+35
+*MyTree> :l SearchTree
+
+<command line>:
+    Could not find module `SearchTree':
+      Use -v to see a list of the files searched for.
+Failed, modules loaded: none.
+Prelude> :cd ~/src/haskell
+*** Exception: SetCurrentDirectory "C:\\Users\\jlc//src/haskell": does not exist (The system cannot find the path specified.)
+Prelude> cd ..
+
+<interactive>:1:3: parse error on input `..'
+Prelude> !cd ..
+
+<interactive>:1:0: Illegal bang-pattern (use -XBangPatterns)
+Prelude> :! cd ..
+Prelude> :! cd
+c:\Users\jlc\Work\src\haskell\3015
+Prelude> :! cd ..
+Prelude> :l SearchTree
+
+<command line>:
+    Could not find module `SearchTree':
+      Use -v to see a list of the files searched for.
+Failed, modules loaded: none.
+Prelude> :! cd
+c:\Users\jlc\Work\src\haskell\3015
+Prelude> :! cd ..
+Prelude> :cd ..
+Prelude> :! cd
+c:\Users\jlc\Work\src\haskell
+Prelude> :l SearchTree
+[1 of 1] Compiling SearchTree       ( SearchTree.hs, interpreted )
+Ok, modules loaded: SearchTree.
+*SearchTree> :l SearchTree
+[1 of 1] Compiling SearchTree       ( SearchTree.hs, interpreted )
+
+SearchTree.hs:20:28:
+    Couldn't match expected type `Tree a' against inferred type `[t]'
+    In the second argument of `foldr', namely `nums'
+    In the expression: foldr treeInsert nums
+    In the definition of `numsTree': numsTree = foldr treeInsert nums
+Failed, modules loaded: none.
+Prelude> :l SearchTree
+[1 of 1] Compiling SearchTree       ( SearchTree.hs, interpreted )
+Ok, modules loaded: SearchTree.
+*SearchTree> numsTree
+Node 5 (Node 3 (Node 1 Leaf Leaf) (Node 4 Leaf Leaf)) (Node 7 (Node 6 Leaf Leaf) (Node 8 Leaf Leaf))
+*SearchTree> foldr treeInsert Leaf (take 4 nums)
+Node 1 Leaf (Node 4 Leaf (Node 6 Leaf (Node 8 Leaf Leaf)))
+*SearchTree> foldr treeInsert Leaf (take 5 nums)
+Node 7 (Node 1 Leaf (Node 4 Leaf (Node 6 Leaf Leaf))) (Node 8 Leaf Leaf)
+*SearchTree> foldr treeInsert Leaf [1..8]
+Node 8 (Node 7 (Node 6 (Node 5 (Node 4 (Node 3 (Node 2 (Node 1 Leaf Leaf) Leaf) Leaf) Leaf) Leaf) Leaf) Leaf) Leaf
+*SearchTree> foldr treeInsert Leaf [2,3,4,5,7,6]
+Node 6 (Node 5 (Node 4 (Node 3 (Node 2 Leaf Leaf) Leaf) Leaf) Leaf) (Node 7 Leaf Leaf)
+*SearchTree> foldr treeInsert Leaf [2,3,4,5,6,7]
+Node 7 (Node 6 (Node 5 (Node 4 (Node 3 (Node 2 Leaf Leaf) Leaf) Leaf) Leaf) Leaf) Leaf
+*SearchTree> foldr treeInsert Leaf [2,3,4,6,7,5]
+Node 5 (Node 4 (Node 3 (Node 2 Leaf Leaf) Leaf) Leaf) (Node 7 (Node 6 Leaf Leaf) Leaf)
+*SearchTree> foldr treeInsert Leaf [2,4,3,6,7,5]
+Node 5 (Node 3 (Node 2 Leaf Leaf) (Node 4 Leaf Leaf)) (Node 7 (Node 6 Leaf Leaf) Leaf)
+*SearchTree> foldr treeInsert Leaf [2,4,3,6,7,5,1]
+Node 1 Leaf (Node 5 (Node 3 (Node 2 Leaf Leaf) (Node 4 Leaf Leaf)) (Node 7 (Node 6 Leaf Leaf) Leaf))
+*SearchTree> height $ foldr treeInsert Leaf [2,4,3,6,7,5,1]
+
+<interactive>:1:0: Not in scope: `height'
+*SearchTree> :l SearchTree
+[1 of 1] Compiling SearchTree       ( SearchTree.hs, interpreted )
+
+SearchTree.hs:23:22:
+    Occurs check: cannot construct the infinite type:
+      t = (t, t) -> (t, t)
+    Probable cause: `+' is applied to too few arguments
+    In the expression: 1 + max (height l, height r)
+    In the definition of `height':
+        height (Node x l r) = 1 + max (height l, height r)
+Failed, modules loaded: none.
+Prelude> :l SearchTree
+[1 of 1] Compiling SearchTree       ( SearchTree.hs, interpreted )
+Ok, modules loaded: SearchTree.
+*SearchTree> height $ foldr treeInsert Leaf [2,4,3,6,7,5,1]
+4
+*SearchTree> height $ foldr treeInsert Leaf [1..7]
+7
+*SearchTree> height $ foldr treeInsert Leaf [7..1]]
+
+<interactive>:1:37: parse error on input `]'
+*SearchTree> height $ foldr treeInsert Leaf [7..1]
+0
+*SearchTree> foldr treeInsert Leaf [7..1]
+Leaf
+*SearchTree> treeInsert 7 Leaf
+Node 7 Leaf Leaf
+*SearchTree> foldr treeInsert Leaf [7..1]
+Leaf
+*SearchTree> :t foldr
+foldr :: (a -> b -> b) -> b -> [a] -> b
+*SearchTree> foldr treeInsert Leaf [7,6..1]
+Node 1 Leaf (Node 2 Leaf (Node 3 Leaf (Node 4 Leaf (Node 5 Leaf (Node 6 Leaf (Node 7 Leaf Leaf))))))
+*SearchTree> height $ foldr treeInsert Leaf [7,6..1]
+7
+*SearchTree> :l SearchTree
+[1 of 1] Compiling SearchTree       ( SearchTree.hs, interpreted )
+Ok, modules loaded: SearchTree.
+*SearchTree> size $ foldr treeInsert Leaf [7,6..1]
+7
+*SearchTree> logBase 2.0 7
+2.807354922057604
+*SearchTree>
+*SearchTree> 
+*SearchTree> :t scanl
+scanl :: (a -> b -> a) -> a -> [b] -> [a]
+*SearchTree> scanl treeInsert Leaf [1..7]
+
+<interactive>:1:6:
+    Occurs check: cannot construct the infinite type: a = Tree a
+      Expected type: a
+      Inferred type: Tree a
+    In the first argument of `scanl', namely `treeInsert'
+    In the expression: scanl treeInsert Leaf [1 .. 7]
+*SearchTree> size $ singleton 1
+1
+*SearchTree> height $ singleton 1
+1
+*SearchTree> height $ foldr treeInsert Leaf [1..2]
+2
+*SearchTree> size $ foldr treeInsert Leaf [1..2]
+2
+*SearchTree> foldr treeInsert Leaf [1..2]
+Node 2 (Node 1 Leaf Leaf) Leaf
+*SearchTree> height $ foldr treeInsert Leaf [1..3]
+3
+*SearchTree> height $ foldr treeInsert Leaf [2,1,3]
+3
+*SearchTree> foldr treeInsert Leaf [2,1,3]
+Node 3 (Node 1 Leaf (Node 2 Leaf Leaf)) Leaf
+*SearchTree> foldr treeInsert Leaf [3, 2,1]
+Node 1 Leaf (Node 2 Leaf (Node 3 Leaf Leaf))
+*SearchTree> height $ foldr treeInsert Leaf [3,2,1]
+3
+*SearchTree> height $ foldr treeInsert Leaf [2,3,1]
+3
+*SearchTree> height $ foldr treeInsert Leaf [2,3,1]
+3
+*SearchTree> size $ foldr treeInsert Leaf [2,3,1]
+3
+*
+*SearchTree> 
+*SearchTree> 
+*SearchTree> foldr treeInsert Leaf [2,3,1]
+Node 1 Leaf (Node 3 (Node 2 Leaf Leaf) Leaf)
+*SearchTree> foldr treeInsert Leaf [2,1,3]
+Node 3 (Node 1 Leaf (Node 2 Leaf Leaf)) Leaf
+*SearchTree> Node 2 (singleton 1) (singleton 2)
+Node 2 (Node 1 Leaf Leaf) (Node 2 Leaf Leaf)
+*SearchTree> height $ Node 2 (singleton 1) (singleton 2)
+2
+*SearchTree> :l SearchTree
+[1 of 1] Compiling SearchTree       ( SearchTree.hs, interpreted )
+
+SearchTree.hs:29:59: Not in scope: `hbalanced'
+
+SearchTree.hs:29:74: Not in scope: `hbalanced'
+Failed, modules loaded: none.
+Prelude> :l SearchTree
+[1 of 1] Compiling SearchTree       ( SearchTree.hs, interpreted )
+Ok, modules loaded: SearchTree.
+*SearchTree> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+
+Sets.hs:3:13: parse error in data/newtype declaration
+Failed, modules loaded: none.
+Prelude> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+Ok, modules loaded: Sets.
+*Sets> 
+*Sets> Set [1,2]
+Set [1,2]
+*Sets> Set [1,2] == Set[2,1]
+
+<interactive>:1:0:
+    No instance for (Eq (Set t))
+      arising from a use of `==' at <interactive>:1:0-20
+    Possible fix: add an instance declaration for (Eq (Set t))
+    In the expression: Set [1, 2] == Set [2, 1]
+    In the definition of `it': it = Set [1, 2] == Set [2, 1]
+*Sets> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+Ok, modules loaded: Sets.
+*Sets> Set [1,2] == Set [2,1]
+False
+*Sets> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+Ok, modules loaded: Sets.
+*Sets> Boo == Goo
+False
+*Sets> Boo == Boo
+True
+*Sets> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+Ok, modules loaded: Sets.
+*Sets> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+
+Sets.hs:7:35:
+    No instance for (Eq (a -> a))
+      arising from the 'deriving' clause of a data type declaration
+                   at Sets.hs:7:35-36
+    Possible fix:
+      add an instance declaration for (Eq (a -> a))
+      or use a standalone 'deriving instance' declaration instead,
+         so you can specify the instance context yourself
+    When deriving the instance for (Eq (Fun a))
+Failed, modules loaded: none.
+Prelude> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+
+Sets.hs:7:35:
+    No instance for (Show (a -> a))
+      arising from the 'deriving' clause of a data type declaration
+                   at Sets.hs:7:35-38
+    Possible fix:
+      add an instance declaration for (Show (a -> a))
+      or use a standalone 'deriving instance' declaration instead,
+         so you can specify the instance context yourself
+    When deriving the instance for (Show (Fun a))
+Failed, modules loaded: none.
+Prelude> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+Ok, modules loaded: Sets.
+*Sets> [\x -> x] == [\x->x]
+
+<interactive>:1:0:
+    No instance for (Eq (t -> t))
+      arising from a use of `==' at <interactive>:1:0-19
+    Possible fix: add an instance declaration for (Eq (t -> t))
+    In the expression: [\ x -> x] == [\ x -> x]
+    In the definition of `it': it = [\ x -> x] == [\ x -> x]
+*Sets> :t ([]==)
+([]==) :: (Eq a) => [a] -> Bool
+*Sets> [] == [\x -> x]
+
+<interactive>:1:0:
+    No instance for (Eq (t -> t))
+      arising from a use of `==' at <interactive>:1:0-14
+    Possible fix: add an instance declaration for (Eq (t -> t))
+    In the expression: [] == [\ x -> x]
+    In the definition of `it': it = [] == [\ x -> x]
+*Sets> null [\x -> x]
+False
+*Sets> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+Ok, modules loaded: Sets.
+*Sets> Set [1,2,3] == Set [3,2,1]
+True
+*Sets> Set [1,2,3] == Set []
+True
+*Sets> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+Ok, modules loaded: Sets.
+*Sets> Set [1,2,3] == Set []
+False
+*Sets> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+Ok, modules loaded: Sets.
+*Sets> Set [1,2,3] == Set [1,1,2,3]
+True
+*Sets> Set [1,2,3] == Set [3, 1,1,2,3]
+True
+*Sets> Set [1,2,3,4] == Set [3, 1,1,2,3]
+False
+*Sets> Set [1,2,3] == Set [4, 3, 1,1,2,3]
+False
+*Sets> 
+*Sets> :t filter
+filter :: (a -> Bool) -> [a] -> [a]
+*Sets> 10 /= 11
+True
+*Sets> :t filter (/=10)
+filter (/=10) :: (Num a) => [a] -> [a]
+*Sets> :t (/=)
+(/=) :: (Eq a) => a -> a -> Bool
+*Sets> /=
+
+<interactive>:1:0: parse error on input `/='
+*Sets> filter (/= 10) [1..10]
+[1,2,3,4,5,6,7,8,9]
+*Sets> filter (/= 10) [10,10,10,9]
+[9]
+*Sets> filter (/= 10) [10,10,10,9]
+[9]
+*Sets> 
+*Sets> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+Ok, modules loaded: Sets.
+*Sets> Set [1,2,3] == Set [4, 3, 1,1,2,3]
+False
+*Sets> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+
+Sets.hs:12:43: Not in scope: `sx'
+Failed, modules loaded: none.
+Prelude> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+
+Sets.hs:12:33:
+    Couldn't match expected type `Bool'
+           against inferred type `a -> Bool'
+    In the first argument of `filter', namely `notin'
+    In the first argument of `null', namely `(filter notin ys)'
+    In the first argument of `not', namely
+        `(null (filter notin ys) xs)'
+Failed, modules loaded: none.
+Prelude> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+
+Sets.hs:12:26:
+    Couldn't match expected type `[a]'
+           against inferred type `[a1] -> [a1]'
+    In the first argument of `null', namely `(filter (notin ys))'
+    In the first argument of `not', namely
+        `(null (filter (notin ys)) xs)'
+    In the expression: not (null (filter (notin ys)) xs)
+Failed, modules loaded: none.
+Prelude> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+Ok, modules loaded: Sets.
+*Sets> :t notin
+notin :: (Eq a) => [a] -> a -> Bool
+*Sets> :t notin [1..10]
+notin [1..10] :: (Num t, Enum t) => t -> Bool
+*Sets> notin [1..10] 7
+False
+*Sets> notin [1..10] 11
+True
+*Sets> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+Ok, modules loaded: Sets.
+*Sets> subset [1..10] [1..100]
+True
+*Sets> subset [1..100] [1..10]
+False
+*Sets> subset [1..10] [1..10]
+True
+*Sets> subset [] [1..10]
+True
+*Sets> subset  [1..10] []
+False
+*Sets> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+Ok, modules loaded: Sets.
+*Sets> subset  [1..10] []
+
+<interactive>:1:0: Not in scope: `subset'
+*Sets> Set [1..10] == Set []
+False
+*Sets> Set [1..10] == Set [10,9..1]]
+
+<interactive>:1:28: parse error on input `]'
+*Sets> Set [1..10] == Set [10,9..1]
+True
+*Sets> Set [1,1,2] == Set [2,1,1,2]
+True
+*Sets> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+
+Sets.hs:19:27:
+    Class `Show' used as a type
+    In the instance declaration for `Show (Show a)'
+Failed, modules loaded: none.
+Prelude> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+Ok, modules loaded: Sets.
+*Sets> Set [1,2,3]
+[1,2,3]
+*Sets> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+
+Sets.hs:21:11: parse error on input `='
+Failed, modules loaded: none.
+Prelude> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+Ok, modules loaded: Sets.
+*Sets> Set [1,2,3]
+1,2,3
+*Sets> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+Ok, modules loaded: Sets.
+*Sets> Set [1,2,3]
+{1,2,3}
+*Sets> Set [1,1,2]
+{1,1,2}
+*Sets> :t nub
+
+<interactive>:1:0: Not in scope: `nub'
+*Sets> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+
+Sets.hs:20:29:
+    Could not deduce (Eq a) from the context (Show (Set a), Show a)
+      arising from a use of `unique' at Sets.hs:20:29-37
+    Possible fix: add (Eq a) to the context of the instance declaration
+    In the first argument of `show', namely `(unique xs)'
+    In the first argument of `fix', namely `(show (unique xs))'
+    In the expression: fix (show (unique xs))
+Failed, modules loaded: none.
+Prelude> :t unique
+
+<interactive>:1:0: Not in scope: `unique'
+Prelude> :t unique
+
+<interactive>:1:0: Not in scope: `unique'
+Prelude> :l Sets
+[1 of 1] Compiling Sets             ( Sets.hs, interpreted )
+Ok, modules loaded: Sets.
+*Sets> Set [1,1,2]
+{1,2}
+*Sets> Set [2,1]
+{2,1}
+*Sets> Set [2,1,1]
+{2,1}
+*Sets> Set [2,1,1,2]
+{2,1}
+*Sets> 

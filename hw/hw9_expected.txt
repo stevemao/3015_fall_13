@@ -1,0 +1,69 @@
+                 Department of Computer Science
+                     University of Wyoming
+
+  To change your password, you need to use yppasswd, instead of passwd.
+
+  If you have problems or questions, please e-mail Jim Ward (seker@uwyo.edu)
+  or Allyson Anderson (allyson@uwyo.edu)
+
+  For information on Printing, OpenOffice, JBuilder, Java, Firefox, 
+      Eclipse, and other installed applications.  command: csinfo
+
+  9/25/06: Eclipse has been updated to v3.2.  cmd: eclipse 
+    If you want still want to use v3.1  cmd /usr/local/eclipse3.1/eclipse
+
+done.
+alpamayo 101% pwd
+pwd
+/home/faculty/jlc/www/courses/3015/hw
+alpamayo 102% hugs
+hugs
+__   __ __  __  ____   ___      _________________________________________
+||   || ||  || ||  || ||__      Hugs 98: Based on the Haskell 98 standard
+||___|| ||__|| ||__||  __||     Copyright (c) 1994-2005
+||---||         ___||           World Wide Web: http://haskell.org/hugs
+||   ||                         Report bugs to: hugs-bugs@haskell.org
+||   || Version: May 2006       _________________________________________
+
+Haskell 98 mode: Restart with command line option -98 to enable extensions
+
+Type :? for help
+Hugs> :l hw9
+:l hw9
+Boolean> true /\ true
+true /\ true
+Left ()
+Boolean> true /\ false
+true /\ false
+Right ()
+Boolean> false /\ true
+false /\ true
+Right ()
+Boolean> false /\ false
+false /\ false
+Right ()
+Boolean> true \/ true
+true \/ true
+Left ()
+Boolean> true \/ false
+true \/ false
+Left ()
+Boolean> false \/ true
+false \/ true
+Left ()
+Boolean> false \/ false
+false \/ false
+Right ()
+Boolean> true .=> true
+true .=> true
+Left ()
+Boolean> true .=> false
+true .=> false
+Right ()
+Boolean> false  .=> true
+false  .=> true
+Left ()
+Boolean> false .=> false
+false .=> false
+Left ()
+Boolean> 

@@ -1,0 +1,101 @@
+*Main> :l hw10
+:l hw10
+[1 of 1] Compiling Main             ( hw10.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> number
+number
+{(1->"one"),(2->"two")}
+*Main> let FF m = number in m
+let FF m = number in m
+[(1,"one"),(2,"two")]
+*Main> update (3,"three") number
+update (3,"three") number
+{(3->"three"),(1->"one"),(2->"two")}
+*Main> update (2,"2") number
+update (2,"2") number
+{(2->"2"),(1->"one")}
+*Main> update (1,"1") number
+update (1,"1") number
+{(1->"1"),(2->"two")}
+*Main> c2i
+c2i
+{('a'->97),('b'->98),('c'->99),('d'->100),('e'->101),('f'->102),('g'->103),('h'->104),('i'->105),('j'->106),('k'->107),('l'->108),('m'->109),('n'->110),('o'->111),('p'->112),('q'->113),('r'->114),('s'->115),('t'->116),('u'->117),('v'->118),('w'->119),('x'->120),('y'->121),('z'->122)}
+*Main> apply c2i 'a'
+apply c2i 'a'
+Just 97
+*Main> apply c2i 'z'
+apply c2i 'z'
+Just 122
+*Main> apply c2i 'A'
+apply c2i 'A'
+Nothing
+*Main> domain number
+domain number
+[1,2]
+*Main> range number
+range number
+["one","two"]
+*Main> domain c2i
+domain c2i
+"abcdefghijklmnopqrstuvwxyz"
+*Main> range c2i
+range c2i
+[97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122]
+*Main> domain i2c
+domain i2c
+[97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122]
+*Main> range i2c
+range i2c
+"abcdefghijklmnopqrstuvwxyz"
+*Main> functional number
+functional number
+
+<interactive>:1:11:
+    Couldn't match expected type `[(a, b)]'
+           against inferred type `FinFun Integer [Char]'
+    In the first argument of `functional', namely `number'
+    In the expression: functional number
+    In the definition of `it': it = functional number
+*Main> let FF m = number in functional m
+let FF m = number in functional m
+True
+*Main> let FF m = c2i in functional m
+let FF m = c2i in functional m
+True
+*Main> let FF m = i2c in functional m
+let FF m = i2c in functional m
+True
+*Main> functional [(1,0),(2,0),(3,0)]
+functional [(1,0),(2,0),(3,0)]
+True
+*Main> map (\(x,y) -> (y,x)) [(1,0),(2,0),(3,0)]
+map (\(x,y) -> (y,x)) [(1,0),(2,0),(3,0)]
+[(0,1),(0,2),(0,3)]
+*Main> functional it
+functional it
+False
+*Main> map (\(x,y) -> (y,x)) [(1,0),(2,0),(3,0)]
+map (\(x,y) -> (y,x)) [(1,0),(2,0),(3,0)]
+[(0,1),(0,2),(0,3)]
+*Main> it
+it
+[(0,1),(0,2),(0,3)]
+*Main> it
+it
+[(0,1),(0,2),(0,3)]
+*Main> functional it
+functional it
+False
+*Main> it
+it
+False
+*Main> update ('b',1) c2i
+update ('b',1) c2i
+{('b'->1),('a'->97),('c'->99),('d'->100),('e'->101),('f'->102),('g'->103),('h'->104),('i'->105),('j'->106),('k'->107),('l'->108),('m'->109),('n'->110),('o'->111),('p'->112),('q'->113),('r'->114),('s'->115),('t'->116),('u'->117),('v'->118),('w'->119),('x'->120),('y'->121),('z'->122)}
+*Main> update ('a',1) c2i
+update ('a',1) c2i
+{('a'->1),('b'->98),('c'->99),('d'->100),('e'->101),('f'->102),('g'->103),('h'->104),('i'->105),('j'->106),('k'->107),('l'->108),('m'->109),('n'->110),('o'->111),('p'->112),('q'->113),('r'->114),('s'->115),('t'->116),('u'->117),('v'->118),('w'->119),('x'->120),('y'->121),('z'->122)}
+*Main> update ('z',1) c2i
+update ('z',1) c2i
+{('z'->1),('a'->97),('b'->98),('c'->99),('d'->100),('e'->101),('f'->102),('g'->103),('h'->104),('i'->105),('j'->106),('k'->107),('l'->108),('m'->109),('n'->110),('o'->111),('p'->112),('q'->113),('r'->114),('s'->115),('t'->116),('u'->117),('v'->118),('w'->119),('x'->120),('y'->121)}
+*Main> 

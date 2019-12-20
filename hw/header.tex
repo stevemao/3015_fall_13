@@ -1,0 +1,219 @@
+\usepackage{amssymb}
+\usepackage{remark}
+% \usepackage{html}
+
+
+\usepackage{/home/faculty/jlc/papers/tex-stuff/bussproofs}
+
+
+
+\setlength{\textwidth}{6.5in}
+\setlength{\textheight}{8.8in}
+\setlength{\oddsidemargin}{0.0in}
+\setlength{\evensidemargin}{0.0in}
+
+
+ \newremark{theorem}{Theorem}[section]
+ \newremark{Rule}{Rule}[section]
+ \newremark{conjecture}{Conjecture}[section]
+ \newremark{corollary}{Corollary}[section]
+ \newremark{example}{Example}[section]
+ \newremark{fact}{Fact}[section]
+ \newremark{lemma}{Lemma}[section]
+ \newremark{definition}{Definition}[section]
+ \newremark{claim}{Claim}[section]
+ \newremark{remark}{Remark}[section]
+ \newremark{slogan}{Slogan}[section]
+ \newremark{axiom}{Axiom}[section]
+ \newremark{note}{Note}[]
+ \newremark{problem}{Problem}[section]
+ \newremark{exercise}{Exercise}[section]
+
+\newcommand{\Proof}{{\goodbreak\noindent\bf{Proof:\ }}}
+\newcommand{\qed}{\goodbreak\noindent$\Box$}
+
+\newcommand{\byDef}[1]{\stackrel{\langle\langle{{\rm{def.\ of\ }}{#1}}\rangle\rangle}{=}}
+\newcommand{\byEq}[1]{\stackrel{\langle\langle{{#1}}\rangle\rangle}{=}}
+\newcommand{\by}[1]{{\small{\langle\langle{\mathit{by.\;def.\;of\;}}{#1}\rangle\rangle}}}
+
+
+\newcommand{\dotcup}{{\cup\hspace{-.5em}\cdot}}
+\newcommand{\barcup}{{\cup\hspace{-.68em}-}}
+
+
+\newcommand{\arrow}{$\rightarrow$}
+\newcommand{\nat}{{\mathbb{N}}}
+\newcommand{\bool}{{\mathbb{B}}}
+\newcommand{\Int}{{\mathbb{Z}}}
+
+\newcommand{\nand}{{\overline{\wedge}}}
+\newcommand{\nor}{{\overline{\vee}}}
+
+
+\newcommand{\Meaning}[1]{{[{\hspace{-.13em}}[{#1}]{\hspace{-.13em}}]}}
+\newcommand{\Meaningof}[2]{{[{\hspace{-.13em}}[\,{#2:#1}\,]{\hspace{-.13em}}]}}
+\newcommand{\Skip}{{\bf{skip}}}
+\newcommand{\Let}[2]{{\bf{Let\ }} {#1}{\bf{\ in\ }}{#2}{\bf{\ end}}}
+\newcommand{\A}{{\tt{a}}}
+% \newcommand{\F}{{\tt{F}}}
+\newcommand{\ua}[1]{{\tt{(#1 under a)}}}
+\newcommand{\Fua}{\ua{F}}
+\newcommand{\aF}{{\tt{(a F)}}}
+\newcommand{\Btt}{{\tt{Btt}}}
+\newcommand{\Bff}{{\tt{Bff}}}
+%\newcommand{\T3}{{\tt{T3}}}
+%\newcommand{\F3}{{\tt{F3}}}
+%\newcommand{\?3}{{\tt{?3}}}
+\newcommand{\V}[1]{{\mkleeneopen{}{\tt{#1}}\mkleeneclose{}}}
+\newcommand{\Neg}[1]{{\tt{N(#1)}}}
+\newcommand{\I}[2]{{\tt{(#1)I(#2)}}}
+\newcommand{\ie}{{\em{i.e.}}}
+\newcommand{\eg}{{\em{e.g.}}}
+\newcommand{\sat}[2]{{\tt{#1 \mbar{}= #2}}}
+\newcommand{\nsat}[2]{{\tt{#1 \mbar{}\mneq{} #2}}}
+\newcommand{\Three}{{\mBbbN{}\msubthree{}}}
+%\newcommand{\Three}{{\bf{3}}}
+\newcommand{\Tzero}{${\tt{0}}_{\tt{3}}$}
+\newcommand{\Tone}{${\tt{1}}_{\tt{3}}$}
+\newcommand{\Ttwo}{${\tt{2}}_{\tt{3}}$}
+\newcommand{\msubst}{{\tt{/}}}
+\newcommand{\nsequent}{{\tt{>>}}}
+
+\newcommand{\kleene}[1]{{\mkleeneopen{}#1\mkleeneclose{}}}
+\newcommand{\mfvar}[1]{{\kleene{{\tt{#1}}}}}
+\newcommand{\mfnot}{{\kleene{\msim}}}
+\newcommand{\mfand}{{\kleene{\mwedge}}}
+\newcommand{\mfor}{{\kleene{\mvee}}}
+\newcommand{\mfimp}{{\kleene{\mRightarrow}}}
+\newcommand{\Knot}{$\sim_K\,$}
+\newcommand{\Kand}{$\wedge_K$}
+\newcommand{\Kor}{$\vee_K$}
+\newcommand{\Kimp}{$\Rightarrow_K$}
+\newcommand{\miff}{$\Leftrightarrow{}$}
+\newcommand{\mlangle}{{$\langle$}}
+\newcommand{\mrangle}{{$\rangle$}}
+\newcommand{\mldots}{{$\ldots$}}
+\newcommand{\mcdots}{{$\cdots$}}
+%\newcommand{\rhd}{\triangleright}
+\newcommand{\mrhd}{{$\triangleright$}}
+\newcommand{\mRHD}{{$\triangleright_{\!R}\,$}}
+\newcommand{\Sequent}[2]{{${#1}\,\vdash{}\,{#2}$}}
+
+\newcommand{\typingRuleThree}[4]{{\begin{tabular}{c}{${#1}$} \hspace{2em} {${#2}$} \hspace{2em} {${#3}$}\\\hline{${#4}$}\end{tabular}}}
+\newcommand{\typingRuleTwo}[3]{{\begin{tabular}{c}{${#1}$} \hspace{2em} {${#2}$}\\\hline{${#3}$}\end{tabular}}}
+\newcommand{\typingRule}[2]{{\begin{tabular}{c}{${#1}$}{}\\\hline{${#2}$}{}\end{tabular}}}
+
+
+\newcommand{\newSequentRule}[2]{{\begin{tabular}{c}{${#1}$}{}\\\hline{${#2}$}{}\end{tabular}}}
+
+\newcommand{\sequentRule}[4]{\mbox{\raisebox{-.4ex}[4.25ex]{\begin{tabular}{rcl} \rule{0mm}{2.85ex}{$#1$} & {$\vdash$} & ${#2}$ \\\hline {\rule{0mm}{2.65ex}$#3$} & {$\vdash$} & {$#4$}\end{tabular}\\}}}
+\newcommand{\AxiomRule}[3]{{\begin{tabular}{rcl} $\,$ \\\hline {\rule{0mm}{2.65ex}$#1$} & {$\vdash$} & {$#2$}\end{tabular}}(#3)}
+
+\newcommand{\startProof}[1]{{\begin{tabular}{c} $\,$ \\\hline {\rule{0mm}{2.65ex}{#1}} \end{tabular}}}
+
+\newcommand{\SequentRule}[5]{{\begin{tabular}{rcl} \rule{0mm}{2.85ex}{$#3$} & {$\vdash$} & ${#4}$ \\\hline {\rule{0mm}{2.65ex}$#1$} & {$\vdash$} & {$#2$}\end{tabular}}(#5)}
+
+\newcommand{\SequentRuleTwo}[7]{{\begin{tabular}{lr} \Sequent{#3}{#4}\ &\ \Sequent{#5}{#6} \\\hline%
+\multicolumn{2}{c}{{\rule{0mm}{2.65ex}{\Sequent{#1}{#2}}}} \end{tabular}}({#7})}
+
+
+\newcommand{\cSequentRuleTwo}[7]{{\begin{tabular}{lr} \Sequent{${#1}$}{${#2}$}\ &\ \Sequent{${#3}$}{${#4}$} \\\hline%
+\multicolumn{2}{c}{{\rule{0mm}{2.65ex}{\Sequent{${#5}$}{${#6}$}}}} \end{tabular}}({#7})}
+
+\newcommand{\false}{\bf{false}}
+\newcommand{\definedAs}{\;{\stackrel{\rm def}{=}}\;}
+\newcommand{\pair}[1]{{\langle{#1}\rangle}}
+
+\newcommand{\ttrue}{{\bf{T}}}
+\newcommand{\ffalse}{{\bf{F}}}
+
+
+% \renewcommand{\inr}[1]{{\tt{inr}({#1})}}
+% \renewcommand{\inl}[1]{{\tt{inl}({#1})}}
+% \renewcommand{\spread}[1]{{\tt{spread}}{#1}}
+% \renewcommand{\decide}[1]{{\tt{decide}}({#1})}
+% \renewcommand{\void}{{\tt{void}}}
+% \renewcommand{\any}[1]{{\tt{any}{#1}}}
+\newcommand{\Zero}{{\mathit{Zero}}}
+\newcommand{\Succ}{{\mathit{Succ\,}}}
+% \renewcommand{\ind}[1]{{\tt{ind}}{#1}}
+% \renewcommand{\N}{\bf{N}}
+% \renewcommand{\xxx}{\mbox{\hspace{.125in}}}
+% \renewcommand{\Tpp}{${\bf{T}}^{++}$}
+% \renewcommand{\TPP}{{\bf{T}}^{++}}
+% \renewcommand{\GT}{{\bf{T}}}
+% \newcommand{\abit}{$\,$}
+
+\newcommand{\mysubtitle}[1]{{\ \\*[-.75em]{\bf{{#1}}}}}
+
+{\obeyspaces\global\let =\ }
+
+\newenvironment{bogustabbing}{\begin{tabbing}\={\mbox{\hspace{10em}}}\=\=\=\kill}%
+{\end{tabbing}}
+
+
+\newenvironment{program}{\tt\obeyspaces\begin{bogustabbing}\+\kill}{\end{bogustabbing}}
+\newenvironment{program*}{\tt\obeyspaces\begin{bogustabbing}}{\end{bogustabbing}}
+\newenvironment{program**}{\it\obeyspaces\begin{bogustabbing}}{\end{bogustabbing}}
+\newenvironment{smallprogram*}{\hspace{2.5em}\small \it\obeyspaces\begin{bogustabbing}}{\end{bogustabbing}\vspace{-.0625in}}
+
+\newcommand{\CASE}{\noindent{\bf{Case}}}
+\newcommand{\expr}{{{\cal{E}}}}
+\newcommand{\comm}{{{\cal{C}}}}
+\newcommand{\mylet}[3]{{\tt{let\ }}{#1}{\tt{\ =\ }}{#2}{\tt{\ in\ }}{#3}}
+\newcommand{\myfun}[2]{{\tt{fun\ }}{#1}{\tt{\ =\ }}{#2}}
+\newcommand{\semwhile}[2]{{\tt{while\ }}{#1}{\tt{\ do\ }}{#2}{\tt{\ od:\,}}comm}
+\newcommand{\while}[2]{{\tt{while\ }}{#1}{\tt{\ do\ }}{#2}{\tt{\ od}}}
+\newcommand{\Seq}[2]{{#1}{\bf{\,;\,}}{#2}{\tt{:\,}}comm}
+\newcommand{\semif}[4]{{\tt{if(}}{\Meaning{#1}({#4})}{\tt{,\ }}{\Meaning{#2}({#4})}{\tt{,\ }}{#3}{\tt{)}}}
+\newcommand{\wif}[3]{{\tt{if}}{{#1}}{\tt{\ then\ }}{{#2}}{\tt{\ else\ }}{#3}{\tt{\ fi}}:\,comm}
+\newcommand{\wnot}[1]{\neg{#1}}
+\newcommand{\wassign}[2]{{\tt{loc}}_{#1} := {#2}}
+\newcommand{\wderef}[1]{{\tt{@loc}}_{#1} }
+\newcommand{\loc}[1]{${\tt{loc}}_{#1}$}
+% \newcommand{\semif1}[4]{{\tt{if(}}{\Meaning{#1}({#4})}{\tt{,\ }}{\Meaning{#2}({#4})}{\tt{,\ }}{\Meaning{#3}({#4})}{\tt{)}}}
+
+\newcommand{\mkleeneopen}{{\boldmath{^{\lceil}}}}
+\newcommand{\mkleeneclose}{{\boldmath{^{\rceil}}}}
+\newcommand{\kquote}[1]{{\mkleeneopen{}{{#1}}\mkleeneclose}}
+
+\newcommand{\homework}[2]{\ \\\vspace{-1.25in}\\%
+{\bf{HW {#1}}} \hfill {\bf{Prof. Caldwell}} \\%
+{\bf{Due:}} {#2} 2013 \hfill {\bf{COSC 3015}}\ \\}
+
+\newcommand{\ite}[3]{{\bf{if\ }}{#1}{\bf{\ then\ }}{#2}{\bf{\ else\ }}{#3}{\bf{\ fi}}}
+\newcommand{\fun}{{\bf{fun\, }}}
+\newcommand{\prog}[3]{{#1}{\bf{\ in \ }}{#2}}
+
+
+
+\newcommand{\store}[1]{\langle{}{#1}\rangle}
+
+\newcommand{\alphaeq}{\,{=_\alpha}\,}
+\newcommand{\xleaf}{{\rm{Leaf}}}
+\newcommand{\xnode}{{\rm{Node}}}
+\newcommand{\vbar}{{\;\;{\bf{|}}\;\;}}
+\newcommand{\abit}{{\mbox{\hspace{1em}}}}
+
+
+\newcommand{\assign}[2]{{{#1} {\bf{:=}} {#2}}}
+\newcommand{\sequence}[2]{{#1}\,{\bf{;}}\,{#2}}
+
+\newcommand{\F}[1]{{\cal{F}}_{#1}}
+\newcommand{\harrow}{{\tt{-\!\!\!>}}}
+\newcommand{\smallsection}{{\goodbreak\[ \star {\hspace{.35in}} \star {\hspace{.35in}} \star \] \ \\}}
+\newcommand{\append}{\,{\texttt{++}}\,}
+\newcommand{\nil}{{\texttt{[{\hspace{.125em}}]}}}
+
+\newcommand{\defof}[1]{\stackrel{<\!\!<{\textrm{def. of }}{#1}>\!\!>}{=}}
+\newcommand{\pnote}[1]{{$\langle\!\langle$ {#1} $\rangle\!\rangle$}}
+
+\newcommand{\spread}[3]{{\mathit{spread}({#1};{#2}.{#3})}}
+
+
+\newcommand{\sfa}{{\sf{a}}}
+\newcommand{\sfb}{{\sf{b}}}
+\newcommand{\sfc}{{\sf{c}}}
+\newcommand{\sfd}{{\sf{d}}}
+\newcommand{\sfe}{{\sf{e}}}
+\newcommand{\sff}{{\sf{f}}}

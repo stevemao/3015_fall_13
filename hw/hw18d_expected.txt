@@ -1,0 +1,136 @@
+
+*TestSet> :set +s
+:set +s
+*TestSet> ax1 1 empty
+ax1 1 empty
+True
+(0.00 secs, 527140 bytes)
+*TestSet> ax1 1 (mkset [1..10] )
+ax1 1 (mkset [1..10] )
+True
+(0.00 secs, 526056 bytes)
+*TestSet> ax1 0 (mkset [1..10] )
+ax1 0 (mkset [1..10] )
+True
+(0.00 secs, 526072 bytes)
+*TestSet> ax2 1 2 empty
+ax2 1 2 empty
+True
+(0.00 secs, 527328 bytes)
+*TestSet> ax2 2 1 empty
+ax2 2 1 empty
+True
+(0.00 secs, 525480 bytes)
+*TestSet> ax2 1 11 (mkset [1..10])
+ax2 1 11 (mkset [1..10])
+True
+(0.00 secs, 1052132 bytes)
+*TestSet> ax2 0 11 (mkset [1..10])
+ax2 0 11 (mkset [1..10])
+True
+(0.00 secs, 1055632 bytes)
+*TestSet> ax3
+ax3
+True
+(0.00 secs, 530328 bytes)
+*TestSet> ax4 1 (mkset [1..10])
+ax4 1 (mkset [1..10])
+True
+(0.00 secs, 1047472 bytes)
+*TestSet> ax4 1 empty
+ax4 1 empty
+True
+(0.00 secs, 525472 bytes)
+*TestSet> ax5 1
+ax5 1
+True
+(0.00 secs, 530400 bytes)
+*TestSet> ax5 "a"
+ax5 "a"
+True
+(0.00 secs, 526872 bytes)
+*TestSet> ax5 10
+ax5 10
+True
+(0.00 secs, 530612 bytes)
+*TestSet> ax6 1 (mkset [1..10]) 1
+ax6 1 (mkset [1..10]) 1
+True
+(0.00 secs, 1050748 bytes)
+*TestSet> ax6 1 (mkset [1..10]) 2
+ax6 1 (mkset [1..10]) 2
+True
+(0.00 secs, 1052044 bytes)
+*TestSet> ax6 1 (mkset [1..10]) 11
+ax6 1 (mkset [1..10]) 11
+True
+(0.00 secs, 1049004 bytes)
+*TestSet> ax6 12 (mkset [1..10]) 11
+ax6 12 (mkset [1..10]) 11
+True
+(0.00 secs, 1051744 bytes)
+*TestSet> ax6 12 (mkset [1..10]) 100
+ax6 12 (mkset [1..10]) 100
+True
+(0.00 secs, 1051768 bytes)
+*TestSet> ax6 12 (mkset [1..10]) 100
+ax6 12 (mkset [1..10]) 100
+True
+(0.00 secs, 1051136 bytes)
+*TestSet> ax6 12 (mkset [1..10]) 1000
+ax6 12 (mkset [1..10]) 1000
+True
+(0.00 secs, 525784 bytes)
+*TestSet> ax7 1
+ax7 1
+True
+(0.00 secs, 526568 bytes)
+*TestSet> ax7 "a"
+ax7 "a"
+True
+(0.00 secs, 0 bytes)
+*TestSet> ax7 'z'
+ax7 'z'
+True
+(0.00 secs, 524312 bytes)
+*TestSet> ax8 10 10 (mkset [1..9])
+ax8 10 10 (mkset [1..9])
+True
+(0.00 secs, 1048596 bytes)
+*TestSet> ax8 10 11 (mkset [1..9])
+ax8 10 11 (mkset [1..9])
+True
+(0.00 secs, 1047764 bytes)
+*TestSet> ax8 12 11 (mkset [1..9])
+ax8 12 11 (mkset [1..9])
+True
+(0.00 secs, 1048552 bytes)
+*TestSet> ax9 (mkset [1..10])
+ax9 (mkset [1..10])
+True
+(0.00 secs, 525728 bytes)
+*TestSet> ax10 (mkset [1..10]) 11 (mkset [12..20])
+ax10 (mkset [1..10]) 11 (mkset [12..20])
+True
+(0.01 secs, 1050472 bytes)
+*TestSet> ax10 (mkset [1..100]) 101 (mkset [102..200])
+ax10 (mkset [1..100]) 101 (mkset [102..200])
+True
+(0.04 secs, 9215332 bytes)
+*TestSet> ax11 (mkset [1..100])
+ax11 (mkset [1..100])
+True
+(0.00 secs, 525936 bytes)
+*TestSet> ax11 empty
+ax11 empty
+True
+(0.00 secs, 526436 bytes)
+*TestSet> ax12 (mkset [1..50]) 1 (mkset [25..72])
+ax12 (mkset [1..50]) 1 (mkset [25..72])
+True
+(0.01 secs, 1608388 bytes)
+*TestSet> ax12 (mkset [1..50]) 51  (mkset [52 .. 100])
+ax12 (mkset [1..50]) 51  (mkset [52 .. 100])
+True
+(0.01 secs, 1585964 bytes)
+*TestSet> 

@@ -1,0 +1,80 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{1}{4 September}
+
+
+Enter the following code into a file called {\it{qsort.hs}}.
+
+\begin{program*}
+\> qsort [] = []                                       \\
+\> qsort (h:t) = qsort lesser ++ [h] ++ qsort greater                                       \\
+\>   where                                       \\
+\>         lesser = [y | y <- t, y < h]                                       \\
+\>         greater = [y | y <- t, y >= h]                                       \\
+\end{program*}
+
+
+Start the hugs interpreter in the same directory you saved your file in and run the following code.
+
+\begin{program*}
+\> alpamayo 148% hugs                                       \\
+\> hugs                                       \\
+\> --   -- --  --  ----   ---      -----------------------------------------                                       \\
+\> ||   || ||  || ||  || ||--      Hugs 98: Based on the Haskell 98 standard                                       \\
+\> ||---|| ||--|| ||--||  --||     Copyright (c) 1994-2005                                       \\
+\> ||---||         ---||           World Wide Web: http://haskell.org/hugs                                       \\
+\> ||   ||                         Report bugs to: hugs-bugs@haskell.org                                       \\
+\> ||   || Version: May 2006       -----------------------------------------                                        \\
+\>                                        \\
+\> Haskell 98 mode: Restart with command line option -98 to enable extensions                                       \\
+\>                                        \\
+\> Type :? for help                                       \\
+\> Hugs> :l qsort                                       \\
+\> :l qsort                                       \\
+\> Main> :t qsort                                       \\
+\> :t qsort                                       \\
+\> qsort :: Ord a => [a] -> [a]                                       \\
+\> Main> qsort []                                       \\
+\> qsort []                                       \\
+\> []                                       \\
+\> Main> qsort [2]                                       \\
+\> qsort [2]                                       \\
+\> [2]                                       \\
+\> Main> qsort [5,1,4,2,3]                                       \\
+\> qsort [5,1,4,2,3]                                       \\
+\> [1,2,3,4,5]                                       \\
+\> Main> qsort ['z','y','x','w']                                       \\
+\> qsort ['z','y','x','w']                                       \\
+\> "wxyz"                                       \\
+\> Main> qsort [1,2,3,4,5]                                       \\
+\> qsort [1,2,3,4,5]                                       \\
+\> [1,2,3,4,5]                                       \\
+\> Main> ['a' .. 'z']                                       \\
+\> ['a' .. 'z']                                       \\
+\> "abcdefghijklmnopqrstuvwxyz"                                       \\
+\> Main> ['z' .. 'a']                                       \\
+\> ['z' .. 'a']                                       \\
+\> ""                                       \\
+\> Main> reverse ['a' .. 'z']                                       \\
+\> reverse ['a' .. 'z']                                       \\
+\> "zyxwvutsrqponmlkjihgfedcba"                                       \\
+\> Main> qsort (reverse ['a' .. 'z'])                                       \\
+\> qsort (reverse ['a' .. 'z'])                                       \\
+\> "abcdefghijklmnopqrstuvwxyz"                                       \\
+\> Main>                                        \\
+
+\end{program*}
+
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "latex hw1; dvips hw1 -o hw1.ps; pdflatex hw1"
+% fill-column:79
+% End:
+

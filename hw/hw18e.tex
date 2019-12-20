@@ -1,0 +1,43 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{18}{8 November}
+
+\exercise{Read Chapter 11 of LYAHFGG.}  
+
+\exercise{Instantiate the following two data-types as instances of the Functor type class.
+
+
+
+\begin{program**}
+\> \\
+\> data T a = C a $\mid$ D a a  $\mid$ E [a] deriving (Eq,Show) \\
+\>  \\
+\> data Rose a = Rose a [Rose a] deriving (Eq,Show)\\
+\> \\
+\end{program**}
+
+\noindent{}Remember that {\it{fmap}} is defined for lists.  I have provided a
+few test cases. You can find more about Rose trees in the Bird text -- look in
+the index to find the appropriate pages.
+}
+
+\exercise[Extra credit]{Prove that you instantiations of the Functor type class obey the Functor laws.}
+
+\end{document}
+
+
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "\\> "
+% comment-end: "\\\\ "
+% compile-command: "pdflatex hw18e"
+% fill-column:79
+% End:
+
+
+
+

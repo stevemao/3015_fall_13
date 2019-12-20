@@ -1,0 +1,7 @@
+module Term where
+        
+import Data.List
+import Data.Char
+
+data  Term =   V String   | Ap Term Term  | Abs  String Term
+        deriving (Eq,Show)

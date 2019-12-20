@@ -1,0 +1,67 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{6}{9 September}
+
+\problem{If you haven't done so - read Chapter 1 (Starting Out) from LYAHFGG
+  and read chapter 2 (Believe the Type).}  
+\ \\
+
+Note that the Haskell function {\em{error}} takes a string and halts the
+computation using the string as the error message.
+
+{\em{
+\begin{tabular}{l}
+Prelude$>$ error "Oops!" \\
+*** Exception: Oops! \\
+Prelude$>$ error "Splat!" \\
+*** Exception: Splat!
+\end{tabular}
+}}
+\problem{Write functions having the following types:  You will need to use recursion - and don't just use the built-in version if there is one.
+
+\[\begin{array}{lcl}
+last &::& [a] \rightarrow a\\
+select & :: & [a] \rightarrow {} Int \rightarrow a\\
+middle & :: & [a] \rightarrow a \\
+split & :: & [a] \rightarrow Int \rightarrow ([a],[a])\\
+repeat & :: & (a \rightarrow a) \rightarrow Int \rightarrow a \rightarrow a
+\end{array}\]
+
+The {\em{last}} function takes a list and returns the last element of the list
+or calls {\em{error}} if the list is empty.  The function {\em{select}} takes a
+list (say ${\mathit{xs}}$) and an integer (say $k$) and returns the $k^{th}$
+element of the list ${\mathit{xs}}$ (using zero based indexing).  If $k<0$ or
+$k \ge {\mathit{length}}\; {\mathit{xs}}$ then call {\em{error}}.  The
+{\em{middle}} function takes a list and returns the middle element -- if the
+list is of even length, you can implement your function to have a leftist or
+rightist bias -- your choice. {em{split}} take s a list and a position $k$ in
+the list and returns a pair of lists. The first element of the pair contains
+the first $k$ elements of the input list and the second element of the pair
+contains the the $k+1^{st}$ through the last element of the list.  It should be
+that if you append the two output lists - you get back a list equal to the
+input list.  A call {\em{repeat f k x}} applies the function $f$ $k$ times to
+the input $x$. Thus \[repeat\; f\; k\; x = \stackrel{k\;times}{\overbrace{f (f
+    \cdots (f} x))}\] If $k=0$ then the result is the identity function
+{\em{id}}.
+
+You should implement some tests to convince the grader your code works.
+
+
+}
+
+\end{document}
+
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw6d"
+% fill-column:79
+% End:
+
+
+
+

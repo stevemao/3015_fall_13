@@ -1,0 +1,28 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{1}{4 September}
+
+
+Enter the following code into a file called {\it{qsort.hs}}.
+
+\begin{program*}
+\> qsort [] = []                                       \\
+\> qsort (h:t) = qsort lesser ++ [h] ++ qsort greater                                       \\
+\>   where                                       \\
+\>         lesser = [y | y <- t, y < h]                                       \\
+\>         greater = [y | y <- t, y >= h]                                       \\
+\end{program*}
+
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "latex hw1; dvips hw1 -o hw1.ps; pdflatex hw1"
+% fill-column:79
+% End:
+

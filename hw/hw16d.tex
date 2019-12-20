@@ -1,0 +1,76 @@
+\documentclass[11pt]{article}
+\usepackage{qtree}
+\include{header}
+
+
+\begin{document}
+\homework{16}{1 November}
+
+\exercise{
+Read chapter 9 of LYAHFGG. Read Bird pp. 319-322.  Real World Haskell also has some good stuff on I/O (see {\tt{http://book.realworldhaskell.org/read/io.html}}).
+}
+
+\exercise{
+In this homework you will do some interactive IO.  You are to write an
+interactive simulator for a queue of numbers.
+
+You can represent the queue itself using a list. When an item is queued up add it to the right end of th list. When an item is dequeued, just take it off the left end of the list.  The commands your program should respond to are :\vspace{.125in}\\
+\begin{centering}
+\begin{tabular}{rcl}
+{"?"$\;\;$} & &When this command is entered, display a message describing the commands.\\
+{k$\;\;$} & & If k is a number, queue it up. \\
+{"dequeue"$\;\;$} & & remove an item from the head of the queue.  \\
+{"quit"$\;\;$} & &  exit the interactive loop.\\
+{""$\;\;$} & &  exit the interactive loop on the empty string.\\
+{\_\_$\;\;$} & &  For any other input suggest the user try the "?" command and to try again.\\
+\end{tabular}
+\end{centering}
+
+\ \\Here's the basic structure of the program.
+
+\begin{program**}
+\>  import System.IO \\
+\>  import Data.Char \vspace{.125in}\\
+\>  main = chat []  \vspace{.125in}\\
+\>  chat xs =  \\
+\>      do putStrLn \$ "queue so far = " ++ (show xs)  \\
+\>          putStr "$>$  " \\
+\>          hFlush stdout \\
+\>          i $\leftarrow$ getLine \\
+\>          case i of  \\
+\>            "?" $\rightarrow$ do putStrLn \$ \\
+\>                         "commands are: $\backslash$"dequeue$\backslash$", $\backslash$"quit$\backslash$" or, to queue up a number, enter it." \\
+\>                        chat xs \\
+\>            "dequeue" $\rightarrow$  ... \\
+\>            "quit" $\rightarrow$ return () \\
+\>            "" $\rightarrow$ return () \\
+\>            \_ $\rightarrow$ if (all isDigit i) then  \\
+\>                   ... \\
+\>                 else \\
+\>                   ...
+\end{program**}
+
+}
+
+\exercise{
+For extra credit. Add  "save" and  "load" commands that allow the current state of the queue to be saved to a file and restored from a file.
+}
+
+\bibliographystyle{plain}
+\bibliography{./homework}
+
+\end{document}
+
+
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "\\>  "
+% comment-end: "\\\\"
+% compile-command: "pdflatex hw16d"
+% fill-column:79
+% End:
+
+
+
+

@@ -1,0 +1,25 @@
+\documentclass[11pt]{article}
+
+\include{header}
+\newcommand{\quot}[1]{"{\tt{{#1}}}"}
+\newcommand{\mybs}{$\backslash$}
+
+\begin{document}
+\homework{20}{15 November}
+
+
+
+\end{document}
+
+
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw20c"
+% fill-column:79
+% End:
+
+
+
+

@@ -1,0 +1,129 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{9}{28 September}
+
+\section{Disjoint Unions}
+
+\exercise{Reread section 2.5 of Bird.}
+
+The Hugs implementation of the the type {\tt{Either}} differs from the
+older version of Haskell described in the book in that the following
+code is in the prelude.
+
+\begin{program*}
+\> data  Either a b  =  Left a | Right b   deriving (Eq, Ord, Read, Show) \\
+\>  \\
+\> either               :: (a -> c) -> (b -> c) -> Either a b -> c \\
+\> either f g (Left x)  =  f x \\
+\> either f g (Right y) =  g y 
+\end{program*}
+
+So, in Hugs, we use the destructor {\tt{either}} rather than {\tt{case}} as described in Bird. In class, we said:
+
+\begin{program*}
+\> case                :: ((a -> c), (b -> c)) -> (Either a b) -> c \\
+\> case (f,g) (Left x)  =  f x \\
+\> case (f,g) (Right y) =  g y 
+\end{program*}
+
+So, {\tt{either}} is just like {\tt{case}}, except it is  fully curried.
+
+\section{The Unit Type}
+
+There is a type of tuples of length zero written {\tt{()}}.  There are
+two inhabitants of theis type, $\bot$ (which inhabits every type) and
+the element {\tt{()}}.  This can be a bit confusing since, for the
+unit type, the element of the unit type has the same syntax as the
+type.
+
+Now, we can make a constant into a function by making it a function of
+the unit type.
+\begin{program*}
+\> pifun :: () -> Float \\
+\> pifun () = 3.14159
+\end{program*}
+In the signature for {\tt{pifun}}, ``{\tt{()}}'' denotes the unit type.  In the
+definition of {\tt{pifun}}, ``{\tt{()}}'' denotes the single element of the
+unit type.
+
+\newpage
+\section{Another encoding of Booleans using Disjoint Unions}
+
+Now, conside the following module.
+
+\begin{program*}
+\> module Boolean where  \\
+\>  \\
+\>   type Boolean = Either () () \\
+\>  \\
+\>   true, false :: Boolean \\
+\>   true = Left () \\
+\>   false = Right () \\
+\>   \\
+\>   ifthenelse :: Boolean -> a -> a  -> a \\
+\>   ifthenelse b e1 e2 = either ($\backslash$() -> e1) ($\backslash$() -> e2) b 
+\end{program*}
+Here, the type {\tt{Boolean}} is defined as a disjoint union of the single
+element unit type.  So, there are four elements, 
+
+\begin{program*}
+\> Boolean = \{Left(), Right(), $\bot$, Left $\bot$, Right $\bot$\} 
+\end{program*}
+The proper values of the type are {\tt{Left ()}} and {\tt{Right ()}}.
+
+Now, we define constants {\tt{true}} and {\tt{false}} to be {\tt{Left ()}} and
+{\tt{Right ()}} respectively.
+
+The definition of {\tt{ifthenelse}} is somewhat interesting.  The function
+{\tt{either}} is expecting functions as its first and seconf arguments. We want
+{\tt{ifthenelse}} to just evaluate to the expression {\tt{e1}} if the condition
+{\tt{b == true}} (recall {\tt{true}} is defined to be {\tt{Left()}}) and to
+evaluate to {\tt{e2}} if the conditon {\tt{b==false}} (where {\tt{false}} has
+been defined as {\tt{Right()}}).  We wrap {\tt{e1}} and {\tt{e2}} up as lambda
+expressions whose argument is the constant {\tt{()}} {]em{i.e.}} the single
+element of unit.  This may seem odd -- but the interpreter is using pattern
+matching -- and since the only that that can be unwrapped by {\em{either}} if
+the argument {\tt{b}} is {\tt{true}} or {\tt{false}} is {\tt{()}}, these
+functions {\tt{($\backslash$() -> e1)}} and {\tt{($\backslash$() -> e2)}} will
+only ever be applied to the constant {\tt{()}}.\footnote{As an experiment, you
+might try typing in the following expressions to the interpreter:
+{\tt{($\backslash$1 -> 2)1}} and \goodbreak {\tt{($\backslash$3 -> 2)1}} to see what
+Haskell does.}
+
+
+\exercise{Using the definition of {\tt{ifthenelse, true}} and {\tt{false}} given, prove that 
+\begin{program*}
+\> ifthenelse true e1 e2 = e1 \\
+\> ifthenelse false e1 e2 = e2 
+\end{program*}
+}
+
+
+\exercise{Using definitions of {\tt{ifthenelse, true}} and {\tt{false}} given
+above, extend the code to include definitions of {\tt{and}}
+({\tt{/$\backslash$}}), or ({\tt{$\backslash$/}}),  and implies
+({\tt{.=>}}). 
+\begin{program*}
+\>   (/$\backslash$),($\backslash$/),(.=>) :: Boolean -> Boolean -> Boolean
+\end{program*}
+You may use the destructor {\tt{either}} directly if you like, or define the
+functions in terms of {\tt{ifthenelse}}.  There is a link on the hw page to
+{\tt{hw9\_expected.txt}} which contains an example test run of your code showing
+what the results should look like.}
+
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "latex hw9; dvips hw9 -o hw9.ps; pdflatex hw9"
+% fill-column:79
+% End:
+
+
+
+

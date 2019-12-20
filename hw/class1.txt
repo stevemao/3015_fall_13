@@ -1,0 +1,163 @@
+Microsoft Windows [Version 6.0.6002]
+Copyright (c) 2006 Microsoft Corporation.  All rights reserved.
+
+c:\Users\admin\Work\src\haskell>ghci
+ghci
+GHCi, version 6.12.3: http://www.haskell.org/ghc/  :? for help
+Loading package ghc-prim ... linking ... done.
+Loading package integer-gmp ... linking ... done.
+Loading package base ... linking ... done.
+Loading package ffi-1.0 ... linking ... done.
+Prelude> []
+[]
+Prelude> :t []
+[] :: [a]
+Prelude> [1,2,3]
+[1,2,3]
+Prelude> :t [1,2,3]
+[1,2,3] :: (Num t) => [t]
+Prelude> 1:(2:(3:[]))
+[1,2,3]
+Prelude>  [] ++ [1,2,3]
+[1,2,3]
+Prelude> [1,2,3] ++ []
+[1,2,3]
+Prelude> [1,2] ++ [3,4,5]
+[1,2,3,4,5]
+Prelude> [3,4,5] ++ [1,2]
+[3,4,5,1,2]
+Prelude> :l qsort
+[1 of 1] Compiling Main             ( qsort.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> qsort [1,2]
+[1,2]
+*Main> qsort []
+[]
+*Main> qsort [2,1]
+[1,2]
+*Main> :t qsort
+qsort :: (Ord a) => [a] -> [a]
+*Main> qsort [3,2,1]
+[1,2,3]
+*Main> [1..10]
+[1,2,3,4,5,6,7,8,9,10]
+*Main> (reverse [1..10])
+[10,9,8,7,6,5,4,3,2,1]
+*Main> qsort (reverse [1..10])
+[1,2,3,4,5,6,7,8,9,10]
+*Main> ['a'..'z']
+"abcdefghijklmnopqrstuvwxyz"
+*Main> ['A'..'z']
+"ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz"
+*Main> reverse ['A'..'z']
+"zyxwvutsrqponmlkjihgfedcba`_^]\\[ZYXWVUTSRQPONMLKJIHGFEDCBA"
+*Main> qsort (reverse ['A'..'z'])
+"ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz"
+*Main> qsort ["abc", "aaa", "y", "xyzzy"]
+["aaa","abc","xyzzy","y"]
+*Main> :l qsort
+[1 of 1] Compiling Main             ( qsort.hs, interpreted )
+
+qsort.hs:2:14: parse error on input `='
+Failed, modules loaded: none.
+Prelude> :l qsort
+[1 of 1] Compiling Main             ( qsort.hs, interpreted )
+
+qsort.hs:4:21: parse error on input `='
+Failed, modules loaded: none.
+Prelude> :l qsort
+[1 of 1] Compiling Main             ( qsort.hs, interpreted )
+
+qsort.hs:4:20: parse error on input `='
+Failed, modules loaded: none.
+Prelude> :l qsort
+[1 of 1] Compiling Main             ( qsort.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> :l qsort
+[1 of 1] Compiling Main             ( qsort.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> :t Leaf
+Leaf :: Tree a
+*Main> Node 5 Leaf Leaf
+
+<interactive>:1:0:
+    No instance for (Show (Tree t))
+      arising from a use of `print' at <interactive>:1:0-15
+    Possible fix: add an instance declaration for (Show (Tree t))
+    In a stmt of an interactive GHCi command: print it
+*Main> :l qsort
+[1 of 1] Compiling Main             ( qsort.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> Node 5 Leaf Leaf
+Node 5 Leaf Leaf
+*Main> qsort [Node 5 Leaf Leaf, Node 2 Leaf Leaf, Leaf]
+
+<interactive>:1:0:
+    No instance for (Ord (Tree t))
+      arising from a use of `qsort' at <interactive>:1:0-47
+    Possible fix: add an instance declaration for (Ord (Tree t))
+    In the expression: qsort [Node 5 Leaf Leaf, Node 2 Leaf Leaf, Leaf]
+    In the definition of `it':
+        it = qsort [Node 5 Leaf Leaf, Node 2 Leaf Leaf, Leaf]
+*Main> :l qsort
+[1 of 1] Compiling Main             ( qsort.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> qsort [Node 5 Leaf Leaf, Node 2 Leaf Leaf, Leaf]
+[Leaf,Node 2 Leaf Leaf,Node 5 Leaf Leaf]
+*Main> Node 5 Leaf Leaf < Node 2 Leaf Leaf
+False
+*Main> Node 5 Leaf Leaf > Node 2 Leaf Leaf
+True
+*Main> Node 5 Leaf Leaf > Leaf 
+True
+*Main> Node 5 Leaf Leaf < Leaf 
+False
+*Main> :l qsort
+[1 of 1] Compiling Main             ( qsort.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> Node 5 Leaf Leaf < Leaf 
+True
+*Main> Node 5 Leaf Leaf > Node 2 Leaf Leaf
+True
+*Main> Node 5 Leaf Leaf < Node 2 Leaf Leaf
+False
+*Main> Node "abc" Leaf Leaf < Node "aaa" Leaf Leaf
+False
+*Main> :l qsort
+[1 of 1] Compiling Main             ( qsort.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> size (Node 5 Leaf (Node 2 Leaf Leaf))
+2
+*Main> :l qsort
+[1 of 1] Compiling Main             ( qsort.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> size (Node 5 Leaf (Node 2 Leaf Leaf))
+6
+*Main> size (Node 5 (Node 2 Leaf Leaf) (Node 3 Leaf Leaf))
+7
+*Main> (Node 5 (Node 2 Leaf Leaf) (Node 3 Leaf Leaf))
+Node 5 (Node 2 Leaf Leaf) (Node 3 Leaf Leaf)
+*Main> :t (Node 5 (Node 2 Leaf Leaf) (Node 3 Leaf Leaf))
+(Node 5 (Node 2 Leaf Leaf) (Node 3 Leaf Leaf)) :: (Num t) => Tree t
+*Main> :l qsort
+[1 of 1] Compiling Main             ( qsort.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> size (Node 5 (Node 2 Leaf Leaf) (Node 3 Leaf Leaf))
+4
+*Main> size (Node 5 (Node 2 Leaf Leaf) (Node 6 Leaf Leaf))
+5
+*Main> :l qsort
+[1 of 1] Compiling Main             ( qsort.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> listof  (Node 5 (Node 2 Leaf Leaf) (Node 6 Leaf Leaf))
+[5,2,6]
+*Main> qsort (listof  (Node 5 (Node 2 Leaf Leaf) (Node 6 Leaf Leaf)))
+[2,5,6]
+*Main> :l qsort
+[1 of 1] Compiling Main             ( qsort.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> calc (C 10)
+10
+*Main> calc (Add (C 10) (C 11))
+21
+*Main> 

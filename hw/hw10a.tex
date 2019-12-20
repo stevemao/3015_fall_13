@@ -1,0 +1,70 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{10}{5 October}
+
+\section{Modelling Finite Functions as Lists}
+
+\exercise{
+Based on the code provided on the HW web-page you must write the following functions.
+
+\begin{program*}
+\> update :: Eq a => (a,b) -> FinFun a b -> FinFun a b \\
+\> functional :: Eq a => [(a,b)] -> Bool \\
+\> domain :: (Eq a, Eq b) => FinFun a b -> [a] \\
+\> range :: (Eq a, Eq b) => FinFun a b -> [b]\\
+\> apply :: (Eq a, Eq b) => FinFun a b -> a -> Maybe b\\
+\end{program*}
+}
+
+
+\subsection{{\tt{update :: Eq a => (a,b) -> FinFun a b -> FinFun a b}}}
+
+This function should be called as {\tt{update(i,v) f}} where {\tt{f}}
+is a finite function with domain {\tt{a}} and codomain {\ntt{b}}.  If
+{\tt{i}} is the first element of any pair in {\tt{f}} return the
+finite function that is just like {\tt{f}} except that it maps
+{\tt{i}} to {\tt{v}}.  If {\tt{i}} is not the first element of any
+pair in {\tt{f}}, return the finite function the behaves just like
+{\tt{f}} but also contains the pair {\tt(i,v)}.
+
+\subsection{\tt{{functional :: Eq a => [(a,b)] -> Bool}}}
+Call this predicate as {\tt{functional m}} where {\tt{m}} is a list of pairs.
+The predicate returns {\tt{True}} iff for every pair {\tt{(i,v)$\in$ m}}, there is no pair {\tt{(j,v') $\in$ m}} with {\tt{i=j}}.
+
+
+\subsection{\tt{{domain :: (Eq a, Eq b) => FinFun a b -> [a]}}}
+This function returns a list of values in the domain {\tt{a}} that the function is actually defined for.
+
+\subsection{\tt{range :: (Eq a, Eq b) => FinFun a b -> [b]}}
+This function returns a list of values in the codomain {\tt{b}} that
+is the range of the finite function.
+
+\subsection{\tt{{apply :: (Eq a, Eq b) => FinFun a b -> a -> Maybe b}}}
+{\tt{apply f x}} :: apply the finite function {\tt{f}} to argument {\tt{x}} and return
+{\tt{Nothing}} if {\tt{x $\not\in$ (domain f)}} and return {\tt{Just y}} when the pair {\tt{(x,y) $\in$ f}}.
+
+
+\exercise{Instantiate the type of finite functions {\tt{FinFun}} as an
+  instance of the {\tt{Eq}} type class by defining {\tt{==}} to be the
+  extensional equality on functions.  You can use the equality in the
+  module {\tt{Sets}} as a model, or you may even use it in your
+  definition.}
+
+\subsection{}
+Recall that extensional equality for finite functions means the list
+representing the function is functional {\em{and}} they have the same
+elements.
+
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw10a"
+% fill-column:79
+% End:
+

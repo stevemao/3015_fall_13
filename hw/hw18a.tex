@@ -1,0 +1,67 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{18}{29 November}
+
+
+\exercise{Read Chapter 14.}
+
+\exercise{Prove the following using induction for infinite lists on the list $xs$.\ \\
+
+
+{\bf{Thm. 1}} For every list $ys$ and every infinite list $xs$, $xs = xs\append{}ys$
+
+}
+
+\ \\ \ \\
+\noindent{}Consider the definition of the function {\it{cycle}}.
+\[\begin{array}{l}
+cycle \nil = \bot \\
+cycle (x:xs) = (x:xs) \append{} cycle (x:xs)
+\end{array}\]
+
+
+
+\exercise{Prove the following using induction for infinite lists on the list $xs$.\ \\
+
+{\bf{Thm. 2}} For every infinite list $xs$,  $cycle(xs) = xs$.
+
+}
+
+\ \\ \ \\
+\noindent{}Consider the definition of the function {\it{length}}.
+\[\begin{array}{l}
+length \nil = 0 \\
+length (x:xs)  = 1 + length \, xs
+\end{array}\]
+
+\exercise{Prove the following using induction for infinite lists on the list $xs$.\ \\
+
+{\bf{Thm. 3}} For every infinite list $xs$,  $length(xs) = \bot$.
+
+}
+
+
+
+
+
+
+
+
+
+\end{document}
+
+
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "latex hw18a; dvips hw18a -o hw18a.ps; pdflatex hw18a"
+% fill-column:79
+% End:
+
+
+
+

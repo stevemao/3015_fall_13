@@ -1,0 +1,283 @@
+
+c:\Users\admin\Work\src\haskell\3015>ghci
+ghci
+GHCi, version 6.12.3: http://www.haskell.org/ghc/  :? for help
+Loading package ghc-prim ... linking ... done.
+Loading package integer-gmp ... linking ... done.
+Loading package base ... linking ... done.
+Loading package ffi-1.0 ... linking ... done.
+Prelude> :l list_lecture
+[1 of 1] Compiling Main             ( list_lecture.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> Nil
+
+<interactive>:1:0:
+    No instance for (Show (Tsil a))
+      arising from a use of `print' at <interactive>:1:0-2
+    Possible fix: add an instance declaration for (Show (Tsil a))
+    In a stmt of an interactive GHCi command: print it
+*Main> :l list_lecture
+[1 of 1] Compiling Main             ( list_lecture.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> Nil
+Nil
+*Main> :t NIl
+
+<interactive>:1:0: Not in scope: data constructor `NIl'
+*Main> :t Nil
+Nil :: Tsil a
+*Main> Snoc Nil 1
+Snoc Nil 1
+*Main> Snoc (Snoc Nil 1) 2
+Snoc (Snoc Nil 1) 2
+*Main> :t Cons
+
+<interactive>:1:0: Not in scope: data constructor `Cons'
+*Main> :l list_lecture
+[1 of 1] Compiling Main             ( list_lecture.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> :t cons
+cons :: a -> [a] -> [a]
+*Main> :t Snoc
+Snoc :: Tsil a -> a -> Tsil a
+*Main> :l list_lecture
+[1 of 1] Compiling Main             ( list_lecture.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> :t list2tisl
+list2tisl :: [a] -> Tsil a
+*Main> list2tisl [1,2,3]
+Snoc (Snoc (Snoc Nil 3) 2) 1
+*Main> 
+*Main> 
+*Main> 
+*Main> 
+*Main> 
+*Main> 
+*Main> 
+*Main> 
+*Main> 
+*Main> 1 : []
+[1]
+*Main> [1]
+[1]
+*Main> (1 : []) == [1]
+True
+*Main> (1 : 2 : []) == [1,2]
+True
+*Main> ((1 : 2) : []) == [1,2]
+
+<interactive>:1:19:
+    No instance for (Num [t])
+      arising from the literal `1' at <interactive>:1:19
+    Possible fix: add an instance declaration for (Num [t])
+    In the expression: 1
+    In the second argument of `(==)', namely `[1, 2]'
+    In the expression: ((1 : 2) : []) == [1, 2]
+*Main> ((1 : [2]) : []) == [1,2]
+
+<interactive>:1:23:
+    No instance for (Num [t])
+      arising from the literal `2' at <interactive>:1:23
+    Possible fix: add an instance declaration for (Num [t])
+    In the expression: 2
+    In the second argument of `(==)', namely `[1, 2]'
+    In the expression: ((1 : [2]) : []) == [1, 2]
+*Main> ((1 : [2]) : []) == [[1,2]]
+True
+*Main> [1,2,3]
+[1,2,3]
+*Main> (1: 2 : 3 []) 
+
+<interactive>:1:8:
+    No instance for (Num ([a] -> [t]))
+      arising from the literal `3' at <interactive>:1:8-11
+    Possible fix: add an instance declaration for (Num ([a] -> [t]))
+    In the second argument of `(:)', namely `3 []'
+    In the second argument of `(:)', namely `2 : 3 []'
+    In the expression: (1 : 2 : 3 [])
+*Main> (1: 2 : 3 : []) 
+[1,2,3]
+*Main> let x = 5 in x + x
+10
+*Main> let (x:xs) = [1,2,3] in (x,xs)
+(1,[2,3])
+*Main> let (x:y:xs) = [1,2,3] in (x,y,xs)
+(1,2,[3])
+*Main> let (x:y:xs) = [1,2] in (x,y,xs)
+(1,2,[])
+*Main> let (x:y:xs) = [1] in (x,y,xs)
+(*** Exception: <interactive>:1:4-17: Irrefutable pattern failed for pattern (x : y : xs)
+
+*Main> let (x:y:xs) = [1,2,3] in (y,x:xs)
+(2,[1,3])
+*Main> let (x,y) = ('a',2) in (y,x)
+(2,'a')
+*Main> let (x,y) = ('a',2) in (y,y,y,x)
+(2,2,2,'a')
+*Main> :l list_lecture
+[1 of 1] Compiling Main             ( list_lecture.hs, interpreted )
+
+list_lecture.hs:1:5: Malformed head of type or class declaration
+Failed, modules loaded: none.
+Prelude> :l list_lecture
+[1 of 1] Compiling Main             ( list_lecture.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> :t Nil
+Nil :: Tsil a
+*Main> :t Snoc
+Snoc :: Tsil a -> a -> Tsil a
+*Main> :t (:)
+(:) :: a -> [a] -> [a]
+*Main> Snoc [] 1
+
+<interactive>:1:5:
+    Couldn't match expected type `Tsil a' against inferred type `[a1]'
+    In the first argument of `Snoc', namely `[]'
+    In the expression: Snoc [] 1
+    In the definition of `it': it = Snoc [] 1
+*Main> Snoc Nil 1
+Snoc Nil 1
+*Main> Snoc (Snoc Nil 1) 2
+Snoc (Snoc Nil 1) 2
+*Main> :l list_lecture
+[1 of 1] Compiling Main             ( list_lecture.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> :t list2tisl
+
+<interactive>:1:0: Not in scope: `list2tisl'
+*Main> :t list2tsil
+list2tsil :: [a] -> Tsil a
+*Main> list2tsil [1,2,3]
+Snoc (Snoc (Snoc Nil 3) 2) 1
+*Main> list2tsil [[1,2,3]]
+Snoc Nil [1,2,3]
+*Main> :t list2tsil
+list2tsil :: [a] -> Tsil a
+*Main> :t [[1,2,3]]
+[[1,2,3]] :: (Num t) => [[t]]
+*Main> :l list_lecture
+[1 of 1] Compiling Main             ( list_lecture.hs, interpreted )
+
+list_lecture.hs:6:44: Not in scope: `listp'
+Failed, modules loaded: none.
+Prelude> :l list_lecture
+[1 of 1] Compiling Main             ( list_lecture.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> listlist2tsil [[1,2,3]]
+Snoc Nil (Snoc (Snoc (Snoc Nil 3) 2) 1)
+*Main> :l list_lecture
+[1 of 1] Compiling Main             ( list_lecture.hs, interpreted )
+
+list_lecture.hs:5:0:
+    Warning: Pattern match(es) are overlapped
+             In the definition of `list2tsil': list2tsil xs = ...
+Ok, modules loaded: Main.
+*Main> :l list_lecture
+[1 of 1] Compiling Main             ( list_lecture.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> :t list2tsil
+list2tsil :: [a] -> Tsil a
+*Main> list2tsil [1,2,3]
+Snoc (Snoc (Snoc Nil 3) 2) 1
+*Main> :l list_lecture
+[1 of 1] Compiling Main             ( list_lecture.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> :t append
+append :: [t] -> [t] -> [t]
+*Main> append [1,2] [3,4]
+[1,2,3,4]
+*Main> append [1,2] ['a','b']
+
+<interactive>:1:10:
+    No instance for (Num Char)
+      arising from the literal `2' at <interactive>:1:10
+    Possible fix: add an instance declaration for (Num Char)
+    In the expression: 2
+    In the first argument of `append', namely `[1, 2]'
+    In the expression: append [1, 2] ['a', 'b']
+*Main> append ["xyzyy","zyzzx"] ['a','b']
+
+<interactive>:1:26:
+    Couldn't match expected type `[Char]' against inferred type `Char'
+    In the expression: 'a'
+    In the second argument of `append', namely `['a', 'b']'
+    In the expression: append ["xyzyy", "zyzzx"] ['a', 'b']
+*Main> :t (++)
+(++) :: [a] -> [a] -> [a]
+*Main> [1,2] == [3,4]
+False
+*Main> [1,2] ++ [3,4]
+[1,2,3,4]
+*Main> (++) [1,2] [3,4]
+[1,2,3,4]
+*Main> :t (++ [1,2]) 
+(++ [1,2]) :: (Num a) => [a] -> [a]
+*Main> :t (++ [1,2]) [3.0, 4.0]
+(++ [1,2]) [3.0, 4.0] :: (Fractional a) => [a]
+*Main>  (++ [1,2]) [3.0, 4.0]
+[3.0,4.0,1.0,2.0]
+*Main>  ([1,2] ++) [3.0, 4.0]
+[1.0,2.0,3.0,4.0]
+*Main>  :t ([1,2] ++) 
+([1,2] ++) :: (Num a) => [a] -> [a]
+*Main>  ((++) [1,2]) [3.0, 4.0]
+[1.0,2.0,3.0,4.0]
+*Main> :l list_lecture
+[1 of 1] Compiling Main             ( list_lecture.hs, interpreted )
+
+list_lecture.hs:20:26:
+    Ambiguous occurrence `concat'
+    It could refer to either `Main.concat', defined at list_lecture.hs:19:0
+                          or `Prelude.concat', imported from Prelude
+Failed, modules loaded: none.
+Prelude> :l list_lecture
+[1 of 1] Compiling Main             ( list_lecture.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> :t myconcat
+myconcat :: [[a]] -> [a]
+*Main> :l list_lecture
+[1 of 1] Compiling Main             ( list_lecture.hs, interpreted )
+
+list_lecture.hs:19:14: Not in scope: `c'
+Failed, modules loaded: none.
+Prelude> :l list_lecture
+[1 of 1] Compiling Main             ( list_lecture.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> myconcat [[1,2], [],[3,4]]
+[1,2,3,4]
+*Main> :l list_lecture
+[1 of 1] Compiling Main             ( list_lecture.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> myconcat1 [[1,2],[],[3,4]]
+[1,2,3,4]
+*Main> :l list_lecture
+[1 of 1] Compiling Main             ( list_lecture.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> :l list_lecture
+[1 of 1] Compiling Main             ( list_lecture.hs, interpreted )
+
+list_lecture.hs:30:23:
+    Ambiguous occurrence `reverse'
+    It could refer to either `Main.reverse', defined at list_lecture.hs:29:0
+                          or `Prelude.reverse', imported from Prelude
+Failed, modules loaded: none.
+Prelude> :l list_lecture
+[1 of 1] Compiling Main             ( list_lecture.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> :t reverse1
+reverse1 :: [a] -> [a]
+*Main> reverse1 [1,2,3]
+[3,2,1]
+*Main> reverse1 []
+[]
+*Main> reverse1 [[1,2],[3,4]]
+[[3,4],[1,2]]
+*Main> :l list_lecture
+[1 of 1] Compiling Main             ( list_lecture.hs, interpreted )
+
+list_lecture.hs:35:36:
+    Ambiguous occurrence `last'
+    It could refer to either `Main.last', defined at list_lecture.hs:34:0
+                          or `Prelude.last', imported from Prelude
+Failed, modules loaded: none.
+Prelude> 

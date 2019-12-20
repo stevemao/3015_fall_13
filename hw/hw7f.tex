@@ -1,0 +1,140 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{7}{27 September}
+
+\problem{Read Chapters 4, 5 and 6 of LYAHFGG}
+
+\section{ Highlights of the 9/25/12 Lecture}
+
+\subsection{Prefix operators, Infix operators and Sections}
+
+If $f$ is a function of type $a\rightarrow{}b\rightarrow{}c$ we reminded the
+class that it can be used in an infix position by enclosing it in back-quotes
+(`).  Thus, $f\; x\; y\;\;\ = \;\; x\; `f`\; y$.\\
+
+If $\otimes$ is an infix binary operator symbol, then enclosing that symbol in
+parenthesis transforms it into a Curried operator. You can also add an argument
+to the left or right side to create a unary function.  Thus, if $(\otimes) ::
+a\rightarrow{} b \rightarrow{}c$, $x::a$ and $y::b\;$ then $\;(x\,\otimes)$ has type $b\rightarrow{}c\;\;$ and $\;(\otimes{}y)$ has type $a\rightarrow{}c$.
+
+
+For example, consider the the infix cons operator $(:) ::
+a\rightarrow{}[a]\rightarrow[a]$.  Then $(42 :)$ has type $(Num\,a)\Rightarrow
+[a] \rightarrow [a]$ and $(:[2,3])$ has type $(Num\,a)\Rightarrow a \rightarrow
+[a]$.  Recall that $flip$ has type $ (a \rightarrow{} b \rightarrow{} c)
+\rightarrow{} b \rightarrow{} a \rightarrow{} c$, thus $\;(flip \,(:)) :: [a]
+\rightarrow{}a\rightarrow{}[a]\;\;$ and $("bc"\; (flip\,(:)))$ has type $Char
+\rightarrow [Char]$ and $\;\;(flip\, (:)\; `z`)\;$ has type
+$[Char]\rightarrow[Char]$.
+
+\subsection{Patterns of recursion and {\it{foldr}}}
+
+In class we presented the following two functions defined by recursion on the
+structure of their list arguments:
+
+\begin{program**}
+\> sum' [] = 0\\
+\> sum' (x:xs) = x + sum' xs\\
+\> \\
+\> prod' [] = 1\\
+\> prod' (x:xs) = x * prod' xs\\
+\end{program**}
+
+We noted that these functions look pretty much the same -- they only differ in
+their names, the identity element used (call it {\em{id}}) and the operator
+(call it {\it{op}}) -- then they have the following shared form:
+
+\begin{program**}
+\> name [] = id\\
+\> name (x:xs) = x `op` name xs\\
+\end{program**}
+
+By abstracting {\it{id}} and {\it{op}} we implemented a function (called
+{\it{foldr}} that captures this pattern of recursion as follows:
+
+\begin{program**}
+\> foldr :: (a $\rightarrow$ b $\rightarrow$ b) $\rightarrow$ b $\rightarrow$ [a] $\rightarrow$ b\\
+\> foldr op id [] = id\\
+\> foldr op id (x:xs) = x `op` foldr op id xs\\
+\end{program**}
+
+We can then reimplement the {\it{sum'}} and {\it{prod'}} functions as follows:
+
+\begin{program**}
+\> sum' = foldr (+) 0  \\
+\> prod' = foldr (*) 1\\
+\end{program**}
+
+Not that the following identity holds:
+
+\begin{theorem}[]
+$\forall{} xs : [a].\;\; {\mathit{foldr}} (:) [] \;\;=\;\; (\backslash{}x \rightarrow{}x)$
+\end{theorem}
+
+We will provide the means to prove theorems like this one which require a form
+of induction next week.
+
+\subsection{{\it{map}} and {\it{filter}}}
+
+
+We defined the {\it{map}} function as follows:
+
+\begin{program**}
+\> map :: (a $\rightarrow$ b) $\rightarrow$ [a] $\rightarrow$ [b]\\
+\> map f [] = [] \\
+\> map f (x:xs) = f x : map f xs\\
+\end{program**}
+
+The {\it{map}} function is higher order (its first argument is a function of
+type $a \rightarrow{}b$).  If the list is empty it returns the empty list and
+if not it decomposes the list and builds a new one whose head is obtained by
+applying the function $f$ to the head of the input list and consing that onto
+the result of recursively calling {\it{map f}} on the tail of the list.
+
+The function {\it{filter}} takes a predicate (a function of type
+$a\rightarrow{}Bool$ and a list (say $xs$) of type $[a]$ and returns a new list
+containing only those elements of $xs$ which satisfy the predicate $p$
+{\em{i.e.}} it keeps the elements $x$ in $xs$ for which $p\;x == True$.
+
+\begin{program**}
+\> filter':: (a $\rightarrow$ Bool) $\rightarrow$ [a] $\rightarrow$ [a]\\
+\> filter' p [] = [] \\
+\> filter' p (x:xs) = if p x then (x : filter' p xs) else filter' p xs
+\end{program**}
+
+\section{Problems}
+
+\begin{problem}
+Write a recursive function that behaves something like {\it{filter'}} but which
+returns two lists:
+\begin{program**}
+\> partition :: (a $\rightarrow$ Bool) $\rightarrow$ [a] $\rightarrow$ ([a],[a])\\
+\end{program**}
+If {\it{partition p xs == (ys,zs)}} then the first list $ys$ should contain
+those elements of $xs$ for which $p$ is {\it{False}} and the $zs$ should
+contain those elements of $xs$ for which $p$ is {\it{True}}. warning: if you
+copy code form the web -- be careful.
+\end{problem}
+
+\begin{problem}
+Rewrite {\it{map'}}, {\it{filter'}} and {\it{partition'}} using {\it{foldr}}
+(and thereby not directly using recursion.)  Hint: This is tricky but a careful
+reading of Chapter 6 of LYAHFGG should make it doable.
+\end{problem}
+
+\end{document}
+
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw7f"
+% fill-column:79
+% End:
+
+
+
+

@@ -1,0 +1,246 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{5}{17 September}
+
+
+Please read these notes before class on September 12.  The actual homework is
+due Tuesday September 17th. There will be more problems assigned Friday.
+
+\section{Type Inference - A Table Based Method}
+
+
+In class I informally talked about a method to determine the
+polymorphic type of a Haskell expression (program).  We make the
+method more precise here by presenting two rules and a table based
+method for deriving types.
+
+We will use lower case Latin letters in a {\sf{Serif}} font
+$\{\sfa,\sfb,\sfc,\sfd,\cdots\}$ to denote polymorphic type variables.
+
+Polymorphic type variables range over types,{\em{i.e.}} they stand for
+any type.  In the same way that an variable declared to be of type
+{\tt{int}} in a C++ program can take on the value of any {\tt{int}},
+the polymorphic type variable $\sfa$ can take the value of {\it{any}}
+type.  This means, if $f::\sfa\rightarrow\sfa$ then any type can be
+substituted for $\sfa$ and the function $f$ has that type.  For
+example, replacing the polymorphic type variable \sfa~by the type
+{\sf{String}} we get $f::{\sf{String}}\rightarrow{\sf{String}}$.
+Replacing \sfa~ by the type $\sfa\rightarrow\sfa$ we get
+$f::(\sfa\rightarrow\sfa)\rightarrow(\sfa\rightarrow\sfa)$.
+
+Recall, function application associates to the left and so the term $x\;z
+(y\;z)$ is parenthesized as $((x\;z)(y\;z))$. Also, recall that the function
+type constructor $\rightarrow$ associates to the right so the type
+$a\rightarrow{}b\rightarrow{}c$ is parenthesized as
+$(a\rightarrow{}(b\rightarrow{}c))$.
+
+
+\subsection{The Method}
+
+We start by constructing an initial table that has a columns on the left
+labeled at the top by the names of the formal parameters and whose first row
+entries are labeled by different polymorphic type variables. There is also a
+column on the right where the entry in each row is a labeled Haskell
+expression.  This expression is the body of the function definition with
+sub-expressions tagged with types (known so far). It may be more readable to
+fully parenthesize the expression.
+
+For example, consider the function $s$ defined as follows.
+
+\[  s\; x\;y \; z\;=\; x\;z\;(y\;z) \]
+
+The initial table for this function appears as follows:
+
+\begin{center}
+\begin{tabular}{lll|l}
+$x$ & $y$ & $z$ & expression \\\hline{}
+$\sfa$ & $\sfb$ & $\sfc$ &$((\stackrel{\sfa}{x} \; \stackrel{\sfc}{z})\; (\stackrel{\sfb}{y} \; \stackrel{\sfc}{z}))$ \\
+\end{tabular}
+\end{center}
+
+There are two rules for constructing the next row of the table.  In the table
+above, the rule that refines a type to an arrow type ($\rightarrow$) can be
+applied.
+
+\begin{quotation}
+\noindent{{\bf{[Arrow Introduction Rule]}}} If $\tau$ is a type expression and
+$\alpha$ is a polymorphic type variable ($\alpha\in\{\sfa,\sfb,\sfc,\cdots\}$)
+and there is an application of labeled expressions $e_1$ and $e_2$ in the right
+column having the form $(\stackrel{\alpha}{e_1}\;\stackrel{\tau}{e_2})$, then
+make a new row by copying the last row and replacing all occurrences of
+$\alpha$ by the type $\tau\rightarrow{}\beta$ where $\beta$ is a new variable
+name not appearing anywhere in the row being copied.
+\end{quotation}
+
+The justification for the arrow introduction rule goes like this: If
+$e_2::\tau$ then the application $(e_1\;e_2)$ is well-typed if and only if
+$e_1$ is a function whose domain is $\tau$.  We do not know the range (yet) so
+we just choose a fresh polymorphic variable name and wait to figure it out
+later.  So, we create a new row from the one above by copying it and changing
+all occurrences of the type variable $\alpha$ to the type
+$\tau\rightarrow{}\beta$ where $\beta$ is a completely new variable.
+
+There are two places this rule can be applied in the last row of the
+example. The pattern of the rule
+$(\stackrel{\alpha}{e_1}\;\stackrel{\tau}{e_2})$ matches the expression
+$(\stackrel{\sfa}{x}\;\stackrel{\sfc}{z})$ by the following mapping:
+\[\{e_1\mapsto{}x, \alpha\mapsto\sfa, e_2\mapsto{}z,\tau\mapsto\sfc\}\]
+Also, the pattern $(\stackrel{\alpha}{e_1}\;\stackrel{\tau}{e_2})$ matches the
+expression $(\stackrel{\sfb}{y}\;\stackrel{\sfc}{z})$ by the mapping:
+\[\{e_1\mapsto{}y,\alpha\mapsto\sfb,e_2\mapsto{}z,  \tau\mapsto\sfc\}\]
+Either application of the rule may be chosen; for no particular reason, we
+choose the second.
+
+We apply the arrow introduction rule setting
+$\sfb\;=\;\sfc\rightarrow\sfd$. The polymorphic type variable \sfd~ is new. We
+create a new row in the table by copying the last row and replacing all
+occurrences of \sfb~by the type $(\sfc\rightarrow\sfd)$.  This yields the
+following table.
+
+\begin{center}
+\begin{tabular}{ccc|l}
+$x$ & $y$ & $z$ & expression \\\hline{}
+$\sfa$ & $\sfb$ & $\sfc$ & $((\stackrel{\sfa}{x} \; \stackrel{\sfc}{z})\; (\stackrel{\sfb}{y} \; \stackrel{\sfc}{z}))$ \\
+$\sfa$ & $\sfc\rightarrow{}\sfd$ & $\sfc$ &$((\stackrel{\sfa}{x} \; \stackrel{\sfc}{z})\; (\stackrel{\sfc\rightarrow{}\sfd}{y} \; \stackrel{\sfc}{z}))$ \\
+\end{tabular}
+\end{center}
+Note that {\em{all}} the occurrences of $\sfb$ have been changed.
+
+Now the arrow introduction rule could be applied again to the application
+$(x\;z)$.  Instead, we introduce the second rule which is a simplification rule
+that eliminates arrow types from the right side.
+
+\begin{quotation}
+\noindent{{\bf{[Arrow Elimination Rule]}}} If $\tau$ and $\tau'$ are type
+expressions and there is an labeled application of expression $e_1$ of type
+$\tau\rightarrow\tau'$ to expression $e_2$ of type $\tau$, then create a new
+row in the table by copying the last row and replacing the labeled application
+$(\stackrel{\tau\rightarrow\tau'}{e_1}\;\stackrel{\tau}{e_2})$ by
+$\stackrel{\tau'}{(e_1\;e_2)}$.
+\end{quotation}
+
+\noindent{}The justification for the rule is simply that $(e_1\;e_2)$ must have type
+$\tau'$ if $e_1::\tau\rightarrow\tau'$ and $e_2::\tau$.\\
+
+In the running example, the arrow elimination rule has one match in the last
+row of the example table.  Here is the matching:
+\[\{e_1\mapsto{}y,e_2\mapsto{}z,\tau\mapsto{}\sfc,\tau'\mapsto\sfd\}\]
+Applying the arrow elimination rule to the last row in the table above yields
+the following table.
+
+\begin{center}
+\begin{tabular}{ccc|l}
+$x$ & $y$ & $z$ & expression \\\hline{}
+$\sfa$ & $\sfb$ & $\sfc$ &$((\stackrel{\sfa}{x} \; \stackrel{\sfc}{z})\; (\stackrel{\sfb}{y} \; \stackrel{\sfc}{z}))$ \\
+$\sfa$ & $\sfc\rightarrow{}\sfd$ & $\sfc$ &$((\stackrel{\sfa}{x} \; \stackrel{\sfc}{z})\; (\stackrel{\sfc\rightarrow{}\sfd}{y} \; \stackrel{\sfc}{z}))$ \\
+$\sfa$ & $\sfc\rightarrow{}\sfd$ & $\sfc$ & $((\stackrel{\sfa}{x} \; \stackrel{\sfc}{z})\; \stackrel{\sfd}{(y\;z)})$ \\
+\end{tabular}
+\end{center}
+
+As the next step, we apply the arrow introduction rule.Since $x$ is applied to
+an argument of type $\sfc$ it must be a function of type
+$\sfc\rightarrow{}\sfe$ where $\sfe$ is a fresh type variable. Thus we use the
+arrow introduction rule setting
+\[\sfa \;=\; (\sfc\rightarrow\sfe)\]
+To create the next row of the table, copy the last row and replace all
+occurrences of \sfa~by the type $(\sfc\rightarrow\sfe)$.
+\begin{center}
+\begin{tabular}{ccc|l}
+$x$ & $y$ & $z$ & expression \\\hline{}
+$\sfa$ & $\sfb$ & $\sfc$ &$((\stackrel{\sfa}{x} \; \stackrel{\sfc}{z})\; (\stackrel{\sfb}{y} \; \stackrel{\sfc}{z}))$ \\
+$\sfa$ & $\sfc\rightarrow{}\sfd$ & $\sfc$ &$((\stackrel{\sfa}{x} \; \stackrel{\sfc}{z})\; (\stackrel{\sfc\rightarrow{}\sfd}{y} \; \stackrel{\sfc}{z}))$ \\
+$\sfa$ & $\sfc\rightarrow{}\sfd$ & $\sfc$ &$((\stackrel{\sfa}{x} \; \stackrel{\sfc}{z})\; \stackrel{\sfd}{(y\;z)})$ \\
+$\sfc\rightarrow\sfe$ & $\sfc\rightarrow{}\sfd$ & $\sfc$ &$((\stackrel{\sfc\rightarrow\sfe}{x} \; \stackrel{\sfc}{z})\; \stackrel{\sfd}{(y\;z)})$ \\
+\end{tabular}
+\end{center}
+
+Now, because $x::\sfc\rightarrow{}\sfe$ and $z::\sfc$ we know that the
+application $(x\;z)$ has type $\sfe$.  We simplify the table by applying the
+arrow elimination rule as follows:
+
+\begin{center}
+\begin{tabular}{ccc|l}
+$x$ & $y$ & $z$ & expression \\\hline{}
+$\sfa$ & $\sfb$ & $\sfc$ &$((\stackrel{\sfa}{x} \; \stackrel{\sfc}{z})\; (\stackrel{\sfb}{y} \; \stackrel{\sfc}{z}))$ \\
+$\sfa$ & $\sfc\rightarrow{}\sfd$ & $\sfc$ &$((\stackrel{\sfa}{x} \; \stackrel{\sfc}{z})\; (\stackrel{\sfc\rightarrow{}\sfd}{y} \; \stackrel{\sfc}{z}))$ \\
+$\sfa$ & $\sfc\rightarrow{}\sfd$ & $\sfc$ &$((\stackrel{\sfa}{x} \; \stackrel{\sfc}{z})\; \stackrel{\sfd}{(y\;z)})$ \\
+$\sfc\rightarrow\sfe$ & $\sfc\rightarrow{}\sfd$ & $\sfc$ &$((\stackrel{\sfc\rightarrow\sfe}{x} \; \stackrel{\sfc}{z})\; \stackrel{\sfd}{(y\;z)})$ \\
+$\sfc\rightarrow\sfe$ & $\sfc\rightarrow{}\sfd$ & $\sfc$ &$(\stackrel{\sfe}{(x\;z)} \stackrel{\sfd}{(y\;z)})$ \\
+\end{tabular}
+\end{center}
+But now, $(x\;z)::\sfe$ and $(x\;z)$ is applied to $(y\;z)::\sfd$ so
+$\sfe=\sfd\rightarrow\sff$ where $\sff$ is a new type variable. To create the
+next line of the table we apply the arrow introduction rule by copying the last
+line of the table and replacing all occurrences of $\sfe$ by
+$\sfd\rightarrow\sff$.
+\begin{center}
+\begin{tabular}{ccc|l}
+$x$ & $y$ & $z$ & expression \\\hline{}
+$\sfa$ & $\sfb$ & $\sfc$ &$((\stackrel{\sfa}{x} \; \stackrel{\sfc}{z})\; (\stackrel{\sfb}{y} \; \stackrel{\sfc}{z}))$ \\
+$\sfa$ & $\sfc\rightarrow{}\sfd$ & $\sfc$ &$((\stackrel{\sfa}{x} \; \stackrel{\sfc}{z})\; (\stackrel{\sfc\rightarrow{}\sfd}{y} \; \stackrel{\sfc}{z}))$ \\
+$\sfa$ & $\sfc\rightarrow{}\sfd$ & $\sfc$ &$((\stackrel{\sfa}{x} \; \stackrel{\sfc}{z})\; \stackrel{\sfd}{(y\;z)})$ \\
+$\sfc\rightarrow\sfe$ & $\sfc\rightarrow{}\sfd$ & $\sfc$ &$((\stackrel{\sfc\rightarrow\sfe}{x} \; \stackrel{\sfc}{z})\; \stackrel{\sfd}{(y\;z)})$ \\
+$\sfc\rightarrow\sfe$ & $\sfc\rightarrow{}\sfd$ & $\sfc$ &$(\stackrel{\sfe}{(x\;z)} \stackrel{\sfd}{(y\;z)})$ \\
+$\sfc\rightarrow(\sfd\rightarrow{}\sff)$ & $\sfc\rightarrow{}\sfd$ & $\sfc$ &$(\stackrel{\sfd\rightarrow\sff}{(x\;z)} \stackrel{\sfd}{(y\;z)})$ \\
+\end{tabular}
+\end{center}
+But now we see that $(x\;z)::\sfd\rightarrow\sff$ and it is applied to
+$(y\;z)::\sfd$ so the term $((x\;z)(y\;z))::\sff$.  We use the arrow
+elimination rule to create a new row in the table as follows:
+\begin{center}
+\begin{tabular}{ccc|l}
+$x$ & $y$ & $z$ & expression \\\hline{}
+$\sfa$ & $\sfb$ & $\sfc$ &$((\stackrel{\sfa}{x} \; \stackrel{\sfc}{z})\; (\stackrel{\sfb}{y} \; \stackrel{\sfc}{z}))$ \\
+$\sfa$ & $\sfc\rightarrow{}\sfd$ & $\sfc$ &$((\stackrel{\sfa}{x} \; \stackrel{\sfc}{z})\; (\stackrel{\sfc\rightarrow{}\sfd}{y} \; \stackrel{\sfc}{z}))$ \\
+$\sfa$ & $\sfc\rightarrow{}\sfd$ & $\sfc$ &$((\stackrel{\sfa}{x} \; \stackrel{\sfc}{z})\; \stackrel{\sfd}{(y\;z)})$ \\
+$\sfc\rightarrow\sfe$ & $\sfc\rightarrow{}\sfd$ & $\sfc$ &$((\stackrel{\sfc\rightarrow\sfe}{x} \; \stackrel{\sfc}{z})\; \stackrel{\sfd}{(y\;z)})$ \\
+$\sfc\rightarrow\sfe$ & $\sfc\rightarrow{}\sfd$ & $\sfc$ &$(\stackrel{\sfe}{(x\;z)} \stackrel{\sfd}{(y\;z)})$ \\
+$\sfc\rightarrow(\sfd\rightarrow{}\sff)$ & $\sfc\rightarrow{}\sfd$ & $\sfc$ &$\stackrel{\sff}{((x\;z)(y\;z))}$ \\
+\end{tabular}
+\end{center}
+
+From this table we know the following:
+\[\begin{array}{rcl}
+x & :: & \sfc\rightarrow\sfd\rightarrow\sff \\
+y & :: & \sfc\rightarrow\sfd\\
+z & :: & \sfc \\
+((x\,z)(y\,z)) & :: & \sff
+\end{array}\]
+We can read off the type of $s$ as
+\[s::(\sfc\rightarrow{}\sfd\rightarrow{}\sff)\rightarrow(\sfc\rightarrow{}\sfd)\rightarrow \sfc \rightarrow{}\sff\]
+
+Since $\sfc$, $\sfd$ and $\sff$ are type polymorphic type variables, we can
+uniformly rename them to make the type more readable (we use the mapping
+$\{\sfc\mapsto\sfa,\sfd\mapsto\sfb,\sff\mapsto\sfc\}$.) This gives the following
+type.
+
+\[s::(\sfa\rightarrow{}\sfb\rightarrow{}\sfc)\rightarrow(\sfa\rightarrow{}\sfb)\rightarrow \sfa \rightarrow{}\sfc\]
+
+
+\begin{problem}
+Use this method to compute the types for the following Haskell functions.
+
+\[\begin{array}{ll}
+1. & k\;x\;y\;=\;x \\
+2. & {\mathit{compose}} \;f\; g\; x \;= f\; (g \;x)\\
+3. & {\mathit{flip}}\;f\;x\;y\;=\;f\;y\;x
+\end{array}\]
+
+
+\end{problem}
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw5g"
+% fill-column:79
+% End:
+
+
+
+

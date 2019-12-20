@@ -1,0 +1,53 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{17}{2 November}
+
+\exercise{Read pp. 251-263 of Bird.}
+
+In class we discussed abstract datatypes in Haskell and houw to define them using the module system.
+Here are some links to more about the module system.
+
+\begin{description}
+\item {} http://www.haskell.org/haskellwiki/Abstract\_data\_type
+\item {} http://www.haskell.org/tutorial/modules.html
+\end{description}
+
+
+\exercise{Implement an module for Rose trees having the an abstract type {\tt{Rose a}} that supports the following operations:
+
+\begin{program*}
+\> leaf  :: a -> Rose a \\
+\> value :: Rose a -> a\\
+\> addChild :: Rose a -> Rose a -> Rose a \\
+\> children :: Rose a -> [Rose a]\\
+\> foldRose :: (a -> [b] -> b) -> Rose a -> b \\
+\end{program*}
+
+The following axioms should hold for your implementation:
+
+\begin{program*}
+\> value (leaf x) = x \\
+\> value (addChild r t) = value t \\
+\> children (leaf x) = []\\
+\> children (addChild r t) = r: (children t) \\
+\> foldRose f (leaf x) = f x []\\
+\> foldRose f t = f (value t) (map (foldRose f) (children t))
+\end{program*}
+}
+\end{document}
+
+
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw17b"
+% fill-column:79
+% End:
+
+
+
+

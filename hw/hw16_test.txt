@@ -1,0 +1,33 @@
+alpamayo 101% hugs
+hugs
+__   __ __  __  ____   ___      _________________________________________
+||   || ||  || ||  || ||__      Hugs 98: Based on the Haskell 98 standard
+||___|| ||__|| ||__||  __||     Copyright (c) 1994-2005
+||---||         ___||           World Wide Web: http://haskell.org/hugs
+||   ||                         Report bugs to: hugs-bugs@haskell.org
+||   || Version: May 2006       _________________________________________
+
+Haskell 98 mode: Restart with command line option -98 to enable extensions
+
+Type :? for help
+Hugs> :l traversal
+:l traversal
+Main> t3
+t3
+Node 1 (Node 2 (Node 3 Nil Nil) Nil) (Node 4 Nil Nil)
+Main> inorder t3
+inorder t3
+[3,2,1,4]
+Main> preorder t3
+preorder t3
+[1,2,3,4]
+Main> postorder t3
+postorder t3
+[3,2,4,1]
+Main> reconstruct (preorder t3) (inorder t3)
+reconstruct (preorder t3) (inorder t3)
+Node 1 (Node 2 (Node 3 Nil Nil) Nil) (Node 4 Nil Nil)
+Main> t3 == reconstruct (preorder t3) (inorder t3)
+t3 == reconstruct (preorder t3) (inorder t3)
+True
+Main> 

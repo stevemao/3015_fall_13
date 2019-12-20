@@ -1,0 +1,97 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{10}{28 September}
+
+\section{Modeling Finite Functions as Lists}
+
+Now that you know how to write recursive functions on lists, we will
+model finite functions as lists of pairs.
+
+
+You can think of a list of pairs of type {\tt{[(a,b)]}} as a finite
+function with domain {\tt{a}} and codomain {\tt{b}}.  If the pair
+{\tt{(x,y)}} is in the list (call it {\tt{f}}) then {\tt{f}} maps
+{\tt{x}} to the value {\tt{y}}.
+
+We can defined the type of finite functions with a Haskell datatype as
+follows:
+
+\begin{program*}
+\>  data FinFun a b = FF [(a,b)] \\
+\end{program*}
+
+Applying the constructor {\tt{FF}} to a list of pairs casts it
+as an element of the type {\tt{FinFun}}.
+
+\exercise{
+Based on the code provided on the HW web-page you must write the following functions.
+
+\begin{program*}
+\> update :: Eq a => (a,b) -> FinFun a b -> FinFun a b \\
+\> functional :: Eq a => [(a,b)] -> Bool \\
+\> domain :: (Eq a, Eq b) => FinFun a b -> [a] \\
+\> range :: (Eq a, Eq b) => FinFun a b -> [b]\\
+\> apply :: (Eq a, Eq b) => FinFun a b -> a -> Maybe b\\
+\end{program*}
+}
+
+
+\subsection{{\tt{update :: Eq a => (a,b) -> FinFun a b -> FinFun a b}}}
+
+This function should be called as {\tt{update(i,v) f}} where {\tt{f}} is a
+finite function with domain {\tt{a}} and codomain {\tt{b}}.  If {\tt{i}} is the
+first element of any pair in {\tt{f}} return the finite function that is just
+like {\tt{f}} except that it maps {\tt{i}} to {\tt{v}}.  If {\tt{i}} is not the
+first element of any pair in {\tt{f}}, return the finite function the behaves
+just like {\tt{f}} but also contains the pair {\tt(i,v)}. You might find your
+{\tt{remove\_all}} function from the previous homework useful.
+
+\subsection{\tt{{functional :: Eq a => [(a,b)] -> Bool}}}
+Recall the functionality property; we say the set of pairs $f$ is functional
+when the following holds:
+\[\forall{}i:a.\, \forall{}j,k:b.\, (f(i) = j) \wedge (f(i) = k) \Rightarrow j = k \]
+Implement a predicate that takes a list of pairs and says whether or not it is
+functional.  The expression {\tt{(functional m)}}, where {\tt{m}} is a list of
+pairs, returns {\tt{True}} iff for every pair {\tt{(i,v)$\in$ m}}, there is no
+pair {\tt{(j,v') $\in$ m}} with {\tt{i=j}} and {\tt{v<>v'}}.  You can be more
+strict and just return {\tt{True}} when no two pairs in {\tt{m}} have the same
+first element (even if they have equal second elements.)  I found the function
+{\tt{unique}} useful, but there are many ways to do it.
+
+
+\subsection{\tt{{domain :: (Eq a, Eq b) => FinFun a b -> [a]}}}
+This function returns a list of values in the domain {\tt{a}} that the function
+is actually defined for.  Hint - recall that the function {\tt{map}} applies a
+function to every element of a list and that {\tt{fst}} and {\tt{snd}} project
+the first and second elements from a pair.
+
+\subsection{\tt{range :: (Eq a, Eq b) => FinFun a b -> [b]}}
+This function returns a list of values in the codomain {\tt{b}} that is the
+range of the finite function. See hint above.
+
+\subsection{\tt{{apply :: (Eq a, Eq b) => FinFun a b -> a -> Maybe b}}}
+{\tt{apply f x}} models function application. Look up {\tt{x}} in the finite
+function {\tt{f}} and return {\tt{Nothing}} if {\tt{x $\not\in$ (domain f)}}
+and return {\tt{Just y}} when the pair {\tt{(x,y) $\in$ f}}.  
+
+
+% \exercise{Instantiate the type of finite functions {\tt{FinFun}} as an instance
+%   of the {\tt{Eq}} type class by defining {\tt{==}} to be the extensional
+%   equality on functions.
+
+% Extensional equality for finite functions means the list representing the
+% function is functional {\em{and}} they have the same elements.  }
+
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw10b"
+% fill-column:79
+% End:
+

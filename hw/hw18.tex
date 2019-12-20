@@ -1,0 +1,49 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{18}{9 November}
+
+
+\exercise{Write Haskell code to implement {\tt{ordered}} which tells whether a list is ordered or not.
+\begin{program*}
+\>    ordered :: (Ord a) => [a] -> Bool
+\end{program*}
+}
+
+\exercise{Write Haskell code to implement {\tt{partition}} using the {\tt{foldr}} function.
+\begin{program*}
+\>    partition :: (a -> Bool) -> [a] -> ([a],[a])  
+\end{program*}
+
+The specification\footnote{This means that this equation characterizes
+the {\tt{partition}} function, {\em{i.e.}} for any implementation of
+partition, this property must hold.} for {\tt{partition}} is as
+follows:
+
+\begin{program*}
+\>    partition p l = (filter p l, filter (not . p) l)
+\end{program*}
+
+Recall that {\tt{(f . g)}} denotes function composition, {\em{i.e.}} {\tt{(f . g)(x) = f(g(x))}}.
+}
+
+
+
+
+
+\end{document}
+
+
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "latex hw18; dvips hw18 -o hw18.ps; pdflatex hw18"
+% fill-column:79
+% End:
+
+
+
+

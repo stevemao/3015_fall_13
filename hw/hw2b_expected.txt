@@ -1,0 +1,22 @@
+Prelude> :l hw2b.hs
+:l hw2b.hs
+[1 of 1] Compiling Main             ( hw2b.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> :t curry3
+:t curry3
+curry3 :: ((t, t1, t2) -> t3) -> t -> t1 -> t2 -> t3
+*Main> :t uncurry3
+:t uncurry3
+uncurry3 :: (t -> t1 -> t2 -> t3) -> (t, t1, t2) -> t3
+*Main> :t delta
+:t delta
+delta :: (Floating t) => (t, t, t) -> t
+*Main> :t curry3 delta
+:t curry3 delta
+curry3 delta :: (Floating t) => t -> t -> t -> t
+*Main> curry3 delta 4.2 7 2.3
+curry3 delta 4.2 7 2.3
+3.2186953878862163
+*Main> uncurry3 (curry3 delta) (4.2, 7, 2.3)
+uncurry3 (curry3 delta) (4.2, 7, 2.3)
+3.2186953878862163

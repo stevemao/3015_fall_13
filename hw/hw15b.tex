@@ -1,0 +1,36 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{15}{21 October}
+
+\exercise{Read to page 202 in Bird.}
+
+\exercise{Do problems 6.2.2 and 6.2.3 on pp. 191 of Bird.}\ \\
+
+The type for the map and fold function on {\tt{Stree}} are as follows:
+
+\begin{program*}
+
+stree\_map :: (Ord b, Ord a) => (a -> b) -> Stree a -> Stree b\\
+stree\_fold :: (Ord a) => (b -> a -> b -> b) -> b -> Stree a -> b
+
+\end{program*}
+
+
+
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "\\>  "
+% comment-end: "\\\\  "
+% compile-command: "pdflatex hw15b"
+% fill-column:79
+% End:
+
+
+
+

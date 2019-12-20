@@ -1,0 +1,53 @@
+module Expression where
+
+import Parser
+
+data BinOp = Add | Times
+   deriving Show
+
+data Exp = Const Int | BinExp BinOp Exp Exp 
+   deriving Show 
+
+expr :: Parser Int
+expr = do t <- term
+          do symbol "+"
+             e <- expr
+             return (t + e)
+            +++ return t
+
+term :: Parser Int
+term = do f <- factor
+          do symbol "*"
+             t <- term 
+             return (f * t)
+            +++ return f
+
+factor :: Parser Int
+factor = do symbol "("
+            e <- expr
+            symbol ")"
+            return e
+           +++ natural
+
+expr1 :: Parser Exp
+expr1 = do t <- term1
+           do symbol "+"
+              e <- expr1
+              return (BinExp Add t  e)
+             +++ return t
+
+term1 :: Parser Exp
+term1 = do f <- factor1
+           do symbol "*"
+              t <- term1 
+              return (BinExp Times f t)
+             +++ return f
+
+factor1 :: Parser Exp
+factor1 = do symbol "("
+             e <- expr1
+             symbol ")"
+             return e
+            +++ do n <- natural
+                   return (Const n)
+

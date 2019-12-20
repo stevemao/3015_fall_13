@@ -1,0 +1,248 @@
+\documentclass[11pt]{article}
+
+%\include{header}
+\usepackage{amssymb}
+\usepackage{remark}
+ \newremark{theorem}{Theorem}[section]
+ \newremark{Rule}{Rule}[section]
+ \newremark{conjecture}{Conjecture}[section]
+ \newremark{corollary}{Corollary}[section]
+ \newremark{example}{Example}[section]
+ \newremark{fact}{Fact}[section]
+ \newremark{lemma}{Lemma}[section]
+ \newremark{definition}{Definition}[section]
+ \newremark{claim}{Claim}[section]
+ \newremark{remark}{Remark}[section]
+ \newremark{slogan}{Slogan}[section]
+ \newremark{axiom}{Axiom}[section]
+ \newremark{note}{Note}[]
+ \newremark{problem}{Problem}[section]
+ \newremark{exercise}{Exercise}[section]
+
+
+\begin{document}
+
+\title{A Proof Primer\\Velleman's proof strategies using {\em{givens}} and {\em{goals}}}
+\maketitle
+
+Proofs are taught in Dr. Cowles version of COSC 2300 using the methods of
+Daniel J. Velleman \cite{Velleman}.  Velleman's methods are essentially
+Gentzen's sequent proof rules presented in a more narrative form.  My own notes
+\cite{Caldwell_Discrete} present the proof rules in sequent form. These notes,
+closely based on notes by Vellman, present the proof strategies in terms of the
+sets of formulas he calls {\em{givens}} and {\em{goals}}.
+
+At any point in a proof there is a set of the formulas you have (so-far)
+assumed to be true; these are the {\em{givens}}. There is also a set of
+formulas, one of which you must show is true; these are the {\em{goals}}.
+Thus, pairs of sets of formulas capture the state of a proof.  In the sequent
+presentation the proof state is written $\Gamma\vdash\Delta$ where $\Gamma$ is
+the set of givens and $\Delta$ is the set of goals.
+
+The proof strategies are divided into three groups.  There are axiom rules,
+there are rules to apply to formulas in the givens and there are rules to apply
+to formulas in the goals.
+
+To be completely precise we first present the syntax of formulas.
+
+
+\section{Syntax}
+
+We use {\em{propositional variables}} to stand for arbitrary propositions and
+assume there is an infinite supply of these variables.
+\[{\cal{V}}=\{p,q,r,p_1,q_1,r_1,p_2,\cdots\}\] Note that the fact that the set
+${\cal{V}}$ is infinite is unimportant since no individual formula will ever
+require more than some fixed finite number of variables, however it is
+important that the number of variables we can select from is unbounded.  The
+must always be a way to get another one.
+
+We include the constant symbol $\bot$ (say ``bottom''). \index{bottom} \index{bottom@$\bot$} \index{propositional!constants}
+
+Complex propositions are constructed by combining simpler ones with {\em
+propositional connectives}.  \index{propositional!connectives} For now we leave
+the meaning of the connectives unspecified and simply present them as one of
+the symbols $\wedge, \vee, \Rightarrow$ standing for {\em{and}}, {\em{or}} and
+{\em{implies}} respectively.
+
+\begin{definition}[Propositional Logic syntax]
+\index{propositional logic!syntax}
+\index{propositional!formula}
+\index{negation}
+\index{conjunction}
+\index{disjunction}
+\index{implication}
+\index{negation!syntax}
+\index{conjunction!syntax}
+\index{disjunction!syntax}
+\index{implication!syntax}
+The syntax of propositional formulas (we denote the set as
+${\cal{P}}$) can be described by a grammar as follows:
+\[{\cal{P}}::= \bot \; | \; x \; | \; \neg\phi \; | \; \phi \wedge \psi \; | \; \phi \vee \psi \; | \; \phi \Rightarrow \psi \]
+where\\
+{\mbox{\hspace{.25in}}} $\bot$ is a constant symbol,\\
+{\mbox{\hspace{.25in}}} $x\in{\cal{V}}$ is a propositional variable, and\\
+{\mbox{\hspace{.25in}}} $\phi,\psi\in{\cal{P}}$ are meta-variables denoting previously constructed  propositional formulas.\\
+\end{definition}
+
+\section{Proof Strategies}
+
+\subsection{Axiom Rules}
+
+
+Proofs proceed by considering the structure of formulas in the givens and goals.  
+
+
+\
+
+
+
+\subsection{To Prove a Goal of the Form:}
+
+
+\subsection{$P\Rightarrow{}Q$}
+
+Assume that P is true and prove Q {\em{i.e.}} add P to the Givens and add $Q$
+to the Goals.
+
+
+An alternative is to prove the contrapositive; i.e., assume that Q is false and
+prove that P is false. In Proof Designer, select the goal and give the
+Contrapositive command in the Strategy menu.
+
+\subsection{$\neg{}P$}
+Reexpress as a positive statement. In Proof Designer, select the goal, give the
+Reexpress command in the Strategy menu, and use the Reexpress Negative button
+in the Reexpress dialog box.  Use proof by contradiction; i.e., assume P is
+true and try to reach a contradiction. In Proof Designer, select the goal and
+give the Contradiction command in the Strategy menu. If you already know which
+given you are planning to contradict, you can select it too before giving the
+Contradiction command, and Proof Designer will indicate what you have to prove
+to achieve the desired contradiction.
+\subsection{$P_1\wedge{}P_2\wedge\cdots\wedge{}P_n$}
+Prove P1, P2, ..., Pn separately. In other words, treat this as a list of n
+separate goals. In Proof Designer, select the goal and give the Conjunction
+command in the Infer menu. If you already have some of the statements P1, P2,
+..., Pn as givens, you can select them too and Proof Designer will only ask you
+to prove the statements from this list that you don't already know.
+\subsection{$P_1\vee{}P_2\vee\cdots\vee{}P_n$}
+Assume that all but one of the statements in the list P1, P2, ..., Pn are
+false, and prove that the remaining statement is true. In Proof Designer,
+select the goal and give the Disjunction command in the Strategy menu. Proof
+Designer will ask which statement you are planning to prove. If you don't want
+to assume the negations of the other statements, remove the check mark from the
+“Assume negations of others” check box by clicking on it.  Use proof by
+cases. In each case, prove one of the statements P1, P2, ..., Pn. In Proof
+Designer, use the Cases command in the Strategy menu to break your proof into
+cases. Once you have broken the proof into cases, your goal in each case will
+be P1∨P2∨...∨Pn. For each case, select this goal, give the Disjunction command
+in the Strategy menu, and tell Proof Designer which statement you plan to
+prove. If you are using this strategy, you probably will want to remove the
+check mark from the “Assume negations of others” check box.
+\subsection{$P\Leftrightarrow{}Q$}
+Prove $P\Rightarrow{}Q$ and $Q\Rightarrow{}P$, using the methods listed under
+P→Q above. In Proof Designer, select the goal and give the Biconditional
+command in the Strategy menu.
+
+\subsection{$\forall{}x.P(x)$}
+Let x stand for an arbitrary object, and prove P(x). (If the letter x already
+stands for something in the proof, you will have to use a different letter for
+the arbitrary object.) In Proof Designer, select the goal and give the
+Arbitrary Object command in the Strategy menu.
+\subsection{$\exists{}x.P(x)$}
+Find a value of x that makes P(x) true. Prove P(x) for this value of x. In
+Proof Designer, select the goal and give the Existence command in the Strategy
+menu. Proof Designer will ask you what value you want to use for x. You have
+two choices: If you know what value you want to assign to x, select the “Use
+this value” choice and type in the value. If you don't know what value to use,
+select the “Use this new variable, whose definition will be inserted later”
+choice, and type in an unused variable name. In the latter case, you can begin
+working on the proof of P(x) even before you have decided what value you want
+to use for x.
+
+\subsection{To Use a Given of the Form:}
+
+\subsection{$P\Rightarrow{}Q$}
+If you are also given P, or you can prove that P is true, then you can conclude
+that Q is true. In Proof Designer, if you already have P in your givens list
+then you can select the givens P and P→Q and give the Modus Ponens command in
+the Infer menu. If you don't already have P in the givens list but you think
+you can prove it, you may want to insert a proof of P at this point in the
+proof, using the Insert command in the Edit menu.  Use the contrapositive: If
+you are given or can prove that Q is false, you can conclude that P is
+false. In Proof Designer, select the givens ¬Q and P→Q and give the Modus
+Tollens command in the Infer menu. If necessary, you may first have to insert a
+proof of ¬Q.
+\subsection{$\neg{}P$}
+Reexpress as a positive statement. In Proof Designer, select the given, give
+the Reexpress command in the Strategy menu, and use the Reexpress Negative
+button in the Reexpress dialog box.  If you are doing a proof by contradiction,
+you can reach a contradiction by proving P. In Proof Designer, select the given
+and give the Contradiction command in the Strategy menu.
+
+\subsection{$P_1\wedge{}P_2\wedge\cdots\wedge{}P_n$}
+Treat this as a list of separate givens, P1, P2, ..., Pn. In Proof Designer,
+select the given and give the Split Up command in the Infer menu.
+
+\subsection{$P_1\vee{}P_2\vee\cdots\vee{}P_n$}
+Use proof by cases. In case 1 assume P1 is true, in case 2 assume P2 is true,
+etc. In Proof Designer, select the given and give the Cases command in the
+Strategy menu.  If you are also given that some of the statements in the list
+P1, P2, ..., Pn are false, or you can prove that they are false, you can
+conclude that one of the other statements in the list must be true. In
+ProofDesigner, select the given P1∨P2∨...∨Pn, together with any negations of
+statements in the list P1, P2, ..., Pn that you have in your givens list, and
+give the Disjunctive Syllogism command in the Infer menu.
+
+\subsection{$P\Leftrightarrow{}Q$}
+Treat this as two givens: $P\Rightarrow{} Q$, and $Q\Rightarrow{}P$. In Proof
+Designer, select the given and give the Split Up command in the Infer menu.
+
+
+\subsection{$\forall{}x.P(x)$}
+You may plug in any value, say a, for x, and conclude that P(a) is true. In
+Proof Designer, select the given and give the Universal Instantiation command
+in the Infer menu. Proof Designer will ask what you want to plug in for x. As
+with proofs of goals of the form ∃xP(x), if you're not sure what to plug in for
+x, you can choose a new variable to stand for the object to be plugged in, and
+fill in the definition of this variable later.
+
+\subsection{$\exists{}x.P(x)$} 
+Introduce a new variable, say x0, into the proof, to stand for a particular
+object for which P(x0) is true. In Proof Designer, select the given and give
+the Existential Instantiation command in the Infer menu.
+
+
+\section{Techniques That Can Be Used in Any Proof}
+
+\subsection{Proof by contradiction:} 
+
+Assume the goal is false and derive a contradiction. In Proof Designer, select
+the goal and give the Contradiction command in the Strategy menu. If you
+already know which given you are planning to contradict, you can select it too
+before giving the Contradiction command 
+
+\subsection{Proof by cases:} Consider several cases
+that are exhaustive—i.e., that include all the possibilities. Prove the goal in
+each case. There are two ways to do this in Proof Designer. If you select a
+given of the form P1∨P2∨...∨Pn and give the Cases command in the Strategy menu,
+Proof Designer will break the proof into the cases determined by this
+given. You can also select any goal and give the Cases command, and Proof
+Designer will ask you to type in some statement P that will be used to
+distinguish the cases in the proof of this goal. In case 1, Proof Designer will
+assume that P is true, and in case 2 it will assume that P is false.
+
+
+\bibliographystyle{plain}
+\bibliography{bib}
+
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "\\> "
+% comment-end: "\\\\"
+% compile-command: "pdflatex proof_methods; bibtex proof_methods; pdflatex proof_methods; pdflatex proof_methods"
+% fill-column:79
+% End:
+

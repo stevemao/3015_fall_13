@@ -1,0 +1,153 @@
+
+*SetADT> :l TestSetADT
+:l TestSetADT
+[1 of 2] Compiling SetADT           ( SetADT.hs, interpreted )
+[2 of 2] Compiling TestSetADT       ( TestSetADT.hs, interpreted )
+Ok, modules loaded: TestSetADT, SetADT.
+*TestSetADT> :t test_S1
+:t test_S1
+test_S1 :: (Eq a) => a -> Bool
+*TestSetADT> test_S1 1
+test_S1 1
+True
+*TestSetADT> test_S1 'a'
+test_S1 'a'
+True
+*TestSetADT> test_S1 "abcd"
+test_S1 "abcd"
+True
+*TestSetADT> :t test_S2
+:t test_S2
+test_S2 :: (Eq a) => a -> a -> Set a -> Bool
+*TestSetADT> let s10 = foldr (\x s -> insert x s) empty [1..10]
+let s10 = foldr (\x s -> insert x s) empty [1..10]
+*TestSetADT> s10
+s10
+{1,2,3,4,5,6,7,8,9,10}
+*TestSetADT> test_S2 'a' 'b' empty
+test_S2 'a' 'b' empty
+True
+*TestSetADT> test_S2 11 12 s10
+test_S2 11 12 s10
+True
+*TestSetADT> test_S2 1 2 s10
+test_S2 1 2 s10
+True
+*TestSetADT> test_S2 1 11 s10
+test_S2 1 11 s10
+True
+*TestSetADT> test_S2 11 1 s10
+test_S2 11 1 s10
+True
+*TestSetADT> :t test_S3
+:t test_S3
+test_S3 :: Bool
+*TestSetADT> test_S3
+test_S3
+True
+*TestSetADT> :t test_S4
+:t test_S4
+test_S4 :: (Eq a) => a -> Set a -> Bool
+*TestSetADT> test_S4 10 s10
+ test_S4 10 s10
+True
+*TestSetADT>  test_S4 11 s10
+ test_S4 11 s10
+True
+*TestSetADT>  test_S4 1 empty
+ test_S4 1 empty
+True
+*TestSetADT> :t test_S5
+:t test_S5
+test_S5 :: (Eq a, Show a) => a -> Set a -> Bool
+*TestSetADT> test_S5 1 empty
+test_S5 1 empty
+True
+*TestSetADT> test_S5 1 s10
+test_S5 1 s10
+True
+*TestSetADT> test_S5 12 s10
+test_S5 12 s10
+True
+*TestSetADT> test_S5 'a' empty
+test_S5 'a' empty
+True
+*TestSetADT> :t test_S6
+:t test_S6
+test_S6 :: (Eq a, Show a) => a -> Set a -> Bool
+*TestSetADT> test_S6 1 s10
+test_S6 1 s10
+True
+*TestSetADT> test_S6 11 s10
+test_S6 11 s10
+True
+*TestSetADT> test_S6 11 empty
+test_S6 11 empty
+True
+*TestSetADT> :t test_S7
+:t test_S7
+test_S7 :: (Eq a, Show a) => a -> a -> Set a -> Bool
+*TestSetADT> test_S7 1 2 s10
+test_S7 1 2 s10
+True
+*TestSetADT> test_S7 1 2 empty
+test_S7 1 2 empty
+True
+*TestSetADT> test_S7 empty empty empty
+test_S7 empty empty empty
+True
+*TestSetADT> :t test_S8
+:t test_S8
+test_S8 :: (Eq a) => a -> a -> Set a -> Bool
+*TestSetADT test_S8 1 1 s10
+ test_S8 1 1 s10
+True
+*TestSetADT>  test_S8 11 1  s10
+ test_S8 11 1  s10
+True
+*TestSetADT>  test_S8 empty empty empty
+ test_S8 empty empty empty
+True
+*TestSetADT>  test_S8 empty empty (insert empty empty)
+ test_S8 empty empty (insert empty empty)
+True
+*TestSetADT> :t test_S9
+:t test_S9
+test_S9 :: (Eq a) => a -> Set a -> Set a -> Bool
+*TestSetADT>  test_S9 1 empty empty
+ test_S9 1 empty empty
+True
+*TestSetADT>  test_S9 1 s10 empty
+ test_S9 1 s10 empty
+True
+*TestSetADT>  test_S9 1 empty s10
+ test_S9 1 empty s10
+True
+*TestSetADT>  test_S9 11 s10 s10
+ test_S9 11 s10 s10
+True
+*TestSetADT>  test_S9 11 s10 empty
+ test_S9 11 s10 empty
+True
+*TestSetADT>  test_S9 11 empty s10
+ test_S9 11 empty s10
+True
+*TestSetADT> :t test_S10
+:t test_S10
+test_S10 :: (Eq a) => a -> Set a -> Set a -> Bool
+*TestSetADT> test_S10 11 empty empty
+test_S10 11 empty empty
+True
+*TestSetADT> test_S10 11 empty s10
+test_S10 11 empty s10
+True
+*TestSetADT> test_S10 11 s10 empty
+test_S10 11 s10 empty
+True
+*TestSetADT> test_S10 1 s10 empty
+test_S10 1 s10 empty
+True
+*TestSetADT> test_S10 2 s10 empty
+test_S10 2 s10 empty
+True
+*TestSetADT> 

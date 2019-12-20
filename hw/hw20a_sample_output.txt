@@ -1,0 +1,41 @@
+*Main> typecheck
+enter_term: \x.y
+
+[("y",a)] |- (\x->y) :: (b -> a)
+enter_term: \x.\y.\z. ((x y) (y z))
+
+[] |- (\x->(\y->(\z->((x y) (y z))))) :: (((a -> b) -> (b -> c)) -> ((a -> b) -> (a -> c)))
+enter_term: y
+
+[("y",a)] |- y :: a
+enter_term: z
+
+[("z",a)] |- z :: a
+enter_term: (\x.x \y. x)
+
+[("x",a)] |- ((\x->x) (\y->x)) :: (b -> a)
+enter_term: (\x.x \y. y)
+
+[] |- ((\x->x) (\y->y)) :: (a -> a)
+
+enter_term: \x. spread (x; z,w. z)
+
+[] |- (\x -> spread (x; z, w.z) :: ((a X b) -> a)
+enter_term: \x. spread (x; z,w. w)
+
+[] |- (\x -> spread (x; z, w.w) :: ((a X b) -> b)
+enter_term: \x. spread (<x,x>; z,w. w)
+
+[] |- (\x -> spread (<x, x>; z, w.w) :: (a -> a)
+enter_term: (\x. spread (<x,x>; z,w. w) <y,z>)
+
+[("y",a),("z",b)] |- ((\x -> spread (<x, x>; z, w.w) <y, z>) :: (a X b)
+enter_term: (\x. spread (x; z,w. w) <y,z>)
+
+[("y",a),("z",b)] |- ((\x -> spread (x; z, w.w) <y, z>) :: b
+enter_term: (\x. spread (x; z,w. z) <y,z>)
+
+[("y",a),("z",b)] |- ((\x -> spread (x; z, w.z) <y, z>) :: a
+enter_term: 
+good bye.
+

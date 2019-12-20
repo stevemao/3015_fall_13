@@ -1,0 +1,26 @@
+module Set where
+
+data Set a = Set [a] 
+
+subset (Set xs) (Set ys) = null (filter (notin ys) xs)
+  where notin xs x = not (x `Prelude.elem` xs)
+
+instance  (Eq a ) => Eq (Set a) where
+   xs == ys =  xs `subset` ys && ys `subset` xs
+
+instance (Eq a, Show a) => Show (Set a) where
+  show (Set xs) = fix $ show  $unique xs
+    where fix xs = '{' : (take (length xs -2) (drop 1 xs) ++ "}")
+          unique [] = []
+          unique (x:xs) = x: unique (filter (/=x) xs)
+
+empty = Set []
+
+insert x (Set xs) = Set (x:xs)
+
+elem x (Set xs) = x `Prelude.elem` xs
+
+union (Set xs) (Set ys) = Set (xs ++ ys)
+
+remove x (Set []) = (Set [])
+remove x (Set (y:ys)) = if x == y then (Set ys) else insert x (remove x (Set ys))

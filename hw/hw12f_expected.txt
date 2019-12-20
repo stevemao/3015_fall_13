@@ -1,0 +1,39 @@
+
+*BTree> :l BTree
+:l BTree
+[1 of 1] Compiling BTree            ( BTree.hs, interpreted )
+Ok, modules loaded: BTree.
+*BTree> balanced (mktree [])
+balanced (mktree [])
+True
+*BTree> balanced (mktree [1])
+balanced (mktree [1])
+True
+*BTree> balanced (mktree [1..10])
+balanced (mktree [1..10])
+True
+*BTree> mktree [1..5]
+mktree [1..5]
+Node 1 (Node 2 Leaf (Node 3 Leaf Leaf)) (Node 4 Leaf (Node 5 Leaf Leaf))
+*BTree> foldrBTree (\x y z -> x + y + z) 0 (mktree [1..5])
+foldrBTree (\x y z -> x + y + z) 0 (mktree [1..5])
+15
+*BTree> foldr (+) 0 [1..5]
+foldr (+) 0 [1..5]
+15
+*BTree> fmap (+1) (mktree [1..5])
+fmap (+1) (mktree [1..5])
+Node 2 (Node 3 Leaf (Node 4 Leaf Leaf)) (Node 5 Leaf (Node 6 Leaf Leaf))
+*BTree> fmap show (mktree [1..5])
+fmap show (mktree [1..5])
+Node "1" (Node "2" Leaf (Node "3" Leaf Leaf)) (Node "4" Leaf (Node "5" Leaf Leaf))
+*BTree> foldrBTree (\x y z -> x ++ y ++ z) "" (fmap show (mktree [1..5]))
+foldrBTree (\x y z -> x ++ y ++ z) "" (fmap show (mktree [1..5]))
+"12345"
+*BTree> foldrBTree (\x y z -> x : (y ++ z)) [] (mktree [1..5])
+foldrBTree (\x y z -> x : (y ++ z)) [] (mktree [1..5])
+[1,2,3,4,5]
+*BTree> foldrBTree (\x y z -> z ++ y ++ [x]) [] (mktree [1..5])
+foldrBTree (\x y z -> z ++ y ++ [x]) [] (mktree [1..5])
+[5,4,3,2,1]
+*BTree> 

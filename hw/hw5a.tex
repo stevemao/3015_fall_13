@@ -1,0 +1,91 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{5}{18 September}
+
+\section{}
+
+We defined {\tt{list\_sum}} and {\tt{map}} in class as follows:
+
+\begin{program*}
+\> list\_sum [] = 0 \\
+\> list\_sum (h:t) = h + list\_sum  t\\
+\> \\
+\> map f [] = [] \\
+\> map f (h:t) = (f h) : (map f t)
+\end{program*}
+
+We used {\tt{map}} to apply the function cirlce area to the elements
+of a list so we could apply the {\tt{list\_sum}} function to the result.
+{\em{i.e.}} we replaced the rather unwieldy expression
+
+\begin{program*} 
+\> total\_area = (pi * r1 \^ 2) + (pi * r2 \^ 2 ) + (pi * r3 \^ 2)
+\end{program*}
+
+by the following:
+
+\begin{program*}
+\> total\_area = list\_sum (map circle\_area [r1,r2,r3]) \\
+\>                 where circle\_area r  = pi * r \^ 2\\
+\end{program*}
+
+Note that {\tt{list\_sum}} could be generalized since we could pass the
+operator (instead of having {\tt{+}} built-in) and could pass the identity for
+the operator (instead of having {\tt{0}} built-in.)
+
+\problem{Write a function {\tt{apply\_op }} whose type is given as
+\begin{program*}
+\>  apply\_op :: (a -> a -> a) -> a -> [a] -> a \\
+\end{program*}
+The first argument of type {\tt{(a -> a -> a)}} is the type of the operator
+({\em{e.g.}} the type of {\tt{(+)}}).  The second argument is the identity for
+the specified operator and the third is a list of elements to apply the
+operator to.
+
+{\em{Hint}}: You can use the {\tt{list\_sum}} function as a model -- nothing
+much has to change except you need to give it two more arguments.  Also, a
+function (say {\tt{f x y = x + y}}) can be applied in infix for by writing
+{\tt{ 4 `f` 5}} instead of {\tt{f 4 5}}.
+
+
+
+You should be able to get the following behavior from your function.
+\begin{program*}
+\> Hugs>:t apply\_op        \\
+\> :t apply\_op        \\
+\> apply\_op :: (a -> b -> b) -> b -> [a] -> b        \\
+\> Hugs> apply\_op (+) 0 [1,2,3,4]        \\
+\> apply\_op (+) 0 [1,2,3,4]        \\
+\> 10        \\
+\> Hugs> apply\_op (+) 0 [-1,-2,-3,-4]        \\
+\> apply\_op (+) 0 [-1,-2,-3,-4]        \\
+\> -10        \\
+\> Hugs> apply\_op (-) 0 [1..10]        \\
+\> apply\_op (-) 0 [1..10]        \\
+\> -5        \\
+\> Hugs> apply\_op (+) 0 [1..10]        \\
+\> apply\_op (+) 0 [1..10]        \\
+\> 55        \\
+\> Hugs> apply\_op (*) 1 [1..10]        \\
+\> apply\_op (*) 1 [1..10]        \\
+\> 3628800        \\
+\> Hugs>         \\
+\end{program*}
+
+
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw5a"
+% fill-column:79
+% End:
+
+
+
+

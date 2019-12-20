@@ -1,0 +1,194 @@
+\documentclass[11pt]{article}
+
+\include{header}
+\newcommand{\sS}{{{Succ$\;$}}}
+\newcommand{\s}{{Succ\;}}
+
+\begin{document}
+\homework{10}{8 October}
+
+\section{FOldl and Foldr}
+In class we discussed the {\em{foldl}} function which is like
+{\em{foldr}} but which associates to the left.
+
+\begin{program**}
+\> foldr :: (a \arrow b \arrow b) \arrow b \arrow [a] \arrow b\\
+\> foldr op id [] = id \\
+\> foldr op id (x:xs) = x `op`  foldr op id xs \\
+\> \\
+\> fold :: (b \arrow a \arrow b) \arrow b \arrow [a] \arrow b\\
+\> foldl op acc [] = acc \\
+\> foldl op acc (x:xs) =  foldl op (acc `op` x) xs \\
+\end{program**}
+
+We have the following example computations.
+
+\begin{program**}
+\> foldr (+) 0  [1,2,3]\\
+\> $\leadsto\;\;$ 1 + (foldr (+) 0 [2,3]) \\
+\> $\leadsto\;\;$ 1 + (2 + (foldr (+) 0 [3])) \\
+\> $\leadsto\;\;$ 1 + (2 + ( 3 + (foldr (+) 0 []))) \\
+\> $\leadsto\;\;$ 1 + (2 + ( 3 + 0)) \\
+\> $\leadsto\;\;$ 1 + (2 + 3) \\
+\> $\leadsto\;\;$ 1 + 5 \\
+\> $\leadsto\;\;$ 6 \\
+\end{program**}
+
+
+\begin{program**}
+\> foldl (+) 0  [1,2,3]\\
+\> $\leadsto\;\;$ foldl (+) (0 + 1) [2,3]) \\
+\> $\leadsto\;\;$ foldl (+) ((0 + 1)+ 2) [3]) \\
+\> $\leadsto\;\;$ foldl (+) (((0 + 1)+ 2) + 3) []) \\
+\> $\leadsto\;\;$ ((0 + 1)+ 2) + 3 \\
+\> $\leadsto\;\;$ (1 + 2) + 3 \\
+\> $\leadsto\;\;$ 3 + 3 \\
+\> $\leadsto\;\;$ 6 \\
+\end{program**}
+
+
+% Some schematic computations.
+
+% \begin{program**}
+% \> foldr op id  [$x_1,x_2,\cdots,x_n$] \\
+% \> $\leadsto\;\;$ $x_1$ `op` foldr op id [$x_2,\cdots,x_n$] \\
+% \> $\leadsto\;\;$ $x_1$ `op` ($x_2$ `op` foldr op id [$\cdots,x_n$]) \\
+% \>                $\vdots$\\
+% \> $\leadsto\;\;$ $x_1$ `op` ($x_2$ `op` $\cdots\;(x_n$ `op` foldr op id []) $\cdots$ ) \\
+% \> $\leadsto\;\;$ $x_1$ `op` ($x_2$ `op` $\cdots\;(x_n$ `op` id) $\cdots$ ) \\
+% \end{program**}
+
+
+% \begin{program**}
+% \> foldl op id [$x_1,\,x_2,\cdots,x_n$] \\
+% \> $\leadsto\;\;$  foldl op (id `op` $x_1$) [$x_2,\cdots,x_n$] \\
+% \> $\leadsto\;\;$  foldl op ((id `op` $x_1$) `op` $x_2$) [$\cdots,x_n$] \\
+% \>                $\vdots$\\
+% \> $\leadsto\;\;$  foldl op ($\cdots$((id `op` $x_1$) `op` $x_2)\; \cdots \;x_n$) [] \\
+% \> $\leadsto\;\;$  ($\cdots$((id `op` $x_1$) `op` $x_2)\; \cdots op \;x_n$)  \\
+% \end{program**}
+
+
+We discussed that unlike {\em{foldr}}, {\em{foldl}} is tail-recursive, it does
+not require the entire list to be processed before it can start accumulating
+the result.  Tail recursive functions are more efficient because they do not
+use up stack space storing the partial results waiting to be evaluated (as can
+be seen in the example with {\it{foldr}} above.
+
+To really guarantee efficiency, use {\it{fold'}} which forces
+evaluation of the accumulated value before futher unfoldting the
+recursive call.
+
+
+\begin{program**}
+\> foldl' (+) 0  [1,2,3]\\
+\> $\leadsto\;\;$ foldl' (+) (0 + 1) [2,3]) \\
+\> $\leadsto\;\;$ foldl' (+) (1) [2,3]) \\
+\> $\leadsto\;\;$ foldl' (+) (1 + 2) [3]) \\
+\> $\leadsto\;\;$ foldl' (+) (3) [3]) \\
+\> $\leadsto\;\;$ foldl' (+) (3 + 3) []) \\
+\> $\leadsto\;\;$ foldl' (+) (6) []) \\
+\> $\leadsto\;\;$ 6 \\
+\end{program**}
+
+
+
+
+A recursive function is tail recursive if the final result of the recursive
+call is the final result of the function itself. If the result of the recursive
+call must be further processed (say, by adding 1 to it, or consing another
+element onto the beginning of it), it is not tail recursive.  This definition
+may be a little opaque, but the main thing to notice is that the topmost
+function in the recursive call in the definition of {\it{foldl}} is to the
+function {\it{foldl}} itself.  A nice discussion an more fomal defintion can be
+found at {\tt{http:///www.haskell.org/haskellwiki/Tail\_recursion}}. 
+
+Most recursive functions on lists can be made tail recursive by using an
+accumulator.
+
+For example, the following natural definition of the {\it{len}} function is not tail recursive.
+
+\begin{program**}
+\> len :: [a] \arrow Int\\
+\> len [] = 0\\
+\> len (x:xs) = 1 + len xs\\
+\end{program**}
+
+We can make a tail recursive version (which has a slightly different type) by
+adding an accumulator as follows:
+
+\begin{program**}
+\> len\_acc :: Int \arrow [a]  \arrow Int\\
+\> len\_acc k [] = k\\
+\> len\_acc k (x:xs) = len\_acc (k + 1) xs \\
+\end{program**}
+
+\noindent{}Then {\it{len}} can be defined in terms of {\it{len\_acc}}:
+\[ len\; = len\_acc\; 0\]
+
+We can define a tail recursive version of {\it{len}} hiding the {\it{len\_acc}} version using a where clause as follows:
+\begin{program**}
+\> len :: [a] \arrow Int\\
+\> len = len\_acc 0\\
+\>    where len\_acc k [] = k\\
+\>            len\_acc k (x:xs)  = len\_acc (k + 1) xs \\
+\end{program**}
+
+
+
+\noindent{}We can use a where clause to hide the accumulator by making it local to the definition.
+
+\begin{program**}
+\> len' :: [a] \arrow Int\\
+\> len' xs = len\_acc xs 0\\
+\>    where len\_acc [] acc = acc\\
+\>            len\_acc (x:xs) acc = len\_acc xs (1 + acc)\\
+\end{program**}
+
+\problem{Write a tail recursive version of the {\it{filter}} function using an
+accumulator. The non-tail recursive verions is as follows:
+\begin{program**}
+\> filter :: (a \arrow Bool) \arrow [a] \arrow [a]\\
+\> filter p [] = []\\
+\> filter p (x:xs) = if (p x) then x : filter p xs else filter p xs
+\end{program**}
+}
+
+
+
+\problem{Write a tail recursive version of the {\it{rev}} function using an
+
+accumulator. The non-tail recursive verions is as follows:
+\begin{program**}
+\> rev :: [a] \arrow [a]\\
+\> rev [] = []\\
+\> rev (x:xs) = rev xs ++ [x]
+\end{program**}
+}
+
+Folds are rich - they can be used to implement other list functions.  For
+example, we can implement reverse using {\tt{foldr}} and {\tt{foldl}} as
+follows.
+\begin{program**}
+\> revr = foldr ($\backslash$y ys \arrow ys ++ [y]) []\\
+\> revl = foldl (flip (:)) []\\
+\end{program**}
+
+\problem{Use {\it{foldl}} (or {\it{foldr}}) to implement {\it{map}} and {\it{filter}}.
+}
+
+
+
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw10e"
+% fill-column:79
+% End:
+
+
+
+

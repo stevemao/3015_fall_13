@@ -1,0 +1,60 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{19}{14 November}
+
+
+\exercise{ Read the section in Bird on Rose trees (pgs 195 - 209)}
+
+\exercise{Write Haskell code to implement {\tt{mkStree'}} using the {\tt{foldr}} and the {\tt{insert}} for Strees function. Note that, as we discussed in class, this will not necessarily make a balanced tree, but will create a tree with
+unique values. 
+\begin{program*}
+\>    mkStree' :: [a] -> Stree a 
+\end{program*}
+The following property should hold:
+\begin{program*}
+\>    mkStree' l = mkStree (unique l)
+\end{program*}
+Convince the grader that your code works.
+}
+
+\exercise{Write a Haskell program to sum up all of the values in a Rose tree.
+
+
+The type specification is:
+
+\begin{program*}
+\>    sumRose:: (Num a) => Rose a -> a
+\end{program*}
+
+}
+
+\exercise{ Write flatten for Rose trees with the following specification:\\
+\begin{enumerate}
+\item The head of the resulting list is the root of the tree.
+\item All of the values in the left most subtree appear first in 
+the flattened list.
+\end{enumerate}
+So for example:
+\begin{program*} 
+\>   flatten (Node 5 [Node 3 [], Node 7 [Node 8 [], Node 9 []], Node 4 []]) = \\
+\>       [5,3,7,8,9,4]
+\end{program*}
+
+}
+\end{document}
+
+
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "latex hw19; dvips hw19 -o hw19.ps; pdflatex hw19"
+% fill-column:79
+% End:
+
+
+
+

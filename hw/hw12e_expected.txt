@@ -1,0 +1,38 @@
+
+*Calculator_3> eval a0 (Let "x" (Const 1) (Var "x"))
+eval a0 (Let "x" (Const 1) (Var "x"))
+1
+*Calculator_3> eval a0 (Let "x" (Const 1) (Var "y"))
+eval a0 (Let "x" (Const 1) (Var "y"))
+*** Exception: undefined variable y
+*Calculator_3> eval a0 (Let "y" (Const 1) (Var "y"))
+eval a0 (Let "y" (Const 1) (Var "y"))
+1
+*Calculator_3> eval a0 (Let "y" (Const 1) (BinExp Plus (Var "y") (Var "y")))
+eval a0 (Let "y" (Const 1) (BinExp Plus (Var "y") (Var "y")))
+2
+*Calculator_3> eval a0 FF
+eval a0 FF
+0
+*Calculator_3> eval a0 (Not FF)
+eval a0 (Not FF)
+1
+*Calculator_3> eval a0 (Not (Not FF))
+eval a0 (Not (Not FF))
+0
+*Calculator_3> eval a0 (Let "x" (Const 42) (Not (Var "x")))
+eval a0 (Let "x" (Const 42) (Not (Var "x")))
+0
+*Calculator_3> eval a0 (Let "x" (Const 42) (Not (Not (Var "x"))))
+eval a0 (Let "x" (Const 42) (Not (Not (Var "x"))))
+1
+*Calculator_3> eval a0 (Let "x" (Const 42) (Not (Not (Not (Var "x")))))
+eval a0 (Let "x" (Const 42) (Not (Not (Not (Var "x")))))
+0
+*Calculator_3> eval a0 (Let "y" (Const 0) (If (Var "y") (BinExp Times (Var "y") (Var "y")) (Var "y")))
+eval a0 (Let "y" (Const 0) (If (Var "y") (BinExp Times (Var "y") (Var "y")) (Var "y")))
+0
+*Calculator_3> eval a0 (Let "y" (Const 42) (If (Var "y") (BinExp Times (Var "y") (Var "y")) (Var "y")))
+eval a0 (Let "y" (Const 42) (If (Var "y") (BinExp Times (Var "y") (Var "y")) (Var "y")))
+1764
+*Calculator_3> 

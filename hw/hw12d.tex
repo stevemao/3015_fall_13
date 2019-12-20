@@ -1,0 +1,360 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{12}{11 October}
+
+\section{Unifying a list of constraints}
+
+We represent constraints in Haskell as pair of types.
+
+\begin{program**}
+\> type Constraint = (Type,Type)
+\end{program**}
+We will write $\tau_1\stackrel{c}{=}\tau_2$ to denote the constraint pair
+$(\tau_1,\tau_2)$.
+
+\begin{definition}[Satisfiability of a constraint list]
+Given a list of constraints of the the form $[\tau_1\stackrel{c}{=}\tau_1',
+\cdots ,\tau_k\stackrel{c}{=}\tau_k')]$ we say the list is {\em{satisfiable}}
+if there is a single substitution $s$ that unifies all constraints in the list.
+\end{definition}
+
+
+Recall that the function {\it{unify}} has type {\it{Type $\rightarrow$ Type
+$\rightarrow$ Substitution}}.  building on the definitions from the previous
+assignment we give the definition for a function to unify a list constraints.
+
+\begin{program**}
+\> unifyL :: [Constraint] $\rightarrow$ Substitution \\
+\> unifyL xs = unifyAll xs idSubst \\
+\>    where unifyAll [] ans = ans \\
+\>            unifyAll ((t1,t2):cs) ans = unifyAll (map substpair cs) ((subst s) . ans) \\
+\>                where s = unify t1 t2 \\
+\>                        substpair (t1,t2) = (subst s t1, subst s t2) \\
+\end{program**}
+
+
+
+\section{Type Inference}
+
+Given a term (a program) the type inference algorithm determines if there is a
+type for that term and if so, what the type is. 
+
+There are two stages.  The first stage is to build a set of constraints and the
+second is to solve them (if possible) yielding a substitution which is then
+applied to determine the type of the term.  The constraint building phase is
+defined by a set of proof rules used to build a type derivation.  These rules
+decompose the term and build a set of constraints which, if satisfiable, yields
+a substitution that can be used to find the type of the term.
+
+We will present the set of proof rules (due to Michell Wand) to build a
+derivation (if one exists) which yields a list of constraints.  We define a
+Haskell function which ``implements'' these rules.  We then use the function
+{\it{unifyL}} to find a solution, if one exists.
+
+\subsection{The Proof Rules}
+
+The state of a type derivation is recorded in a structure of the following
+form:
+
+\[\Gamma,C \vdash M : T\]
+In this structure, $\Gamma$ is a {\em{context}} representing a state of
+knowledge about the types of some variables.  Contexts have the form:
+ \[\Gamma = [x_1:\tau_1,\cdots{},x_k:\tau_k]\]
+where the $x_i$'s are variables and $\tau_i$'s are types.
+
+$C$ is a list of constraints between pairs
+of types and in the rules is presented as follows:
+\[C=\{\tau_1 \stackrel{c}{=}\tau_1', \cdots , \tau_k \stackrel{c}{=} \tau_k'\}\]
+where $\tau_i$'s are types.  
+
+We write $(x:\tau):\Gamma$ to denote the list obtained from $\Gamma$ by consing
+the pair $(x:\tau)$ on the left end.  Haskell's {\tt{lookup}} function can be
+used to find the type $\tau$ paired with the leftmost occurrence of a pair
+having $x$ as its first element.
+
+The proof rules for Wand's type inference system are given as follows:
+
+
+\AxiomRule{\Gamma,\{\tau=\tau'\}}{x:\tau}{Var} {\hspace{.25in}} if $lookup \;x \;\Gamma = Just(\tau')$ 
+\vspace{.125in}\\
+
+
+\SequentRuleTwo{\Gamma,C_1\cup{}C_2}{MN:\tau}{\Gamma,C_1}{M:\alpha\rightarrow\tau}{\Gamma,C_2}{N:\alpha}{App}
+{\hspace{.25in}} where $\alpha$ is fresh.
+\vspace{.125in}\\
+
+\SequentRule{\Gamma,\{\tau=\alpha\rightarrow\beta\}\cup{}C}{\lambda{}x.M : \tau}{(x:\alpha):\Gamma,\,C}{M:\beta}{Abs}
+{\hspace{.25in}} where $\alpha$ and $\beta$ are fresh.
+\vspace{.125in}\\
+
+
+
+A type derivation in this system is a tree of instances of these rules where
+the leaves of the tree are all instances of the (Ax) rule.  To construct a
+derivation that a closed term (no free variables) (say $M$) has a type, we
+postulate that $M$ has some type (say $\alpha$) and proceed by recursion on the
+structure of $M$ to show:
+
+\[ \exists{}C.[(Type,Type)]. {\rm{\ such \ that\ the \ sequent\ }}[],C\vdash M:\alpha {\rm{\  is \ derivable.}}\]
+
+To find $C$, we use the proof rules above to try to construct a derivation
+(leaving the $C$'s blank to start) and then propagate the constraints in the
+$C$'s back down through the derivation tree from the leaves.
+
+\begin{example}
+Here is an example of a derivation that $\lambda{}x.x$ has a type by starting
+with the sequent of the form  $[],\{??\}\vdash (\lambda{}x.x) :\tau$.  The term is an abstraction
+so we apply the rule (Abs).
+
+\begin{center}
+\AxiomC{$[x:\alpha],C\vdash x : \beta$}
+\LeftLabel{}\RightLabel{(Abs)}
+\UnaryInfC{$[],\{\tau=\alpha \rightarrow \beta\}\cup{}C\vdash (\lambda{}x.x) :\tau$}
+\DisplayProof
+\end{center}
+
+But if we fill in the set $C$ with the constraint $\tau=\alpha$, we have an
+instance of the Axiom rule.
+
+
+\begin{center}
+\AxiomC{$C=\{\beta=\alpha\}$}
+\LeftLabel{}\RightLabel{(Ax)}
+\UnaryInfC{$[x:\alpha],C\vdash x : \beta$}
+\LeftLabel{}\RightLabel{(Abs)}
+\UnaryInfC{$[],\{\tau=\alpha \rightarrow \beta\}\cup{}C\vdash (\lambda{}x.x) :\tau$}
+\DisplayProof
+\end{center}
+
+\noindent{}If we completely instantiate the sets $C$ we get the following complete derivation.
+
+\begin{center}
+\AxiomC{}
+\LeftLabel{}\RightLabel{(Ax)}
+\UnaryInfC{$[x:\alpha],\{\beta=\alpha\}\vdash x : \beta$}
+\LeftLabel{}\RightLabel{(Abs)}
+\UnaryInfC{$[],\{\tau=\alpha \rightarrow \beta,\beta=\alpha\}\vdash (\lambda{}x.x) :\tau$}
+\DisplayProof
+\end{center}
+
+\end{example}
+
+
+The fact that there is a derivation indicates that the term $(\lambda{}x.x)$
+may have a type. We use the constraint set $C$ to actually determine the type
+of $\lambda{}x.x$.  To do this, we unify the set $C$ and apply the resulting
+substitution to the type $\tau$.  For this case, when we unify $C$ we get the
+substitution $[\tau \mapsto \alpha\rightarrow\alpha, \beta \mapsto \alpha]$.  Applying this
+substitution to $\tau$ we determine that
+$(\lambda{}x.x):\alpha\rightarrow\alpha$.
+
+
+
+We can also do type derivations for terms containing free variables if we
+assume those free variables do have types.
+
+\begin{example}
+Consider the term $y(\lambda{}x.x)$. This should have a type if
+$y:(\alpha\rightarrow\alpha)\rightarrow\beta$.
+
+We start by trying to show there is some $C$ such that there is a derivation of the sequent
+
+\[[y:(\alpha\rightarrow\alpha)\rightarrow\beta],C\vdash y(\lambda{}x.x):\tau\]
+
+\noindent{}Since the term is an application, we use the (App) rule.
+
+\begin{center}
+\AxiomC{$[y:(\alpha\rightarrow\alpha)\rightarrow\beta],C_1\vdash y :\alpha'\rightarrow\tau$}
+\AxiomC{$[y:(\alpha\rightarrow\alpha)\rightarrow\beta],C_2\vdash (\lambda{}x.x):\alpha'$}
+\LeftLabel{}\RightLabel{(App)}
+\BinaryInfC{$[y:(\alpha\rightarrow\alpha)\rightarrow\beta],C_1\cup{}C_2\vdash y(\lambda{}x.x):\tau$}
+\DisplayProof
+\end{center}
+
+\noindent{}The left branch is an instance of an axiom because there is an entry for the variable $y$ in the context.
+
+\small{
+\begin{center}
+\AxiomC{$C_1 = \{\alpha'\rightarrow\tau=(\alpha\rightarrow\alpha)\rightarrow\beta\}$}
+\LeftLabel{}\RightLabel{(Var)}
+\UnaryInfC{$[y:(\alpha\rightarrow\alpha)\rightarrow\beta],C_1\vdash y :\alpha'\rightarrow\tau$}
+\AxiomC{$[y:(\alpha\rightarrow\alpha)\rightarrow\beta],C_2\vdash (\lambda{}x.x):\alpha'$}
+\LeftLabel{}\RightLabel{(App)}
+\BinaryInfC{$[y:(\alpha\rightarrow\alpha)\rightarrow\beta],C_1\cup{}C_2\vdash y(\lambda{}x.x):\tau$}
+\DisplayProof
+\end{center}
+}
+
+\noindent{}On the right branch we rebuild the proof given above.
+
+\small{
+\begin{center}
+\AxiomC{$C_1 = \{\alpha'\rightarrow\tau=(\alpha\rightarrow\alpha)\rightarrow\beta\}$}
+\LeftLabel{}\RightLabel{(Var)}
+\UnaryInfC{$[y:(\alpha\rightarrow\alpha)\rightarrow\beta],C_1\vdash y :\alpha'\rightarrow\tau$}
+% \AxiomC{$[y:(\alpha\rightarrow\alpha)\rightarrow\beta],C_2\vdash (\lambda{}x.x):\alpha'$}
+\AxiomC{$C_3=\{\beta'=\alpha''\}$}
+\LeftLabel{}\RightLabel{(Var)}
+\UnaryInfC{$[x:\alpha'',y:(\alpha\rightarrow\alpha)\rightarrow\beta],C_3\vdash x : \beta'$}
+\LeftLabel{}\RightLabel{(Abs)}
+\UnaryInfC{$[y:(\alpha\rightarrow\alpha)\rightarrow\beta],C_2=(\{\alpha'=\alpha'' \rightarrow \beta'\}\cup{}C_3)\vdash (\lambda{}x.x) :\alpha'$}
+\LeftLabel{}\RightLabel{(App)}
+\BinaryInfC{$[y:(\alpha\rightarrow\alpha)\rightarrow\beta],C=(C_1\cup{}C_2)\vdash y(\lambda{}x.x):\tau$}
+\DisplayProof
+\end{center}
+}
+
+Putting together the constraints, we get the following set:
+
+\[\begin{array}{lcl}
+C & = & C_1 \cup C_2 \\
+  & = & \{\alpha'\rightarrow\tau=(\alpha\rightarrow\alpha)\rightarrow\beta\} \cup (\{\alpha'=\alpha'' \rightarrow \beta'\}\cup{}C_3)\\
+  & = & \{\alpha'\rightarrow\tau=(\alpha\rightarrow\alpha)\rightarrow\beta\} \cup (\{\alpha'=\alpha'' \rightarrow \beta'\}\cup{}\{\beta'=\alpha''\})\\
+  & = & \{\alpha'\rightarrow\tau=(\alpha\rightarrow\alpha)\rightarrow\beta,\alpha'=\alpha'' \rightarrow \beta', \beta'=\alpha''\})\\
+\end{array}\]
+
+Unification of this results in the substitution:
+
+\[s = [a' \mapsto (b' \rightarrow b'),\tau \mapsto b,a \mapsto b',a'' \mapsto b']\]
+
+When $s$ is applied to $\tau$ we get the type $\beta$, as expected.
+
+\end{example}
+
+
+
+\subsection{Implementation}
+
+
+We implemented the {\it{infer}} function in class.  Recall that we encoded
+the contexts  by the following type.
+\begin{program**}
+\> type Context = [(String, Type)]\\
+\end{program**}
+
+The {\it{infer}} function essentially implements a derivation.  To be able to
+choose {\em{fresh}} variables we need to keep track of the all the variable
+names used in building the derivation.  To do this we will pass a list of
+variables used so far (a list of strings) and return them together with the
+list of constraints.  In this way, we thread a list of the variables used so
+far through the computation.
+
+
+The type of the {\tt{infer}} function is as follows:
+\begin{program**}
+\> infer :: Context $\rightarrow$ Term $\rightarrow$ Type $\rightarrow$ [String] $\rightarrow$ ([Constraint], [String]) \\ 
+\end{program**}
+This function takes a context (denoted $\Gamma$ in the rules above and
+represented by the type {\it{Context}} here), a term to infer the type of, a
+type (denoted $\tau$ in the rules above and initially a type variable not
+occurring anywhere in the context), and a string list containing the names of
+all the type variables used so far.
+
+The following function is used to generate fresh variables.  It is a bit more
+elegant than the quick and dirty version we sued in class.
+
+\begin{program**}
+\> fresh :: String $\rightarrow$ [String] $\rightarrow$ String\\
+\> fresh x xs = if not(x `elem` xs) then x else fresh' x 0   \\
+\>    where  fresh' x i  = if not(x' `elem` xs) then x' else fresh' x (i + 1)  \\
+\>        where x' = x ++ (show i) \\
+\end{program**}
+
+
+Here is the infer function we implemented in class.
+
+\begin{program**}
+\> infer ctx  (Var x) ty vars =  \\
+\>    case (lookup x ctx) of \\
+\>       Just t $\rightarrow$ ([(ty,t)],vars) \\
+\>       Nothing $\rightarrow$ error "infer: Var-case  failure" \\
+\>   \\
+\> infer ctx (Ap t1 t2) ty vars = (c1 ++ c2, vars2) \\
+\>     where (c1,vars1) = infer ctx t1 (BinType Arrow (TVar a) ty) (a : vars) \\
+\>           (c2,vars2) = infer ctx t2 (TVar a) vars1 \\
+\>           a =  fresh "a" vars \\
+\>   \\
+\> infer ctx (Abs x t) ty vars = ((BinType Arrow (TVar a) (TVar b), ty) : c, vars') \\
+\>    where (c,vars') = infer ((x, TVar a) : ctx) t (TVar b) (a : b : vars) \\
+\>          a = fresh "a" vars \\
+\>          b = fresh "b" vars \\
+\end{program**}
+
+The function is defined by recursion on the structure of the term whose type is
+being inferred.  The case {\it{(Var x)}} implements the Var rule, the case
+labeled {\it{(Ap m n)}} implements the (Ap) rule and the case labeled {\it{(Abs
+x m)}} implements the (Abs) rule.
+
+
+\subsection{Adding product types.}
+
+We already included product types (pairs) in the type {\it{Type}} but we did
+not include any mends for forming pairs or destructing pairs in the programming
+language.  To do so we extend the language as follows:
+
+\begin{program**}
+\>  data Term = Var String  \\
+\>            $\mid$ Ap Term Term \\
+\>            $\mid$ Abs String Term \\
+\>            $\mid$ Pair Term Term\\
+\>            $\mid$ Fst Term \\
+\>            $\mid$ Snd Term\\
+\end{program**}
+
+Here is a comparison of the mathematical notation and the corresponding Haskell notation.
+\ \\
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Mathematical & Haskell \\
+Notation & Notation \\ \hline
+$x$  & {\it{(Var x)}}\\
+(M\,N) & {\it{(Ap m n)}}\\
+$\lambda{}x.M$ & {\it{(Abs x m)}}\\
+$\langle{}M,N\rangle$  & {\it{(Pair m n)}}\\
+{\it{fst M}} & {\it{(Fst m)}}\\
+{\it{snd M}} & {\it{(Snd m)}}\\
+\hline
+\end{tabular}
+\end{center}
+
+\ \\
+Recall the computation rules for {\it{fst}} and {\it{snd}}.
+\[\begin{array}{ccc} {\mathit{fst}} \,\pair{m,n} = m  && {\mathit{snd}} \,\pair{m,n} = n \end{array}\]
+
+Here are the proof rules keyed to the new kinds of terms.\ \\
+
+\SequentRuleTwo{\Gamma,C_1\cup{}C_2\cup{}\{\tau=\alpha\times\beta\}}{\pair{M,N} : \tau}{\Gamma,C_1}{M:\alpha}{\Gamma,C_2}{N:\beta}{Pair}
+{\hspace{.25in}} where $\alpha$ and $\beta$ are fresh.
+\ \vspace{.125in}\\
+
+\SequentRule{\Gamma,C}{fst\,{M}:\tau}{\Gamma,C}{M:\tau\times\alpha}{fst}{\hspace{.25in}}
+where $\alpha$ is fresh. \vspace{.5em}
+
+\SequentRule{\Gamma,C}{snd\,{M}:\tau}{\Gamma,C}{M:\alpha\times\tau}{snd}{\hspace{.25in}}
+where $\alpha$ is fresh. \vspace{.5em}
+
+
+\begin{exercise}
+Using the base code provided extend the {\tt{infer}} function to implement
+these additional type inference rules.
+\end{exercise}
+
+
+
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw12d"
+% fill-column:79
+% End:
+
+
+
+

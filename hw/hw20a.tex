@@ -1,0 +1,69 @@
+\documentclass[11pt]{article}
+
+\include{header}
+\newcommand{\quot}[1]{"{\tt{{#1}}}"}
+\newcommand{\mybs}{$\backslash$}
+
+\begin{document}
+\homework{20}{4 December}
+
+\section{Parsing terms}
+
+In class we presented code to parse Types.  Inthis assignement you
+will write code to parse terms and to build elements of th data type
+{\tt{Term}}.
+
+\begin{program*}
+\>  data Term = V String \\
+\>            | Ap Term Term  \\
+\>            | Abs String Term  \\
+\>            | Spread Term (String,String) Term  \\
+\>            | Pair Term Term \\
+\>   deriving Eq \\
+\end{program*}
+
+
+The BNF form for the terms is given as follows:
+
+\[\begin{array}{lcl}
+term & ::=  & id \\
+&& | \;\;  \quot{(} \;\; term \;\; term \;\; \quot{)} \\
+&& | \;\;  \quot{\backslash} \;\; id \;\; \quot{.} \;\; term \\
+&& | \;\;  \quot{spread} \;\; \quot{(} \;\; term \;\; \quot{;} \;\; id \;\; \quot{,} \;\; id \;\; \quot{.} \;\; term \;\; \quot{)} \\
+&& | \;\;  \quot{<} \;\; term \;\; \quot{,} \;\; term \;\; \quot{>} \
+\end{array}
+\]
+
+\noindent{}Here, {\tt{id}} is the an identifier, parsed with the parser {\tt{identifier}} (included int he code.
+
+
+\subsection{An interactive typechecker}
+
+I have written a small interpreter (used in the file Main.hs) allowing
+you to enter a term and then it prints the type of the term, if any. For example:
+
+\begin{program*}
+\>*Main> typecheck \\
+\> \\
+\>[("y",a)] |- (\mybs{}x->y) :: (b -> a) \\
+\>enter\_term: \mybs{}x.\mybs{}y.\mybs{}z. ((x y) (y z)) \\
+\> \\
+\>[] |- (\mybs{}x->(\mybs{}y->(\mybs{}z->((x y) (y z))))) :: (((a -> b) -> (b -> c)) -> ((a -> b) -> (a -> c))) \\
+\end{program*}
+
+\exercise{Write the parsers {\tt{ApP}} (for apply terms), {\tt{absP}} (for abstraction terms), {\tt{spreadP}} (for spread terms) and {\tt{pairP}} (for pair terms) and put them in the file {\tt{Parser.hs}}.  Load {\tt{Main.hs}} and run the interpreter by evaluating {\tt{typechecker}}. Extra credit will be given if you run the typechecker on some especially interesting terms.}
+
+\end{document}
+
+
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw20a"
+% fill-column:79
+% End:
+
+
+
+

@@ -1,0 +1,45 @@
+*Main> :l hw18
+:l hw18
+[1 of 1] Compiling Main             ( hw18.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> fmap (\x -> read x :: Int) (C "10")
+fmap (\x -> read x :: Int) (C "10")
+C 10
+*Main> fmap (\x -> read x :: Int) (D "42" "10")
+fmap (\x -> read x :: Int) (D "42" "10")
+D 42 10
+*Main> fmap (\x -> read x :: Int) (E [])
+fmap (\x -> read x :: Int) (E [])
+E []
+*Main> fmap (\x -> read x :: Int) (E (map show [1..10]))
+fmap (\x -> read x :: Int) (E (map show [1..10]))
+E [1,2,3,4,5,6,7,8,9,10]
+*Main> fmap length (fmap show (E [1..10]))
+fmap length (fmap show (E [1..10]))
+E [1,1,1,1,1,1,1,1,1,2]
+*Main> fmap (\x -> read x :: Int) (fmap (reverse . show) (E [0,10..1000]))
+fmap (\x -> read x :: Int) (fmap (reverse . show) (E [0,10..1000]))
+E [0,1,2,3,4,5,6,7,8,9,1,11,21,31,41,51,61,71,81,91,2,12,22,32,42,52,62,72,82,92,3,13,23,33,43,53,63,73,83,93,4,14,24,34,44,54,64,74,84,94,5,15,25,35,45,55,65,75,85,95,6,16,26,36,46,56,66,76,86,96,7,17,27,37,47,57,67,77,87,97,8,18,28,38,48,58,68,78,88,98,9,19,29,39,49,59,69,79,89,99,1]
+*Main> fmap length (fmap show (E [0,10..1000]))
+fmap length (fmap show (E [0,10..1000]))
+E [1,2,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4]
+*Main> fmap (+1) t1
+fmap (+1) t1
+Rose 2 []
+*Main> fmap (show) t1
+fmap (show) t1
+Rose "1" []
+*Main> fmap (fmap  show) trees
+fmap (fmap  show) trees
+[Rose "1" [],Rose "1" [Rose "2" []],Rose "1" [Rose "2" [Rose "3" []]],Rose "1" [Rose "2" [Rose "3" []],Rose "4" []],Rose "1" [Rose "2" [Rose "3" []],Rose "4" [Rose "5" []]],Rose "1" [Rose "1" [],Rose "1" [Rose "2" []],Rose "1" [Rose "2" [Rose "3" []]],Rose "1" [Rose "2" [Rose "3" []],Rose "4" []],Rose "1" [Rose "2" [Rose "3" []],Rose "4" [Rose "5" []]]],Rose "1" [Rose "2" [],Rose "3" [],Rose "4" []]]
+*Main> fmap (+1) t1
+fmap (+1) t1
+Rose 2 []
+*Main> fmap (fmap (*17)) trees
+fmap (fmap (*17)) trees
+[Rose 17 [],Rose 17 [Rose 34 []],Rose 17 [Rose 34 [Rose 51 []]],Rose 17 [Rose 34 [Rose 51 []],Rose 68 []],Rose 17 [Rose 34 [Rose 51 []],Rose 68 [Rose 85 []]],Rose 17 [Rose 17 [],Rose 17 [Rose 34 []],Rose 17 [Rose 34 [Rose 51 []]],Rose 17 [Rose 34 [Rose 51 []],Rose 68 []],Rose 17 [Rose 34 [Rose 51 []],Rose 68 [Rose 85 []]]],Rose 17 [Rose 34 [],Rose 51 [],Rose 68 []]]
+*Main> fmap (reverse . show . (*17)) t6
+fmap (reverse . show . (*17)) t6
+Rose "71" [Rose "71" [],Rose "71" [Rose "43" []],Rose "71" [Rose "43" [Rose "15" []]],Rose "71" [Rose "43" [Rose "15" []],Rose "86" []],Rose "71" [Rose "43" [Rose "15" []],Rose "86" [Rose "58" []]]]
+*Main> 
+

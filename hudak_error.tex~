@@ -1,0 +1,34 @@
+\documentclass[11pt]{article}
+
+\include{header}
+\title{Remarks on the failed proof of \\$take n xs \,++\, drop n xs = xs$}
+\author{James Caldwell}
+\begin{document}
+\maketitle
+
+In Hudak's text {\em{The Haskell Scholl of Expression: Learning
+Functional Programming through Multimedia}} the following property is
+claimed to hold for all infinite lists.
+
+\[take\, n\, xs \append{}drop\, n\, xs\,  = xs\]
+
+The definitions of take a drop are given as follows.
+
+
+\[\begin{array}{rcl}
+ take & & :: Int $\rightarrow$ [a] $\rightarrow$ [a] \\
+ take 0 \_ & = &  \nil \\
+ take \_ \nil & = &  \nil \\
+ take\, n\, \nil\, |\, n > 0 & = &  x:take (n-1) xs \\
+\end{program*}
+
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "latex hw1; dvips hw1 -o hw1.ps; pdflatex hw1"
+% fill-column:79
+% End:
+

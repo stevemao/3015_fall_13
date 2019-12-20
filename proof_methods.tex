@@ -1,0 +1,618 @@
+\documentclass[11pt]{article}
+
+%\include{header}
+\usepackage{amssymb}
+\usepackage{remark}
+ \newremark{theorem}{Theorem}[section]
+ \newremark{Rule}{Rule}[section]
+ \newremark{proofrule}{Proof Rule}[section]
+ \newremark{conjecture}{Conjecture}[section]
+ \newremark{corollary}{Corollary}[section]
+ \newremark{example}{Example}[section]
+ \newremark{fact}{Fact}[section]
+ \newremark{lemma}{Lemma}[section]
+ \newremark{definition}{Definition}[section]
+ \newremark{claim}{Claim}[section]
+ \newremark{remark}{Remark}[section]
+ \newremark{slogan}{Slogan}[section]
+ \newremark{axiom}{Axiom}[section]
+ \newremark{note}{Note}[]
+ \newremark{problem}{Problem}[section]
+ \newremark{exercise}{Exercise}[section]
+
+\newcommand{\rbreak}{\ \\}
+\newcommand{\NamedSequentRule}[3]{{\mbox{{\begin{tabular}{c} {\mbox{$#1$}}\vspace{.25em}\\ \hline \vspace{.25em} {\mbox{$#2$}} \end{tabular}}{\hspace{.5em}{#3}}}}}
+
+\newcommand{\NamedConditionalSequentRule}[4]{{\mbox{{\begin{tabular}{c} {\mbox{$#1$}}\vspace{.25em}\\ \hline \vspace{.25em} {\mbox{$#2$}} \end{tabular}}{\hspace{.5em}{#3}{\hspace{.25in}{#4}}}}}}
+
+\newcommand{\bool}{\mathbb{B}}
+\newcommand{\definedAsM}{{\stackrel{{\mathrm{def}}}{=}}}
+
+
+\begin{document}
+
+\title{A Proof Primer:\\Reconciling Velleman style proof strategies with Sequent Proofs}
+\maketitle
+
+Proofs are taught in Dr. Cowles version of COSC 2300 using the methods of
+Daniel J. Velleman \cite{Velleman}.  Velleman's methods are essentially
+Gentzen's sequent proof rules presented in a more narrative form.  My own notes
+\cite{Caldwell_Discrete} present the proof rules in sequent form. These notes,
+closely based on notes by Vellman, present the proof strategies in terms of the
+sets of formulas he calls {\em{givens}} and {\em{goals}}.
+
+To be completely precise we present the syntax of formulas first.
+
+
+\section{Syntax}
+\subsection{Propositional Logic}
+
+We use {\em{propositional variables}} to stand for arbitrary propositions and
+assume there is an infinite supply of these variables.
+\[{\cal{V}}=\{p,q,r,p_1,q_1,r_1,p_2,\cdots\}\] Note that the fact that the set
+${\cal{V}}$ is infinite is unimportant since no individual formula will ever
+require more than some fixed finite number of variables, however it is
+important that the number of variables we can select from is unbounded.  The
+must always be a way to get another one.
+
+We include the constant symbol $\bot$ (say ``bottom''). \index{bottom} \index{bottom@$\bot$} \index{propositional!constants}
+
+Complex propositions are constructed by combining simpler ones with {\em
+propositional connectives}.  \index{propositional!connectives} For now we leave
+the meaning of the connectives unspecified and simply present them as one of
+the symbols $\wedge, \vee, \Rightarrow$ standing for {\em{and}}, {\em{or}} and
+{\em{implies}} respectively.
+
+\begin{definition}[Propositional Logic syntax]
+\index{propositional logic!syntax}
+\index{propositional!formula}
+\index{negation}
+\index{conjunction}
+\index{disjunction}
+\index{implication}
+\index{negation!syntax}
+\index{conjunction!syntax}
+\index{disjunction!syntax}
+\index{implication!syntax}
+The syntax of propositional formulas (we denote the set as
+${\cal{P}}$) can be described by a grammar as follows:
+\[{\cal{P}}::= \bot \; | \; x \; | \; \neg\phi \; | \; \phi \wedge \psi \; | \; \phi \vee \psi \; | \; \phi \Rightarrow \psi \]
+where\\
+{\mbox{\hspace{.25in}}} $\bot$ is a constant symbol,\\
+{\mbox{\hspace{.25in}}} $x\in{\cal{V}}$ is a propositional variable, and\\
+{\mbox{\hspace{.25in}}} $\phi,\psi\in{\cal{P}}$ are meta-variables denoting previously constructed  propositional formulas.\\
+\end{definition}
+
+
+\subsection{Predicate Logic}
+
+In this section we extend propositional logic presented in the previous chapter
+to allow for {\em{quantification}} \index{quantification}of the form:
+\begin{quotation}
+\goodbreak\noindent{\em{for all things $x$,  $\cdots$\ \ \ \ }} 
+\goodbreak\noindent{\em{for every $x$,  $\cdots$ \ \ \ \ }} 
+\goodbreak\noindent{\em{there exists a thing $x$ such that $\cdots$\ \  \ \  }}
+\goodbreak\noindent{\em{for some thing $x$,  $\cdots$ }}
+\end{quotation}
+Where ``$\cdots$'' is some statement referring to the thing denoted by the
+variable $x$ that specifies a property of the thing denoted by $x$.  The first
+two forms are called {\em{universal quantification}},\index{universal
+quantifier}\index{quantifier!universal} they are different ways of
+asserting that everything satisfies some specified property.  The second two
+forms are called {\em{existential quantification}}, they assert that something
+exists having the specified
+property.\index{quantifier!existential}\index{existential quantifier}
+
+Symbolically, we write ``{\em{for all things x,
+$\cdots$ }}'' as $(\forall x. \cdots)$ and ``{\em{there exists a thing x
+such that $\cdots$}}'' as $(\exists x. \cdots)$.
+
+
+\subsection{Predicates}
+
+To make this extension to our logic we add truth-valued functions \index{predicate}
+called predicates which map elements from a {\em{domain of discourse}}
+to the values in the set of Boolean values ($\bool$). \index{domain of discourse}
+
+
+\begin{definition}[arity]
+\index{arity} \index{n-ary} \index{constant} \index{nullary} \index{unary}
+\index{binary} A function is called {\em{n-ary}} if it takes $n$ arguments,
+$0\le{}n$.  If a function is $n-ary$, we say it has {\em{arity}} $n$.  A
+function of arity $0$, {\em{i.e.}} a function that takes no arguments, is
+called a {\em{constant}}.  We say a 0-ary function is {\em{nullary}}, 1-ary
+function is {\em{unary}}.  We say a 2-ary function is {\em{binary}} and,
+although we could say 3-ary, 4-ary and 5-ary functions {\em{ternary}},
+{\em{quaternary}} and {\em{quintary}} respectively, we do not insist on
+carrying this increasingly tortured nomenclature any further.
+
+\end{definition}
+
+
+For example, consider the following functions:
+\[\begin{array}{ll}
+{\rm{i.)}} & f() = 5\\
+{\rm{ii.)}} & g(x) = x + 5\\
+{\rm{iii.)}} & h(x,y) = (x + y) - 1\\
+{\rm{vi.)}} &  f_1(x,y,z) = x * (y + z)\\
+{\rm{v.)}} &  g_1(x,y,z,w) = f_1(x,y,w)  - z
+\end{array}\]
+The first function is nullary, it takes {\em{no}} arguments.  Typically,
+we will drop the parentheses and write $f$ instead of $f()$.  The
+second function takes one argument and so is a {\em{unary function}}.
+The third function is {\em{binary}}.  The fourth and fifth are 3-ary
+and 4-ary functions respectively.
+
+
+\begin{definition}[Boolean valued function]
+\index{Boolean valued}
+\index{function!Boolean valued}
+ A function is {\em{Boolean-valued}} if its range is the
+set $\bool$.
+\end{definition}
+
+\begin{definition}[predicate]
+\index{predicate}
+A {\em{predicate}} is a n-ary Boolean-valued function over
+some domain of input.
+\end{definition}
+
+\example{}{In ordinary arithmetic, the binary predicates include
+{\em{less than}} (written $<$) and {\em{equals}} (written $=$).
+Typically these are written in infix notation {\em{i.e.}} instead of
+writing $\ =(x,y)\ $ and $\ <(x,y)\ $ we write $x=y$ and $x<y$; do not
+let this infix confuse you, they are still binary predicates.  We can
+define other predicates in terms of these two. 
+For example we can define a  binary predicate {\em{less-than-or-equals}} as:
+\[i\le{}j \definedAsM ((i = j) \vee (i < j))\]
+We could define a unary predicate which is true when its argument is
+equal to $0$ and is false otherwise:
+\[=_0(i) \definedAsM i = 0\]  
+We could define a 3-ary predicate
+which is true if $k$ is strictly  between $i$ and $j$:
+\[{\tt{between}}(i,j,k) \definedAsM ((i < k) \wedge (k < j))\]
+Note that predicate constants act just like propositional variables.
+}
+
+
+% \section{The Syntax of Predicate Logic}
+
+% \begin{minipage}[t]{7in}
+% \begin{picture}(100,30)(50,15)
+% \put(0,0){\circle{20}}
+% \put(-5,-2.5){$\forall{}x$}
+% \put(0,-10){\line(1,-1){20}}
+% \put(0,-10){\line(-1,-1){20}}
+% \end{picture}
+% \end{minipage}
+
+Predicate logic formulas are constructed from two sorts of components: terms
+\index{term} and formulas \index{formula} which may contain terms.
+\begin{description}
+
+\item[i.)] parts that refer to objects and functions on those objects
+in the domain of discourse. These components of the formula are called
+{\em{terms}}.
+
+\item[ii.)]  parts of a formula that denote truth values, these
+include predicates over the domain of discourse and formulas
+constructed inductively by connecting previously constructed formulas.
+\end{description}
+
+
+\subsection{Variables}
+
+The definitions of the syntactic classes of terms and formulas (both
+defined below) depend on an unbounded collection of variable symbols,
+we call this set ${\cal{V}}$. \index{term!variables}\index{variable}
+\[{\cal{V}} = \{x,y,z,w,x_1,y_1,z_1,w_1,x_2,\cdots\}\] Unlike propositional
+variables, which denoted truth-values, these variables will range over
+individual elements in the domain of discourse. So, for formulas where the
+quantifiers are understood to range over integer values, the variables range
+over integer values.  Like propositional variables, we assume the set
+${\cal{V}}$ is fixed (and so we do not include it among the parameters of the
+definitions that use it.)
+
+\subsection{Terms}
+The syntax of terms (the collection of which we will write as
+${\cal{T}}$) is determined by a set of n-ary function symbols, call
+this set ${\cal{F}}$.  We assume the arity of a function symbol can be
+determined.
+
+\begin{definition}[Terms]
+\index{term}
+\index{term!syntax of}
+\index{term@${\cal{T}}_[{\cal{F}}]$}
+\index{function!symbols for terms of predicate logic}
+\index{term!predicate logic}
+\index{predicate logic!term syntax}
+\index{predicate logic!term@${\cal{T}}_[{\cal{F}}]$}
+
+{\em{Terms}} are  defined over a set of function symbols
+${\cal{F}}$ are given by the following grammar:
+\[{\cal{T}}_{[{\cal{F}}]} ::= x \;|\; f(t_1,\cdots t_n)\]
+where: \vspace{-.06125in}
+
+\begin{description}
+\item{{\hspace{.25in}}${\cal{F}}$} is a set of function symbols, \vspace{-.75em}
+\item{{\hspace{.25in}}$x\in{\cal{V}}$} is a variable, \vspace{-.75em}
+\item{{\hspace{.25in}}$f\in{\cal{F}}$} is a function symbol for a function of arity $n$, where $n \ge 0$ and 
+\vspace{-.75em}
+\item{{\hspace{.25in}}$t_i\in{\cal{T}}_{[{\cal{F}}]}$}  denote previously constructed terms, $1\le{}i\le{}n$.
+\end{description}
+
+\end{definition}
+
+Note that the definition of terms is parametrized by the set of function
+symbols.  The set of terms in ${\cal{T}}_{[{\cal{F}}]}$ is determined by the
+set of function symbols in ${\cal{F}}$ and by the arities of those symbols.
+Also, note that if $n = 0$, the term $f()$ is a constant
+\index{constant!nullary function as} and we will write it simply as $f$.
+
+\example{}
+{ Let ${\cal{F}}=\{a,b,f,g\}$ where $a$ and $b$ are constants, $f$ is
+a unary function symbol and $g$ is a binary function symbol.  In this
+case, ${\cal{T}}$ includes:
+\[
+\begin{array}{l}
+\{a , x, f(a), f(x), \\
+\; g(a,a), g(a,x), g(a,f(a)), g(a,f(x)), \\
+\; g(x,a), g(x,x), g(x,f(a)), g(x,f(x)), \\
+\, b, y, f(b), f(y), f(f(a)), f(f(x)), f(g(a,a)), \cdots\\
+\end{array}
+\]
+
+}
+
+
+\subsection{Formulas}
+
+\begin{definition}[Predicate Logic Formula]
+\index{formula}
+\index{predicate logic!formula syntax}
+\index{predicate logic!formula@${\cal{PL}}_{[{\cal{F}},{\cal{P}}]}$}
+\index{formula!predicate logic}
+\index{predicate symbols}
+{\em{Formulas}} of predicate logic are defined over
+a set of function symbols ${\cal{F}}$ and a set of predicate symbols
+${\cal{P}}$ and are given by the following grammar.
+
+\[{\cal{PL}}_{[{\cal{F}},{\cal{P}}]} ::= \bot \;|\;  P(t_1,\cdots,t_n) \; | \; \neg\phi \; | \; \phi \wedge\psi \; | \; \phi \vee\psi \; | \; \phi \Rightarrow\psi \; | \; \forall{}x.\phi \; | \; \exists{}x.\phi\]
+where: \vspace{-.06125in}
+\begin{description}
+\item{{\hspace{.25in}}${\cal{F}}$} is set of function symbols, \vspace{-.5em}
+\item{{\hspace{.25in}}${\cal{P}}$} is set of predicate symbols, \vspace{-.5em}
+\item{{\hspace{.25in}}$\bot$} is a constant symbol,  \vspace{-.5em}
+\item{{\hspace{.25in}}$P\in{\cal{P}}$} is a predicate symbol for a predicate of arity $n$, where $n\ge{}0$,  \vspace{-.5em}
+\item{{\hspace{.25in}}$t_i\in{\cal{T}}_{[{\cal{F}}]}$} are terms, $1\le{}i\le{}n$,  \vspace{-.5em}
+\item{{\hspace{.25in}}$\phi,\psi\in{\cal{PL}}_{[{\cal{F}},{\cal{P}}]}$} are previously constructed formulas, and  \vspace{-.5em}
+\item{{\hspace{.25in}}$x\in{\cal{V}}$} is a variable.
+\end{description}
+\end{definition}
+
+This definition is parametrized by the set of function symbols (${\cal{F}}$)
+and the set of predicate symbols (${\cal{P}}$).  As remarked above, a predicate
+symbol denoting a constant is the equivalent of a propositional variable
+presented in the previous chapter.  Thus, predicate symbols are a
+generalization of propositional variables; when actual values are substituted
+for their variables, they denote truth values.
+
+We will sometimes write $\phi[x]$ to indicate that the variable $x$ may occur
+in the formula $\phi$.
+
+\subsubsection{Predicate Logic extends Propositional Logic}
+
+Given a rich enough set of predicate symbols\index{predicate symbols}
+${\cal{P}}$ {\em{i.e.}}  one that includes one constant symbol for each
+propositional variable, the language of predicate logic extends the language of
+propositional logic.  Specifically, every formula of propositional logic is a
+formula of predicate logic.  To see this note that: the constant symbol bottom
+($\bot$) is included in both languages; the propositional variables are all
+included in ${\cal{P}}$ as predicate symbols of arity 0. Also, every connective
+of propositional logic is also a connective of predicate logic.  Thus, we
+conclude that every formula of propositional logic can be identified with a
+syntactically identical formula of predicate logic.
+
+We will see in later sections that not only is the syntax preserved,
+both the semantics and the proof system are also preserved.
+
+
+
+
+\section{Proofs}
+
+At any point in a proof there is a set of the formulas you have (so-far)
+assumed to be true; these are the {\em{givens}}. There is also a set of
+formulas, one of which you must show is true; these are the {\em{goals}}.
+Thus, pairs of sets of formulas capture the state of a proof.  In the sequent
+presentation the proof state is written $\Gamma\vdash\Delta$ where $\Gamma$ is
+the set of givens and $\Delta$ is the set of goals.  In a sequent, we write
+$\Gamma_1,\phi,\Gamma_2\vdash\Delta$ to indicate $\phi$ is in the set of givens
+and write $\Gamma\vdash\Delta_1,\phi,\Delta_2$ to indicate $\phi$ is in the set
+of goals.
+
+To prove a formula is valid, you start with an empty set of givens and the set
+of goals includes the single formula to be proved.  Proofs proceed by applying
+one of the proof strategies to a formula in the givens or the goals. Depending
+on the strategy, this will either result in a completed proof or one or two new
+given-goal sets.  So proofs are a kind of tree structure with the nodes pairs
+of given-goal sets and the edges the names of the proof strategy used to get to
+that node.
+
+Proof rules for the propositional sequent calculus have one of the
+following three forms:
+\[\frac{}{{\cal{C}}}(N) \hspace{1in} \frac{{\cal{H}}}{\cal{C}}(N) \hspace{1in} \frac{{\cal{H}}_1\,\,{\cal{H}}_2}{{\cal{C}}}(N) \]
+where ${\cal{C}}, {\cal{H}}, {\cal{H}}_1$, and ${\cal{H}}_2$ are all
+schematic sequents.  $N$ is the name of the rule.  The ${\cal{H}}$
+patterns are the {\em{premises}} (or {\em{hypotheses}}) of the rule
+and the pattern ${\cal{C}}$ is the {\em{goal}} (or {\em{conclusion}})
+of the rule.  Rules having no premises are called {\em{axioms}}.
+
+The proof strategies are divided into three groups.  There are axiom rules,
+there are rules to apply to formulas in the givens (or left rules) and there
+are rules to apply to formulas in the goals (or right rules).  These left and
+right rules come in pairs, two for each non-atomic syntactic class of formulas
+with one rule describing what to do if the formula is in the set of givens and
+another describing what to do if it is in the goal set.
+
+
+
+
+
+
+\subsection{Axiom Rules}
+
+There are two axioms rules.  One form is when the given-goal set contain some
+formula in common.  If $\Gamma\cap\Delta\not=\{\}$ then there is some formula
+(say $\phi$) they have in common.  The justification for this rule is that if
+you have assumed the formula $\phi$ is true (and you must have because it is in
+the set $\Gamma$ of givens) then since $\phi$ is one of the goals you're done.
+Here's the Sequent form of the rule.
+\begin{proofrule}[Ax]
+\rbreak
+\index{proof rule!Ax}
+\begin{center}
+\NamedSequentRule{}{\Gamma_1, \phi, \Gamma_2 \vdash \Delta_1,\phi, \Delta_2}{(Ax)}
+\end{center}
+\end{proofrule}
+
+The other axiom rule says if $\bot$ is in the set $\Gamma$ of givens, you're
+done.  The justification for this rule is that anything follows from a false
+assumption.
+\begin{proofrule}[$\bot$Ax]
+\rbreak
+\index{proof rule!$\bot$ Ax}
+\begin{center}
+\NamedSequentRule{}{\Gamma_1, \bot, \Gamma_2 \vdash \Delta}{($\bot$Ax)}
+\end{center}
+\end{proofrule}
+
+
+
+\subsubsection{Proof Strategies for conjunctions}
+
+\paragraph{If a formula of the form $\phi\wedge\psi$ is in the set of givens -
+} then continue with the same set of goals and a new givens set that includes
+both $\phi$ and $\psi$. The justification is if you've assumed $\phi\wedge\psi$
+then certainly you can assume $\phi$ and $\psi$ separately.  The sequent proof rule looks like this:
+\begin{proofrule}[$\wedge$L]
+\rbreak
+\begin{center}
+\NamedSequentRule{\Gamma_1, \phi, \psi, \Gamma_2 \vdash \Delta }{\Gamma_1, (\phi \wedge \psi), \Gamma_2 \vdash \Delta }{($\wedge$L)}
+\end{center}
+\end{proofrule}
+
+\paragraph{If a formula of the form $\phi\wedge\psi$ is in the goal set -} Then
+there are two things to show.  In both cases you work with the same given set
+$\Gamma$. In pone case you add $\phi$ to the goal set and in the other you add
+$\psi$. The justification is if you must show $\phi$ and $\psi$ you must show
+them separately.
+\begin{proofrule}[$\wedge$R]
+\rbreak
+\begin{center}
+\NamedSequentRule{\Gamma \vdash \Delta_1, \phi, \Delta_2 {\hspace{.2in}} \Gamma \vdash \Delta_1, \psi, \Delta_2}{\Gamma \vdash \Delta_1, (\phi \wedge \psi), \Delta_2}{($\wedge$R)}
+\end{center}
+\end{proofrule}
+
+
+
+
+\subsubsection{Proof Strategies for Disjunctions}
+
+\paragraph{If a formula of the form $\phi\vee\psi$ is in the set of givens - }
+there are two things to prove. In both subproofs, the goal set remains the
+same.  In one branch of the proof you add $\phi$ to the set of givens and in
+the other you add $\psi$.  The justification for this rule is, if you have
+assumed $\phi\vee\psi$ then you know that at least one (possibly both) of
+$\phi$ or $\psi$ is true, but you don't know which one - so you need to
+consider both cases.
+\begin{proofrule}[$\vee$L]
+\rbreak
+\index{proof rule!disjunction}
+\index{proof rule!$\vee$L}
+\index{disjunction!proof rule for}
+\begin{center}
+\NamedSequentRule{\Gamma_1, \phi, \Gamma_2 \vdash \Delta  {\hspace{.2in}} \Gamma_1, \psi, \Gamma_2 \vdash \Delta}{\Gamma_1,  (\phi \vee \psi), \Gamma_2  \vdash \Delta}{($\vee$L)}
+\end{center}
+\end{proofrule}
+
+\paragraph{If a formula of the form $\phi\vee\psi$ is in the goal set - } you
+continue with the new proof state having the same set of givens and you add
+$\phi$ and $\psi$ individually to the goal set.  The justification for this
+rule is if you are to show $\phi\vee\psi$ then you must show at least one of
+them.
+\begin{proofrule}[$\vee$R]
+\rbreak
+\index{proof rule!for disjunction}
+\index{proof rule!$\vee$R}
+\index{disjunction!proof rule for}
+\begin{center}
+\NamedSequentRule{\Gamma \vdash \Delta_1, \phi, \psi, \Delta_2  }{\Gamma, \vdash \Delta_1, (\phi \vee \psi), \Delta_2 }{($\vee$R)}
+\end{center}
+\end{proofrule}
+
+
+
+\subsubsection{Proof Strategies for Implications}
+
+\paragraph{If a formula of the form $\phi\Rightarrow\psi$ is in the set of
+  givens - } then you have two subgoals.  In one of the subgoals, you keep the
+same set of givens and add $\phi$ to the goal set. In the other subgoal, you
+add $\psi$ to the set of givens and keep the goal set the same.
+\begin{proofrule}[$\Rightarrow$L]
+\rbreak
+\index{proof rule!for implication}
+\index{proof rule!$\Rightarrow$L}
+\index{implication!proof rule for}
+
+\begin{center}
+\NamedSequentRule{\Gamma_1, \Gamma_2 \vdash \phi, \Delta  {\hspace{.2in}} \Gamma_1, \psi, \Gamma_2 \vdash \Delta}{\Gamma_1,  (\phi \Rightarrow \psi), \Gamma_2  \vdash \Delta}{($\Rightarrow$L)}
+\end{center}
+\end{proofrule}
+
+
+
+\paragraph{If a formula of the form $\phi\Rightarrow\psi$ is in the goal set -
+} there is one subgoal.  Add $\phi$ to the set of givens and add $\psi$ to the
+set of goals and continue.  The justification for this rule is - to show an
+implication $\phi\Rightarrow\psi$ assume the antecedent $\phi$ and show $\psi$.
+\begin{proofrule}[$\Rightarrow$R]
+\rbreak
+\begin{center}
+\NamedSequentRule{\Gamma,\phi \vdash \Delta_1, \psi, \Delta_2  }{\Gamma \vdash \Delta_1, (\phi \Rightarrow \psi), \Delta_2 }{($\Rightarrow$R)}
+\end{center}
+\end{proofrule}
+
+
+
+
+\subsubsection{Proof Strategies for Negations}
+
+\paragraph{If a formula of the form $\neg\phi$ is in the set of givens
+  -}continue the proof with the same given set and a new goal set containing
+the old goals together with the formula $\phi$.  Thus, the new goal set is of
+the form $\{\phi\}\cup\Delta$.  The justification for this rule is based on the
+observation that if you have assumed $\neg\phi$ and you can subsequently show
+$\phi$ then there must be a contradiction lurking in your assumptions.
+\begin{proofrule}[$\neg$L]
+\rbreak
+\index{proof rule!for negation}
+\index{proof rule!$\neg$L}
+\index{negation!proof rule for}
+\begin{center}
+\NamedSequentRule{\Gamma_1,\Gamma_2 \vdash \phi,\Delta}{\Gamma_1, \neg\phi, \Gamma_2 \vdash \Delta}{($\neg$L)}
+\end{center}
+\end{proofrule}
+
+\paragraph{If a formula of the form $\neg\phi$ is in the goal set - } continue
+the proof with a new given set $\{\phi\}\cup\Gamma$ and use the same goal set
+you started with less the formula $\neg\phi$ and including
+$\bot$\footnote{Strictly speaking it is not necessary to add $\bot$ to the goal
+  set but it makes the justification easier to understand (I hope) and explains
+  what to do if the formula $\neg\phi$ is the only formula in $\Gamma$.}.  The
+justification for this rule is somewhat oblique.  If you can derive $\bot$ from
+assuming $\phi$ then $\neg\phi$ must be true.  
+
+\begin{proofrule}[$\neg$R]
+\rbreak
+\begin{center}
+\NamedSequentRule{\Gamma, \phi \vdash \Delta_1,\Delta_2}{\Gamma \vdash \Delta_1, \neg{}\phi, \Delta_2}{($\neg$R)}
+\end{center}
+\end{proofrule}
+
+
+
+
+
+\subsubsection{Proof Strategies for Universals}
+
+\paragraph{If a formula of the form $\forall{}x.\phi[x]$ is in the set of
+  givens -} then you can choose any term $t$ to replace for $x$ in the formula
+$\phi[x]$. Add this new formula to the set of givens and leave the goals the
+same as before and continue.  The hard part is that to choose which $t$ is the
+one that will help in proof.  There is a technical complication, you need to
+make sure that when you are replacing $t$ for $x$ in $\phi$ you do not
+capture any free variable in $t$ by a quantifier in $\phi$.  See
+\cite{Caldwell_Discrete} for a more detailed description of how this works.
+
+\begin{proofrule}
+\rbreak
+\begin{center}
+\NamedConditionalSequentRule{\Gamma_1, \phi[x:=t], \Gamma_2 \vdash \Delta}{\Gamma_1, \forall{}x.\phi, \Gamma_2 \vdash \Delta}{($\forall$L)}{where $t$ is any term.}
+\end{center}
+\end{proofrule}
+
+
+
+
+\paragraph{If a formula of the form $\forall{}x.\phi[x]$ is in the goal set - }
+there is one subgoal to prove.  Choose a fresh variable (say $y$) that does not
+occur anywhere in any formula in the givens or goals and add the formula
+$\phi[y]$ to the goal set.  Since $y$ does not occur anywhere in the current
+proof - it must refer to an {\em{arbitrary}} element of the domain of
+discourse.  If you can prove the theorem holds for $\phi[y]$ then it must hold
+for all elements of the domain of discourse.
+\begin{proofrule}
+\rbreak
+\begin{center}
+\NamedConditionalSequentRule{\Gamma \vdash \Delta_1, \phi[y], \Delta_2}{\Gamma \vdash \Delta_1, \forall{}x.\phi[x],\Delta_2}{($\forall$R)}{\begin{tabular}{l} where variable $y$ is not free in any\\ formula of $(\Gamma \cup \Delta_1 \cup \{\forall{}x.\phi\} \cup \Delta_2)$.\end{tabular}}
+\end{center}
+\end{proofrule}
+
+
+\subsubsection{Proof Strategies for Existentials}
+
+
+\paragraph{If a formula of the form $\exists{}x.\phi[x]$ is in the set of
+  givens - } then there is one subgoal to show. Introduce a fresh variable (say
+$y$) and add the formula $\phi[y]$ to the set of givens and continue with the
+proof.  Since $\exists{}x.\phi[x]$ was assumed, $\phi[y]$ holds for some $y$ -
+you just don't know which one. Since $y$ is completely new, it is an arbitrary
+element of the domain of discourse.
+
+\begin{proofrule}
+\rbreak
+\begin{center}
+\NamedConditionalSequentRule{\Gamma_1, \phi[y], \Gamma_2 \vdash \Delta}{\Gamma_1, \exists{}x.\phi[x], \Gamma_2 \vdash \Delta}{($\exists$L)}{\begin{tabular}{l} where variable $y$ is not free in any\\ formula of $(\Gamma_1 \cup \Gamma_2 \cup \{\exists{}x.\phi\} \cup \Delta)$.\end{tabular}}
+\end{center}
+\end{proofrule}
+
+\paragraph{If a formula of the form $\exists{}x.\phi[x]$ is in the goal set - }
+In this case choose a term $t$ (the witness) and add $\phi[t]$ to the goal set.
+
+\begin{proofrule}\rbreak
+\begin{center}
+\NamedConditionalSequentRule{\Gamma \vdash \Delta_1, \phi[t], \Delta_2}{\Gamma \vdash \Delta_1, \exists{}x.\phi[x],\Delta_2}{($\exists$R)}{where $t$ is any term.}
+\end{center}
+\end{proofrule}
+
+\subsection{Techniques That Can Be Used in Any Proof}
+
+\paragraph{Proof by contradiction:} 
+
+Assume the goal is false and derive a contradiction. Thus, if $\phi$ is a
+gormula in the goal set, add $\neg \phi$ to the set of givens and $\bot$ to the
+goals and proceed.
+
+\paragraph{Proof by cases:} Since $\phi\vee\neg\phi$ holds, you can add
+$\phi\vee\phi$ to the givesn at any time. In other situations you may know that
+$\phi_1\vee\phi_2\vee\cdots\vee\phi_k$ exhausts all possibilities in which case
+you can add that formula to the givens and proceed.  An example would be - when
+reasoning about integers you know $x < 0 \vee x = 0 \vee x > 0$ - a case split
+like this one can be useful in some proofs.
+
+
+\bibliographystyle{plain}
+\bibliography{bib}
+
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "\\> "
+% comment-end: "\\\\"
+% compile-command: "pdflatex proof_methods; bibtex proof_methods; pdflatex proof_methods; pdflatex proof_methods"
+% fill-column:79
+% End:
+

@@ -1,0 +1,241 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{11}{16 October}
+\section{Avl Trees}
+
+In class we presented an implementation of Avl trees.  I have included the code
+on the web-page together with this assignment.  For completeness I have included it here as well.
+
+
+\begin{smallprogram*}
+\>module Avl (Avl, show, fmap, foldr, all,  find, fork, isEmpty, empty, ht, insert, delete, join) where \\
+\> \\
+\>  import Prelude hiding (foldr,all) \\
+\>  import Data.Foldable \\
+\>  import Data.Functor \\
+\> \\
+\>  data Avl a = Null $\mid$ Fork Int (Avl a) a (Avl a)  \\
+\> \\
+\>  instance (Show a) $\Rightarrow$ Show (Avl a) where \\
+\>    show Null = "[]" \\
+\>    show (Fork h Null y Null) = "["  ++ show y ++ "]" \\
+\>    show (Fork h xt y zt) = "[" ++ show xt ++ show y ++ show zt ++ "]" \\
+\> \\
+\>  empty = Null \\
+\> \\
+\>  instance Functor Avl where \\
+\>    fmap f Null = Null \\
+\>    fmap f (Fork h xt y zt) = Fork h (fmap f xt) (f y) (fmap f zt)   \\
+\> \\
+\>  instance Foldable Avl where \\
+\>    foldr f id  Null = id \\
+\>    foldr f id (Fork h xt y zt) = foldr f (f y (foldr f id zt)) xt \\
+\> \\
+\>  fork :: (Avl a) $\rightarrow$ a $\rightarrow$ (Avl a) $\rightarrow$ (Avl a) \\
+\>  fork xt y zt = Fork h xt y zt \\
+\>     where h = 1 + max (ht xt) (ht zt) \\
+\> \\
+\>  isEmpty Null = True \\
+\>  isEmpty \_ = False \\
+\> \\
+\>  ht :: (Avl a) $\rightarrow$ Int \\
+\>  ht Null = 0 \\
+\>  ht (Fork h \_ \_ \_) = h \\
+\> \\
+\>  insert :: (Ord a) $\Rightarrow$ a $\rightarrow$ Avl a $\rightarrow$ Avl a \\
+\>  insert x Null = fork Null x Null \\
+\>  insert x (Fork h xt y zt)  \\
+\>    $\mid$ (x $<$ y) = rebalance (insert x xt) y zt \\
+\>    $\mid$ (x == y) = Fork h xt x zt \\
+\>    $\mid$ (x $>$ y) = rebalance xt y (insert x zt) \\
+\end{smallprogram*}
+\newpage
+\begin{smallprogram*}
+\>  delete :: (Ord a) $\Rightarrow$ a $\rightarrow$ Avl a $\rightarrow$ Avl a \\
+\>  delete x Null = Null \\
+\>  delete x (Fork h xt y zt)  \\
+\>    $\mid$ (x $<$ y) = rebalance (delete x xt) y zt \\
+\>    $\mid$ (x == y) = join xt zt \\
+\>    $\mid$ (x $>$ y) = rebalance xt y (delete x zt) \\
+\> \\
+\>  join :: Avl a $\rightarrow$ Avl a $\rightarrow$ Avl a \\
+\>  join xt yt = if isEmpty yt then xt else rebalance xt y zt \\
+\>                   where (y,zt) = splitTree yt \\
+\> \\
+\>  splitTree :: Avl a $\rightarrow$ (a, Avl a) \\
+\>  splitTree (Fork h xt y zt) = \\
+\>      if isEmpty xt then (y,zt) else (u,rebalance vt y zt) \\
+\>         where (u,vt) = splitTree xt \\
+\> \\
+\>  bias :: Avl a $\rightarrow$ Int \\
+\>  bias (Fork h xt y zt) = ht xt - ht zt \\
+\> \\
+\>  rotr :: Avl a $\rightarrow$ Avl a \\
+\>  rotr (Fork m (Fork n ut v wt) y zt) = fork ut v (fork wt y zt) \\
+\> \\
+\>  rotl :: Avl a $\rightarrow$ Avl a \\
+\>  rotl (Fork m ut v (Fork n rt s tt)) = fork (fork ut v rt) s tt \\
+\> \\
+\>  rebalance :: Avl a $\rightarrow$ a $\rightarrow$ Avl a $\rightarrow$ Avl a \\
+\>  rebalance xt y zt  \\
+\>    $\mid$ (hz+1 $<$ hx) \&\& (bias xt $<$ 0) = rotr (fork (rotl xt) y zt) \\
+\>    $\mid$ (hz+1 $<$ hx)                       = rotr (fork xt y zt) \\
+\>    $\mid$ (hx+1 $<$ hz) \&\& (0 $<$ bias zt) = rotl (fork xt y (rotr zt)) \\
+\>    $\mid$ (hx + 1 $<$ hz)                     = rotl (fork xt y zt) \\
+\>    $\mid$ otherwise                           = fork xt y zt \\
+\>        where hx = ht xt \\
+\>                hz = ht zt \\
+\end{smallprogram*}
+
+
+
+The assignment here is to build
+a type of finite functions where the underlying representation is the {\it{Avl}} tree.
+In class we discussed how the {\it{Avl}} trees are like sets - if you add an element to the set
+that is already there, it does not chance the set.
+ 
+A finite function is a set of functional pairs.  Recall the definition of
+functionality for a function $f$ from $a$ to $b$.
+
+\[
+\forall{}x:a.\;\forall{}y,z:b.\; (\pair{x,y}\in{}f \wedge \pair{x,z}\in{}f)
+\Rightarrow y = z\] 
+
+That is, no two distinct elements can be paired with the same first
+element. Thus, to model functions with {\it{Avl}} trees, you will need to be careful
+never to add a pair $(x,y)$ to the tree when there is already a pair in the
+tree with $x$ as its first element.  Also, you will want to order the pairs in
+the tree by their first elements.  There is an elegant way to do this in
+Haskell by creating a special type of {\it{FPair}}. You can instantiate the
+type {\it{FPair}} in the {\it{Eq}} type class by ignoring the second element
+and you can instantiate {\it{FPair}} in the {\it{Ord}} type class by ordering
+on the first element.  Then, an {\it{Avl}} tree of FPairs will satisfy the constraints
+just mentioned.  Here is a module of {\it{FPair}}.
+
+\begin{smallprogram*}
+\>   module FPair where \vspace{1em}\\
+\>   data FPair a b = P a b   \vspace{1em}\\
+\>   instance (Show a, Show b) $\Rightarrow$ Show (FPair a b) where\\
+\>      show (P x y) = show x ++ " := " ++ show \vspace{1em}\\
+\>   instance (Eq a) $\Rightarrow$ Eq (FPair a b) \\
+\>      (P x y) == (P z w) = x == \vspace{1em}\\
+\>   instance (Ord a) $\Rightarrow$ Ord (FPair a b) where\\
+\>     (P x y) $le$ (P z w) = x $<$= \\
+\end{smallprogram*}
+
+Now a type {\it{FinFun}} of finite functions can be defined where the
+implementation is defined as follows:
+
+\begin{smallprogram*}
+\>   data FinFun a b = FinFun (Avl (FPair a b)) \vspace{1em} \\
+\>   instance (Show a, Show b) $\Rightarrow$ Show (FinFun a b) where\\
+\>      show (FinFun f) = show (foldr (:) [] f) \\
+\end{smallprogram*}
+
+\begin{exercise}
+  Based on this implementation idea - you need to implement the following
+  constants and operations on finite functions.  I have included some test
+  cases with this assignment.
+
+\begin{smallprogram*}
+\>  empty :: FinFun a b \\
+\>  apply :: (Eq a) $\Rightarrow$ (FinFun a b) $\rightarrow$ a $\rightarrow$ b \\
+\>  update :: (Ord a) $\Rightarrow$ FinFun a b $\rightarrow$ (a, b) $\rightarrow$ FinFun a b \\
+\>  dom :: FinFun a b $\rightarrow$ [a] \\
+\>  range :: FinFun a b $\rightarrow$ [b] \\
+\>  injection :: FinFun a b $\rightarrow$ Bool
+\end{smallprogram*}
+
+We briefly describe each.
+
+\begin{smallprogram*}
+\>  empty :: FinFun a b \\
+\end{smallprogram*}
+The empty {\it{FinFun}} behaves as a function with an empty domain and range.
+
+
+\begin{smallprogram*}
+\>  apply :: (Eq a) $\Rightarrow$ (FinFun a b) $\rightarrow$ a $\rightarrow$ b \\
+\end{smallprogram*} {\it{apply f x}} applies the {\it{FinFun}} $f$ to the
+argument $x$.  If there is no {\it{FPair}} in $f$ with first element $x$, raise
+an exception. If $x$ is the first element of some element {\it{P x y}} return
+$y$.
+
+\begin{smallprogram*}
+\>  update :: (Ord a) $\Rightarrow$ FinFun a b $\rightarrow$ (a, b) $\rightarrow$ FinFun a b \\
+\end{smallprogram*} 
+A call of the form {\it{update f (x,y)}} inserts the {\it{FPair}}, {\it{P x y}}
+into the {\it{FinFun}} f. You might study the {\it{Avl}} tree code for insert
+to see why this might work. Consider the equality and order relation for
+{\tt{FPairs}}.
+
+\begin{smallprogram*}
+\>  dom :: FinFun a b $\rightarrow$ [a] \\
+\>  range :: FinFun a b $\rightarrow$ [b] \\
+\end{smallprogram*} 
+The functions return lists of the domain elements and the range elements for a
+{\it{FinFun}}.  Note that there is a {\it{foldr}} operator defined on
+{\it{Avl}} trees which you may find useful.
+
+\begin{smallprogram*}
+\>  injection :: (Eq a, Show a, Eq b) => FinFun a b -> Bool\\
+\end{smallprogram*} 
+A function is an injection of every distinct element of the domain gets mapped
+to a distinct element of the range {\em{i.e.}} no two elements $x$ and $y$
+($x\not=y$) of the domain get mapped to the same element of the range.  Write a
+predicate to check if a {\it{FinFun}} is an injection. 
+
+
+% \subsection
+% \subsection{{\tt{update :: Eq a $\Rightarrow$ (a,b) $\rightarrow$ FinFun a b $\rightarrow$ FinFun a b}}}
+
+% This function should be called as {\tt{update(i,v) f}} where {\tt{f}} is a
+% finite function with domain {\tt{a}} and codomain {\tt{b}}.  If {\tt{i}} is the
+% first element of any pair in {\tt{f}} return the finite function that is just
+% like {\tt{f}} except that it maps {\tt{i}} to {\tt{v}}.  If {\tt{i}} is not the
+% first element of any pair in {\tt{f}}, return the finite function the behaves
+% just like {\tt{f}} but also contains the pair {\tt(i,v)}. You might find your
+% {\tt{remove\_all}} function from the previous homework useful.
+
+% \subsection{\tt{{dom :: (Eq a, Eq b) $\Rightarrow$ FinFun a b -> [a]}}}
+% This function returns a list of values in the domain {\tt{a}} that the function
+% is actually defined for.  Hint - recall that the function {\tt{map}} applies a
+% function to every element of a list and that {\tt{fst}} and {\tt{snd}} project
+% the first and second elements from a pair.
+
+% \subsection{\tt{range :: (Eq a, Eq b) $\Rightarrow$ FinFun a b -> [b]}}
+% This function returns a list of values in the codomain {\tt{b}} that is the
+% range of the finite function. See hint above.
+
+% \subsection{\tt{{apply :: (Eq a, Eq b) $\Rightarrow$ FinFun a b -> a -> Maybe b}}}
+% {\tt{apply f x}} models function application. Look up {\tt{x}} in the finite
+% function {\tt{f}} and return {\tt{Nothing}} if {\tt{x $\not\in$ (domain f)}}
+% and return {\tt{Just y}} when the pair {\tt{(x,y) $\in$ f}}.  
+
+
+% % \exercise{Instantiate the type of finite functions {\tt{FinFun}} as an instance
+% %   of the {\tt{Eq}} type class by defining {\tt{==}} to be the extensional
+% %   equality on functions.
+
+% % Extensional equality for finite functions means the list representing the
+% % function is functional {\em{and}} they have the same elements.  }
+
+
+\end{exercise}
+
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw11e"
+% fill-column:79
+% End:
+
+
+
+

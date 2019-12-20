@@ -1,0 +1,116 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{10}{5 October}
+
+\section{Recursion on Lists}
+
+\begin{exercise}
+Read sections 4.1, 4.2, 4.3, and 4.4 of Bird (pp. 91--120).
+\end{exercise}
+
+
+
+
+In class we presented the following functions defined by recursion on the structure of a list.
+
+\begin{program*}
+\>  len :: [a] -> Integer   \\
+\>  len [] = 0   \\
+\>  len (h:t) = 1 + len t   \\
+\>     \\
+\>  append :: [a] -> [a] -> [a]   \\
+\>  append [] l = l   \\
+\>  append (h:t) l = h:(append t l)   \\
+\>     \\
+\>  rev :: [a] -> [a]    \\
+\>  rev [] = []   \\
+\>  rev (h:t) =  (rev t ) ++  [h]   \\
+\>     \\
+\>  rev' :: [a]  -> [a]   \\
+\>  rev' l = trev l []    \\
+\>     where   \\
+\>       trev [] m = m    \\
+\>       trev (h:t) m = trev t (h:m)   \\
+\end{program*}
+
+\noindent{}Note that {\tt{len}} is built into the Haskell prelude as
+{\tt{length}}, {\tt{append}} is built in as the infix operator {\tt{(++)}} and
+{\tt{rev'}} is built in under the name {\tt{reverse}}.
+
+\ \\
+{\it
+For the following exercises, write at least a dozen test cases for each
+function and send in the script file containing your definitions together with
+the interaction with Hugs showing the results of your test runs.
+}
+
+
+\begin{exercise}
+Write a function {\tt{mem}} having type \\{\mbox{\hspace{.25in}}}{\tt{mem :: Eq
+a => a -> [a] -> Bool}}\\ such that {\tt{(mem x m)}} evaluates to {\tt{True}}
+if {\tt{x}} is in the list {\tt{m}} and evaluates to {\tt{False}} otherwise.
+\end{exercise}
+
+\begin{exercise}
+Write a function {\tt{pmem}} having type \\{\mbox{\hspace{.25in}}}{\tt{pmem ::
+(a -> Bool) -> [a] -> Bool}}\\ such that {\tt{(pmem p m)}} evaluates to
+{\tt{True}} if the function {\tt{p :: a -> Bool}} evaluates to {\tt{True}} on
+any element in the list and returns {\tt{False}} otherwise.
+
+Note that you should be able to implement {\tt{(mem x m)}} as {\tt{(pmem ($\backslash$y ->
+y == x) m)}}.
+\end{exercise}
+
+\begin{exercise}
+Write a function {\tt{remove}} having type \\{\mbox{\hspace{.25in}}}{\tt{remove
+:: Eq a => a -> [a] -> [a]}}\\ that removes the first {\tt{x}} in {\tt{m}} (if
+it is there) and returns the resulting list.
+
+For example, our function should have the following behavior.
+\begin{program*}
+\>  remove 5 [1,2,3] = [1,2,3]   \\
+\>  remove 5 [] = []   \\
+\>  remove 5 [5] = []   \\
+\>  remove 5 [5,1,3,5] = [1,3,5]   \\
+\>  remove 5 [5,5] = [5]   \\
+\end{program*}
+\end{exercise}
+
+
+\begin{exercise}
+Write a function {\tt{remove\_all}} having type
+\\{\mbox{\hspace{.25in}}}{\tt{remove\_all :: Eq a => a -> [a] -> [a]}}\\ that
+removes every {\tt{x}} in the list {\tt{m}} (if it is there) and returns the
+resulting list.
+For example, our function should have the following behavior.
+\begin{program*}
+\>  remove\_all 5 [1,2,3] = [1,2,3]   \\
+\>  remove\_all 5 [] = []   \\
+\>  remove\_all 5 [5] = []   \\
+\>  remove\_all 5 [5,1,3,5] = [1,3]   \\
+\>  remove\_all 5 [5,5] = []   \\
+\end{program*}
+\end{exercise}
+
+
+
+
+
+
+
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "latex hw10; dvips hw10 -o hw10.ps; pdflatex hw10"
+% fill-column:79
+% End:
+
+
+
+

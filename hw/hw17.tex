@@ -1,0 +1,104 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{17}{7 November}
+
+
+\exercise{Read pages 185--202 of chapter 6.}
+
+
+\goodbreak\noindent{} Consider the inorder traversal.
+
+\goodbreak\noindent{\bf{inorder:}}
+\begin{description}
+\item{i.)} visit the left subtree, then
+\item{ii.)}  visit the root, then
+\item{iii.)} visit the right subtree.
+\end{description}
+
+
+This traversal is essentially stack-based, although no stack appears
+in the code, the order of recursive calls simulates the a stack.
+Breadth first traversals are queue-based. Instead of pushing the
+unexplored parts of the tree onto a stack, we push them onto a queue.
+
+\goodbreak\noindent{}Given a  tree {\tt{t}} to be traversed pseudo-code for the algorithm is given as follows:
+\goodbreak\noindent{\bf{breadth first:}}
+\begin{program*}
+\> breadth first (t: Btree) =            \\
+\>   q = push t (mkQueue());           \\
+\>   ans = [];           \\
+\>   while (not empty q) do            \\
+\>       if (top q == Nil) then            \\
+\>           q:= pop q           \\
+\>       elseif (top q == Node x t1 t2) then            \\
+\>           q := push t2 (push t1 (pop q));           \\
+\>           ans := ans ++ [x]           \\
+\>       else           \\
+\>           skip           \\
+\>   end \\
+\>   return ans\\
+\end{program*}
+
+
+So, for example if the type {\tt{Btree}} is defined as: 
+\begin{program*}
+\> data Btree a = Nil | Node a (Btree a) (Btree a) deriving (Eq,Ord,Show)
+\end{program*}
+Then, given a tree of the following form:
+\begin{program*}
+\>  Node 1 (Node 2 (Node 3 Nil Nil) Nil) (Node 4 Nil Nil)  \\
+\>                    1              \\
+\>                   / $\backslash$             \\
+\>                  /   $\backslash$            \\
+\>                 2     4           \\
+\>                / $\backslash$   / $\backslash$          \\
+\>               /                   \\
+\>              3                    \\
+\>             / $\backslash$                    \\
+\>
+\end{program*}
+The breadth first traversal results in the list {\tt{[1,2,4,3]}}.
+
+The following code implements a queue.
+\begin{program*}
+\>  type Queue a = ([a],[a])          \\
+\>            \\
+\>  mkQueue () = ([],[])          \\
+\>            \\
+\>  push x (m,n) = (x:m,n)          \\
+\>            \\
+\>  top ([],[]) = error "head: empty queue."          \\
+\>  top (m,h:t) = h          \\
+\>  top (m,[]) = top ([],reverse m)          \\
+\>            \\
+\>  pop ([],[]) = error "pop: empty queue."          \\
+\>  pop (m, h:t) = (m,t)          \\
+\>  pop (m,[]) = pop ([], reverse m)          \\
+\>            \\
+\>  emptyq ([],[]) = True          \\
+\>  emptyq (m,n) = False
+\end{program*}
+
+
+
+\exercise{Write Haskell code to do a breadth first traversal of a {\tt{BTree}}.}
+
+
+
+\end{document}
+
+
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "latex hw17; dvips hw17 -o hw17.ps; pdflatex hw17"
+% fill-column:79
+% End:
+
+
+
+

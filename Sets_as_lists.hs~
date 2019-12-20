@@ -1,0 +1,33 @@
+module Sets where
+
+data Set a = Set [a] 
+
+-- instance  (Eq a ) => Eq (Set a) where
+--   (Set [] ) == (Set [])   = True
+--   (Set []) == (Set (x:xs)) = False
+--   (Set (x:xs)) == (Set [])  = False
+--   (Set (x:xs)) == (Set ys) = x `elem` ys && Set (remove_all x xs) == Set (remove_all x ys)
+--      where remove_all x  = filter (/=x)
+
+
+instance  (Eq a ) => Eq (Set a) where
+   (Set xs) == (Set ys) =  xs `subset` ys && ys `subset` xs
+     where notin xs x = not (x `elem` xs)
+           subset xs ys = null (filter (notin ys) xs)
+
+
+instance (Eq a, Show a) => Show (Set a) where
+  show (Set xs) = fix (show (unique xs))
+    where fix xs = '{' : (take (length xs -2) (drop 1 xs) ++ "}")
+          unique [] = []
+          unique (x:xs) = x: unique (filter (/=x) xs)
+
+
+
+--subset xs ys = null (filter (notin ys) xs)
+--  where  notin xs x = not (x `elem` xs)
+
+
+data Foo = Boo | Goo deriving (Show,Eq)
+
+-- data Fun a = Fun (a -> a) deriving Show

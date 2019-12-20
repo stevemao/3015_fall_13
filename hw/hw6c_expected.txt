@@ -1,0 +1,35 @@
+Prelude> :l hw6c
+:l hw6c
+[1 of 1] Compiling Main             ( hw6c.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> :t partition1
+:t partition1
+partition1 :: (a -> Bool) -> [a] -> ([a], [a])
+*Main> :t partition
+:t partition
+partition :: (a -> Bool) -> [a] -> ([a], [a])
+*Main> partition even [1..10] == partition1 even [1..10]
+partition even [1..10] == partition1 even [1..10]
+True
+*Main> partition even [1..10]
+partition even [1..10]
+([1,3,5,7,9],[2,4,6,8,10])
+*Main> partition odd [1..10]
+partition odd [1..10]
+([2,4,6,8,10],[1,3,5,7,9])
+*Main> map' (+1) [1..10]
+map' (+1) [1..10]
+[2,3,4,5,6,7,8,9,10,11]
+*Main> filter' even [1..10]
+filter' even [1..10]
+[2,4,6,8,10]
+*Main> filter' odd [1..10]
+filter' odd [1..10]
+[1,3,5,7,9]
+*Main> filter' odd []
+filter' odd []
+[]
+*Main> map' (+1) []
+map' (+1) []
+[]
+*Main> 

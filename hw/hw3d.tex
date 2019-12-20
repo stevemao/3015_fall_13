@@ -1,0 +1,157 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{3}{4 September}
+
+\section{}
+
+\problem{When you get your books, read chapters 1 and 2.}
+
+If you have not ordered a copy of the book yet -- you
+should.  
+
+\section{}
+In class we discussed the following code.
+
+\begin{program*}
+
+\> plus :: (Integer, Integer) -> Integer \\
+\> plus (x,y) = x + y \\
+\>   \\\
+\> plusc :: Integer -> Integer -> Integer \\
+\> plusc x y = x + y \\
+\end{program*}
+
+
+The function {\tt{plus}} takes its arguments all at once packaged in a pair
+while {\tt{plusc}} takes its arguments one at a time.
+
+We discussed how Haskell supports a notation for describing a function without
+forcing you to choose a name for it.
+
+The general form is 
+\[ \backslash x \;\;\rightarrow\:\; e \]
+where $x$ is a variable and $e$ is a Haskell expression.
+
+Note that in Haskell ``$\rightarrow$'' is used to denote the {\em{type
+constructor}} for functions ({\em{e.g.}} if $\gamma$ and $\delta$ are types,
+then $\gamma \rightarrow \delta$ is the type of functions from $\gamma$ to
+$\delta$.  Also, ``$\rightarrow$'' is used in the expression language to
+describe an actual function, $(\backslash x \rightarrow e)$ denotes a function
+whose single argument is referred to in the expression $e$ by the variable $x$.
+
+This overloading of syntax is similar to that for Cartesian products.  If
+$\gamma$ and $\delta$ are types then $(\gamma,\delta)$ is the type whose
+elements are the pairs where the first element comes from $\gamma$ and the
+second element comes from $\delta$. But also, if $a\in\gamma$ and $b\in\delta$,
+then the pair $(a,b)\in(\gamma,\delta)$.  So the developers of Haskell have
+used the same notation for the type constructor and to construct the elements
+of the type in both cases.
+
+
+Now, consider the following interaction with the Haskell interpreter.
+\begin{program*}
+  \> Main> :type plusc    \\
+  \> plusc :: Integer -> Integer -> Integer    \\
+  \> Main> :type plusc 7    \\
+  \> plusc 7 :: Integer -> Integer    \\
+\end{program*}
+Evidently {\tt{plusc 7}} is a function of type {\tt{Integer -> Integer}}.  But
+what function is it?  It is the function that is expecting an input {\tt{y}}
+and will compute the expression {\tt{ 7 + y}}.  So, it is the function
+described by the following expression:\\ \begin{center}{\tt{$\backslash$y -> 7
++ y}} \end{center} This form of Haskell expression is called a
+{\em{lambda-term}} ($\lambda$-term).
+
+We can write $(\backslash x \; y \rightarrow e)$  for  $(\backslash x \rightarrow (\backslash y \rightarrow e))$.
+
+Every function can be written in a form where no arguments are declared on the
+left side of the definition.  If $e$ is an arbitrary Haskell expression, then
+the following examples show how this works.
+\[\begin{array}{lclcl}
+f\, x = e & {\rm{is\ the\ same\ as }} & f = \backslash{}x \rightarrow e \\
+g \, x \, y = e & {\rm{is\ the\ same\ as }} & g \, x = \backslash{}y \rightarrow e & {\rm{is\ the\ same\ as }} & g = \backslash{}x\, y \rightarrow e \\
+\end{array}\]
+
+
+We say that {\tt{plusc}} is in {\em{Curry Form}}.  In this form of function
+definition, where the function takes its arguments one at a time, is named
+after Haskell Curry (1900-1982), an American mathematician and logician.  As
+you might guess, the Haskell programming language is named after him as well.
+It takes its arguments one at a time -- as opposed to packaged up in a pair.
+
+
+Consider the following function (as defined in class):
+\begin{program*}
+  \> curry f x y  =  f(x,y)
+\end{program*}
+
+In Haskell we have the following.
+
+\begin{program*}
+  \> Main> :t curry \\
+  \> curry :: ((a,b) -> c) -> a -> b -> c \\
+  \> Main>  \\
+\end{program*}
+So {\tt{curry}} takes a function of type {\tt{((a,b) -> c)}} and returns a function of type {\tt{(a -> b -> c)}}.
+
+Also, consider the following definition: %
+
+\begin{program*}
+\> uncurry f p =  f (fst p) (snd p)    \\
+\end{program*}
+
+Or equivalently, 
+
+\begin{program*}
+\> uncurry f (x,y) =  f x y    \\
+\end{program*}
+
+Here is the type of {\tt{uncurry}}.
+
+\begin{program*}
+\> Main> :t uncurry \\ 
+\> uncurry :: (a -> b -> c) -> (a,b) -> c \\ 
+\> Main>  \\ 
+\end{program*}
+
+
+Now, these functions work on functions of 2 arguments.  What about functions of three arguments?
+
+\problem{Write the function {\tt{curry3}} having the following  type:
+
+\begin{program*}
+\> Main> :t curry3 \\ 
+\> :t curry3 \\ 
+\> curry3 :: ((a,b,c) -> d) -> a -> b -> c -> d \\ 
+\> Main>  \\ 
+\end{program*}
+}
+
+\problem{Write the function {\tt{uncurry3}} having the following  type:
+
+\begin{program*}
+\> Main> :t uncurry3 \\ 
+\> :t uncurry3 \\ 
+\> uncurry3 :: (a -> b -> c -> d) -> (a,b,c) -> d \\
+\> Main>  \\ 
+\end{program*}
+
+HINT: You might want to use the second definition of uncurry as a model (where the pair is destructured in the argument).  As an experiment you might try to evaluate the term {\tt{snd (1,''xxx'',[])}}.
+
+}
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "\\> "
+% comment-end: "\\\\ "
+% compile-command: "pdflatex hw3d"
+% fill-column:79
+% End:
+
+
+
+

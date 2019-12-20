@@ -1,0 +1,58 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{11}{30 September}
+
+
+On pages 32 and 40 Bird discusses instances of the EQ type class and
+in Hutton there is discussion on pp 111.
+
+Suppose we wanted to model sets using lists.  We might do the
+following.
+
+\begin{program*}
+\> data Set a = Set [a] deriving (Show) \\
+\end{program*}
+
+So now, {\tt{Set ['a','b','c']}} would have type {\tt{Set Char}} -- we
+have used the name {\tt{Set}} to name both the type and the constructor.
+\begin{program*}
+\> Set :: [a] -> Set a \\
+\end{program*}
+
+We can define a set equality for lists --- the order and multiplicitly
+of the elements do not contribute to wether two sets are equal or not.
+We instantiate the Eq type class as follows:
+
+\begin{program*}
+\> instance (Eq a) =>  Eq (Set a) where \\
+\>  (Set s) == (Set t) = null (filter (notin t) s) \&\& null (filter (notin s) t) \\
+\>      where notin xs x  =  not (elem x xs) \\
+\>  \\
+\end{program*}
+
+\exercise{Instantiate the finite function type {\tt{FinFun}} from the previous
+homework as an instance of the Eq type class.  Two finite functions are equal
+when they are equal as sets of pairs or when their domains are equal (as sets)
+and when the all the domain elements map to the same range element.  }
+
+
+
+
+
+
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw11b"
+% fill-column:79
+% End:
+
+
+
+

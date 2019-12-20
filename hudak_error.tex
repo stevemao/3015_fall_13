@@ -1,0 +1,214 @@
+\documentclass[11pt]{article}
+
+% \include{header}
+
+\newcommand{\append}{\,{\texttt{++}}\,}
+\newcommand{\nil}{{\texttt{[{\hspace{.125em}}]}}}
+\usepackage{remark}
+ \newremark{theorem}{Theorem}[section]
+ \newremark{conjecture}{Conjecture}[section]
+ \newremark{corollary}{Corollary}[section]
+ \newremark{example}{Example}[section]
+ \newremark{fact}{Fact}[section]
+ \newremark{lemma}{Lemma}[section]
+ \newremark{definition}{Definition}[section]
+ \newremark{claim}{Claim}[section]
+ \newremark{remark}{Remark}[section]
+ \newremark{slogan}{Slogan}[section]
+ \newremark{axiom}{Axiom}[section]
+ \newremark{note}{Note}[]
+ \newremark{problem}{Problem}[section]
+ \newremark{exercise}{Exercise}[chapter]
+
+
+\title{Remarks on the failed proof of \\$take\; k\; xs \append drop\; k\; xs = xs$}
+\author{James Caldwell}
+\begin{document}
+\maketitle
+
+In Hudak's text {\em{The Haskell School of Expression: Learning Functional
+Programming through Multimedia}} \cite{hudak} the following property is claimed
+to hold for all infinite lists.
+
+\[take\, k\, xs \append{}drop\, k\, xs\,  = xs\]
+
+The definitions of append ($\append$)\cite[pp.330]{hudak}, {\it{take}}
+\cite[pp. 324]{hudak} and {\it{drop}} \cite[pp.324]{hudak} are given as
+follows:
+
+
+\[\begin{array}{lcl}
+ \append{} &  :: & [a] \rightarrow [a] \rightarrow [a] \\
+ \nil \append{} ys  & = &  ys \\
+ (x:xs) \append{} ys  & = &  x:(xs\append{}ys) \\
+\ \\
+ take &  :: & Int \rightarrow [a] \rightarrow [a] \\
+ take\; 0\; \_ & = &  \nil \\
+ take\; \_ \;\nil & = &  \nil \\
+ take\, k\, (x:xs)\, |\, k > 0 & = &  x:take\, (k-1)\, xs \\
+ take\; \_ \;\_ & = &  error  \\
+\ \\
+ drop &  :: & Int \rightarrow [a] \rightarrow [a] \\
+ drop\; 0\; \_ & = &  \nil \\
+ drop\; \_ \;\nil & = &  \nil \\
+ drop\, k\, (\_:xs)\, |\, k > 0 & = &  drop\, (k-1)\, xs \\
+ drop\; \_ \;\_ & = &  error  \\
+\end{array}\]
+
+On the errata sheet, the definition of {\it{drop}} is modified as follows to
+make the base case of the proof work when $k=0$.
+\[\begin{array}{lcl}
+ drop &  :: & Int \rightarrow [a] \rightarrow [a] \\
+ drop\; 0\; xs & = &  xs \\
+ drop\; \_ \;\nil & = &  \nil \\
+ drop\, k\, (\_:xs)\, |\, k > 0 & = &  drop\, (k-1)\, xs \\
+
+\end{array}\]
+
+
+\section{In the book}
+
+The method of proof by induction for infinite lists as presented in chapter 14
+says \em
+\begin{quote}
+``... to prove a property $P$, expressed as an equation in Haskell, is true of
+all infinite lists, we proceed in two steps.
+\begin{description}
+\item{1.} Prove $P(\bot)$ (base case)
+\item{2.} Assume that $P(xs)$ is true (the induction hypothesis), and prove that $P(x:xs)$ is true (the induction step).''
+
+\end{description}
+
+\end{quote}
+\rm
+
+Without elaboration with quantifiers, the base case of the proof of the
+following equality is presented in the book (pp. 204) and is corrected on the
+errata sheet \cite{hudak_errata}.  The claim is made in the text that the proof
+of the induction step is straightforward (and thus omitted).
+
+\begin{theorem}
+$take\; k\; xs \append drop\; k\; xs = xs$
+\end{theorem}
+\paragraph{Proof:} By induction on the infinite list $xs$. There are two cases.
+\\
+\noindent{\bf{(base case:)}} Show  $take\; k\; \bot \append drop\; k\; \bot = \bot$
+Now, either $k=0$ or not. \\
+If $k=0$ then:
+\[\begin{array}{l}
+take \; 0 \; \bot \append drop\; 0\; \bot   \\
+\;\;\Longrightarrow \nil \append{} drop \; 0 \; \bot \\
+\;\;\Longrightarrow drop \; 0 \; \bot \\
+\;\;\Longrightarrow \bot
+\end{array}\]
+If $k \not= 0$ then we have the following computation.
+\[\begin{array}{l}
+take \; k \; \bot \append drop\; k\; \bot \\
+\;\;\Longrightarrow \bot \append{} drop \; k \; \bot \\
+\;\;\Longrightarrow \bot
+\end{array}\]
+
+\noindent{\bf{(Induction step:)}} Assume  the induction hypothesis:
+\[{\bf{(I.H.)}} \;\; take\; k\; xs \append drop\; k\; xs = xs \]
+and show
+\[take\; k\; (x:xs) \append drop\; k\; (x:xs) = (x:xs) \]
+Now, since the type of {\it{take}} and {\it{drop}} are $Int \rightarrow [a]
+\rightarrow [a]$ we know $k::Int$ We proceed by cases on $k$: either $k<0$ or
+$k=0$ or $k>0$.\\
+\noindent{\bf{case 1.}}($k = 0$)
+\[\begin{array}{l}
+take\; 0\; (x:xs) \append drop\; 0\; (x:xs)\\
+\;\;\Rightarrow [] \append drop \; 0\; (x:xs) \\
+\;\;\Rightarrow drop \; 0\; (x:xs) \\
+\;\;\Rightarrow (x:xs) \\
+\end{array}\]
+
+
+\noindent{\bf{case 2.}}($k > 0$)
+\[\begin{array}{l}
+take\; k\; (x:xs) \append drop\; k\; (x:xs) \\
+\;\;\Rightarrow x:(take\; (k-1)\; (xs)) \append drop \; k\; (x:xs) \\
+\;\;\Rightarrow x:(take\; (k-1)\; (xs)) \append drop \; (k-1)\; xs \\
+\;\;\Rightarrow x:(take\; (k-1)\; (xs) \append drop \; (k-1)\; xs) \\
+\end{array}\]
+At this point in the proof we would like to invoke the induction hypothesis
+{\bf{(I.H.)}} bu we can not match $k$ with $k-1$ and so the substitution fails.
+We are stuck.  We need to state the theorem so that we are claiming this is
+true for all $k$.
+
+\noindent{\bf{case 3.}}($k < 0$)
+\[\begin{array}{l}
+take\; k\; (x:xs) \append drop\; k\; (x:xs) \\
+\;\;\Rightarrow \bot \append drop \; k\; (x:xs) \\
+\;\;\Rightarrow \bot
+\end{array}\]
+So this branch of the proof has failed as well.  Interestingly,
+in Hugs, negative values of $k$ return the empty list.
+
+\ \\ 
+
+The inductive step of the proof has failed for two reasons. First: the
+unquantified induction hypothesis can not be instantiated with $(k -1)$ and;
+second: when $k < 0$ the proof fails with {\it{take}} (and {\it{drop}}) as
+defined in the book -- but not as defined in the Haskell-98 prelude.
+
+
+
+\section{Restatement of the theorem}
+
+We restate the theorem by universally quantifying over the free variables in
+the equation.  Instead of restricting the properties provable by induction on
+infinite lists to simply be an equation in Haskell, we restrict the properties
+provable in this way to be properties of the form $\forall{}\bar{x}:\bar{T}.E$
+where $E$ is an equation in Haskell.
+
+ Then, to prove $\forall{}xs:[a].P(xs)$, where $xs$ is an infinite list and $P$ is a property of the appropriate form, prove two things.
+\begin{description}
+\item{{\bf{Base case:}}} $P(\bot)$
+\item{{\bf{Induction step:}}} Assume $P(xs)$ for arbitrary list $xs$ and show
+$P(x:xs)$.
+
+\end{description} 
+
+
+
+We redefine {\it{take}} and {\it{drop}} so that they return the empty list if
+the argument is negative.
+
+\[\begin{array}{lcl}
+ take &  :: & Int \rightarrow [a] \rightarrow [a] \\
+ take\; k\; \_ \, |\, k \le 0 & = &  \nil \\
+ take\; \_ \;\nil & = &  \nil \\
+ take\, k\, (x:xs)\, |\, k > 0 & = &  x:take\, (k-1)\, xs \\
+\ \\
+ drop &  :: & Int \rightarrow [a] \rightarrow [a] \\
+ drop\; k\; xs \,|\, k \le 0  & = &  xs \\
+ drop\; \_ \;\nil & = &  \nil \\
+ drop\, k\, (\_:xs)\, |\, k > 0 & = &  drop\, (k-1)\, xs \\
+
+\end{array}\]
+Note that these are the defintions in the Haskell prelude.
+
+\ \\
+
+Here is the restated theorem using the universal quantifiers.
+
+\begin{theorem}
+$\forall{}xs:[a].\,\forall{}k:Int.\;\;take\; k\; xs \append drop\; k\; xs = xs$
+\end{theorem}
+
+\exercise{Prove this theorem by induction on infinite lists.}
+
+
+\bibliographystyle{plain}
+\bibliography{./note}
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "latex hudak_error; bibtex hudak_error; dvips hudak_error -o hudak_error.ps; pdflatex hudak_error"
+% fill-column:79
+% End:
+

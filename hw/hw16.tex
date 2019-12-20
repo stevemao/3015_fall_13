@@ -1,0 +1,71 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{16}{2 November}
+
+
+\exercise{Read pages 185--202 of chapter 6.}
+
+
+\goodbreak\noindent{} Recall the following tree traversal orders:
+
+\goodbreak\noindent{\bf{inorder:}}
+\begin{description}
+\item{i.)} visit the left subtree, then
+\item{ii.)}  visit the root, then
+\item{iii.)} visit the right subtree.
+\end{description}
+
+
+\goodbreak\noindent{\bf{preorder:}}
+\begin{description}
+\item{i.)} visit the root, then
+\item{ii.)}  visit the left subtree, then
+\item{iii.)} visit the right subtree.
+\end{description}
+
+
+\goodbreak\noindent{\bf{postorder:}}
+\begin{description}
+\item{i.)}  visit the left subtree, then
+\item{ii.)} visit the right subtree, then
+\item{iii.)} visit the root.
+\end{description}
+
+
+
+Consider trees of the following type:
+
+\begin{program*}
+\>            data Ntree a = Nil | Node a (Ntree a) (Ntree a) deriving (Eq,Ord,Show)
+\end{program*}
+
+\exercise{ Write three versions of flatten, one for inorder traversal,
+another giving a preorder traversal and the thrird giving a postorder
+traversal.}
+
+\exercise[more difficult]{Write a function {\tt{reconstruct}} that takes as
+inputs two lists, one contains the preorder flatten and the other list
+containing the inorder flatten.  From these lists reconstruct the tree.  In
+particular, if all the values in the tree $t$ are distinct, then the following
+identity should hold:
+\[ t = reconstruct \;(preorder\; t)\; (inorder\;
+ t) \]
+ }
+
+\end{document}
+
+
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "latex hw16; dvips hw16 -o hw16.ps; pdflatex hw16"
+% fill-column:79
+% End:
+
+
+
+

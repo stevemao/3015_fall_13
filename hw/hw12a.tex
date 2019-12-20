@@ -1,0 +1,83 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{12}{9 October}
+
+
+\section{Trees}
+\exercise{
+Read chapter 6 of the Bird text.}
+
+
+Recall the {\tt{BTree}} datatype and it's structural induction principle for finite {\tt{BTree}}s.
+
+
+\begin{program*}
+\>  data  BTree a = Leaf a | Fork  (BTree a) (BTree a) \\
+\>   deriving (Show,Eq) 
+\end{program*}
+\[\begin{array}{l}
+
+( \forall{}x:a.\;\;P[{\tt{Leaf}}\; x] \;\;\;\wedge \\
+\;\;\;\;{}\;\; \forall x:a.\;\; \forall t_1,t_2: ({\tt{BTree}}\, a).\;\; (P[t_1]\;\wedge{}\;P[t_2])\Rightarrow P[{\tt{Fork}}(t_1,yt_2)])\\
+\;\; \Rightarrow\\
+\forall t:({\tt{BTree}}\; a).\; P[t]
+\end{array}\]
+
+
+
+\exercise{
+Here is a data-type declaration for a type of tree that can store two different types of values in it's nodes.
+\begin{program*}
+\>  data  ABTree a b =  Leaf | \\
+\>                      ANode a (ABTree a b) (ABTree a b) | \\
+\>                      BNode b (ABTree a b) (ABTree a b) \\
+\>   deriving (Show,Eq) \\
+\end{program*}
+Write the structural induction principle for this data-type.
+}
+
+
+\exercise{\ \goodbreak
+\begin{description}
+\item{i.)} Write an recursive datatype declaration (of your choice) for another tree-like data type and,
+\item{ii.)} write the structural induction principle for properties of finite  instanes of your data-type.
+\end{description}
+}
+
+\exercise{consider the following:
+
+\begin{program*}
+\> size (Leaf x) = 1 \\
+\> size (Fork xt yt) = (size xt) + (size yt) \\
+\> \\
+\> height (Leaf x) = 0 \\
+\> height (Fork xt yt) = 1 + (height xt `max` height yt) \\
+\> \\
+\> perfect (Leaf x)  = True\\
+\> perfect (Fork xt yt) = (height xt == height yt) \&\& perfect xt \&\& perfect yt
+\end{program*}
+
+Prove\footnote{Hints will be given in class on Thursday.} the following theorem
+hold for all finite {\tt{BTree}}s by structural induction.
+
+\begin{theorem}
+$\forall {}t:{\tt{BTree}}\; a.\;\; ({\tt{perfect}}\; t) \Rightarrow  {\tt{size}} \;t =  2^{({\tt{height}}\; t)}$
+\end{theorem}
+
+}
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw12a"
+% fill-column:79
+% End:
+
+
+
+

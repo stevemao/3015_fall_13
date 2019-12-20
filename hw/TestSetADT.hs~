@@ -1,0 +1,9 @@
+module TestSetADT where
+
+  import SetADT
+
+  test_S1 x = ismem x empty == False
+  test_S2 y x s = ismem y (insert x s) == (x == y || ismem y s)
+ -- add the other tests for S3 - S10 here.
+
+ 

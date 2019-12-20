@@ -1,0 +1,61 @@
+*Main> :l hw4c
+[1 of 1] Compiling Main             ( hw4c.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> :l hw4c
+[1 of 1] Compiling Main             ( hw4c.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> :info &&&
+(&&&) :: Bool -> Bool -> Bool   -- Defined at hw4c.hs:5:6-8
+infixr 3 &&&
+*Main> :info |||
+(|||) :: Bool -> Bool -> Bool   -- Defined at hw4c.hs:11:6-8
+infixr 2 |||
+*Main> :info ==>
+(==>) :: Bool -> Bool -> Bool   -- Defined at hw4c.hs:21:2-4
+infixr 0 ==>
+*Main> :info <+>
+(<+>) :: Bool -> Bool -> Bool   -- Defined at hw4c.hs:17:2-4
+infixr 2 <+>
+*Main> True &&& True
+True
+*Main> True &&& False
+False
+*Main> False &&& True
+False
+*Main> False &&& False
+False
+*Main> False &&& infinity
+False
+*Main> True ||| True
+True
+*Main> True ||| False
+True
+*Main> False ||| True
+True
+*Main> False ||| False
+False
+*Main> True ||| infinity
+True
+*Main> True ==> True
+True
+*Main> True ==> False
+False
+*Main> False ==> True
+True
+*Main> False ==> False
+True
+*Main> False ==> infinity
+True
+*Main> True <+> True
+False
+*Main> True <+> False
+True
+*Main> False <+> True
+True
+*Main> False <+> False
+False
+*Main> False <+> True ==> False
+False
+*Main> True <+> True ==> infinity
+True
+*Main> 

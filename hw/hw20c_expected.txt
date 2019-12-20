@@ -1,0 +1,43 @@
+*Tree> mktree []
+mktree []
+Leaf
+*Tree> mktree [1]
+mktree [1]
+Node Leaf 1 Leaf
+*Tree> mktree [1,2]
+mktree [1,2]
+Node (Node Leaf 1 Leaf) 2 Leaf
+*Tree> mktree [1,2,3]
+mktree [1,2,3]
+Node (Node Leaf 1 Leaf) 2 (Node Leaf 3 Leaf)
+*Tree> mktree [1,2,3,4]
+mktree [1,2,3,4]
+Node (Node (Node Leaf 1 Leaf) 2 Leaf) 3 (Node Leaf 4 Leaf)
+*Tree> flatten $ mktree [1,2,3,4]
+flatten $ mktree [1,2,3,4]
+[1,2,3,4]
+*Tree> fmap (*17) (mktree [1..8])
+fmap (*17) (mktree [1..8])
+Node (Node (Node (Node Leaf 17 Leaf) 34 Leaf) 51 (Node Leaf 68 Leaf)) 85 (Node (Node Leaf 102 Leaf) 119 (Node Leaf 136 Leaf))
+*Tree> F.foldr (+) 0 (mktree [1..8])
+F.foldr (+) 0 (mktree [1..8])
+36
+*Tree> sum [1..8]
+sum [1..8]
+36
+*Tree> pure (*10) <*> mktree [1..8]
+pure (*10) <*> mktree [1..8]
+Node (Node (Node (Node Leaf 10 Leaf) 20 Leaf) 30 (Node Leaf 40 Leaf)) 50 (Node (Node Leaf 60 Leaf) 70 (Node Leaf 80 Leaf))
+*Tree> (fmap (*) (mktree [1..8])) <*> (mktree [1..8])
+(fmap (*) (mktree [1..8])) <*> (mktree [1..8])
+Node (Node (Node (Node Leaf 1 Leaf) 4 Leaf) 9 (Node Leaf 16 Leaf)) 25 (Node (Node Leaf 36 Leaf) 49 (Node Leaf 64 Leaf))
+*Tree> ((fmap (*) (mktree [1..8])) <*> (mktree [1..8]))
+((fmap (*) (mktree [1..8])) <*> (mktree [1..8]))
+Node (Node (Node (Node Leaf 1 Leaf) 4 Leaf) 9 (Node Leaf 16 Leaf)) 25 (Node (Node Leaf 36 Leaf) 49 (Node Leaf 64 Leaf))
+*Tree> F.foldr (+) 0 ((fmap (*) (mktree [1..8])) <*> (mktree [1..8]))
+F.foldr (+) 0 ((fmap (*) (mktree [1..8])) <*> (mktree [1..8]))
+204
+*Tree> foldr (+) 0 (flatten ((fmap (*) (mktree [1..8])) <*> (mktree [1..8])))
+foldr (+) 0 (flatten ((fmap (*) (mktree [1..8])) <*> (mktree [1..8])))
+204
+*Tree> 

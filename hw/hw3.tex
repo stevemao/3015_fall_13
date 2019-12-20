@@ -1,0 +1,90 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{3}{7 September}
+
+
+Recall from class that functions are equal if and only if they are equal on all
+inputs (this equality is called extensionality.)
+
+\begin{definition}{{\bf{(extensionality)}}}
+If $f,g\in{}A\rightarrow{}B$,
+\[ f = g \; \definedAs\; \forall{}x\!:\!A.\; f(x) = g(x) \]
+\end{definition}
+
+So, we can prove two functions $f$ and $g$ are equal by choosing an arbitrary
+$x\in{}A$ and showing $f(x) = g(x)$.
+
+\ \\ For example, if $f(x) = |x|$ (the absolute value) and $g(x) = x$ then,
+$f\not={}g$ when we consider them as functions in the type $\Int \rightarrow
+\Int$ since $f(-2) = 2$ and $g(-2)=-2$.  But, if we think of these functions as
+elements of $\nat\rightarrow\nat$, they are equal.  To see this, choose an
+arbitrary $x\in\nat$ and argue that $f(x) = g(x)$ {\em{i.e.}}  that $|x|=x$.
+But this is trivially true when $x \ge 0$, which follows because $x\in\nat$.  \
+\\
+
+\begin{problem}
+Create a separate Haskell script called Plus.hs which includes definitions for the following fuctions.
+\[\begin{array}{l}
+plus :: (Integer,Integer) \rightarrow Integer \\
+plus(x,y) = x + y \\
+ \\
+plusc :: Integer \rightarrow (Integer \rightarrow Integer) \\
+plusc \; x \; y = x + y \\
+\end{array}\]
+Use {\it{plusc}} to create a function of type ($Integer \rightarrow Integer$)
+that adds 7 to its argument.
+\[plusSeven = \;\; ??? \]
+Add this function to the Plus module and test it in the interpreter.
+\end{problem}
+\ \\
+\goodbreak\noindent{}Now, consider the following two definitions.
+\vspace{.06125in}
+\[\begin{array}{ll}
+compose : (b \rightarrow c) \rightarrow (a \rightarrow b ) \rightarrow (a \rightarrow c)\\
+compose \; f \; g \; x \; = f\;  (g \; x) \\
+id :: a \rightarrow a \\
+id \; x \; = \; x   \\
+\end{array}
+\]
+
+\begin{problem}
+Implement these functions in a module than includes the {\it{Plus}} module and,
+in the interpreter, evaluate the following:
+\[\begin{array}{l}
+:t\; compose\; plusSeven\; plusSeven \\
+(compose\; plusSeven\; plusSeven) 0 \\
+(compose\; plusSeven\; plusSeven) 1 \\
+(compose\; plusSeven\; plusSeven) 2 \\
+\end{array}\]
+\end{problem}
+
+We will write $f \circ g$ instead of {\it{compose f g}}.
+
+\begin{problem}
+Prove the following theorem. 
+
+\goodbreak\noindent{\bf{[compose-id-right]}} For every  function $f$, if $ f\in A \rightarrow B$ then $f \circ id = f$.
+
+\end{problem}
+
+
+\begin{problem}
+Prove the following theorem using extensionailty.
+
+\goodbreak\noindent{\bf{[compose-id-left]}} For every  function $f$, if $ f\in A \rightarrow B$ then $id  \circ f = f$.
+
+\end{problem}
+
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "latex hw3; dvips hw3 -o hw3.ps; pdflatex hw3"
+% fill-column:79
+% End:
+

@@ -1,0 +1,168 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{3}{2 September}
+
+\section{Equality of functions}
+Recall from class that functions are equal if and only if they are equal on all
+inputs (this equality is called extensionality.)
+
+\begin{definition}{{\bf{(extensionality)}}}
+If $f,g::a\rightarrow{}b$ then they are defined to be (extensionally) equal as follows:
+\[ f = g \; \definedAs\; \forall{}x\!:\!a.\; f(x) = g(x) \]
+\end{definition}
+
+So, we can prove two functions $f$ and $g$ are equal by choosing an arbitrary
+$x$ of type $a$ and showing $f(x) = g(x)$.
+
+\ \\ For example, if $f(x) = |x|$ (the absolute value) and $g(x) = x$ then,
+$f\not={}g$ when we consider them as functions in the type $\Int \rightarrow
+\Int$ since $f(-2) = 2$ and $g(-2)=-2$.  But, if we think of these functions as
+elements of $\nat\rightarrow\nat$, they are equal.  To see this, choose an
+arbitrary $x\in\nat$ and argue that $f(x) = g(x)$ {\em{i.e.}}  that $|x|=x$.
+But this is trivially true when $x \ge 0$, which follows because $x\in\nat$.  \
+\\
+
+Recall the following Haskell definitions.
+\begin{definition}{plus}
+\[\begin{array}{l}
+plus :: (Integer,Integer) \rightarrow Integer \\
+plus(x,y) = x + y 
+\end{array}\]
+\end{definition}
+
+
+\begin{definition}{plusc}
+\[\begin{array}{l}
+plusc :: Integer \rightarrow (Integer \rightarrow Integer) \\
+plusc \; x \; y = x + y \\
+\end{array}\]
+\end{definition}
+
+\begin{definition}{curry}
+\[\begin{array}{l}
+curry :: ((a,b) \rightarrow c) \rightarrow (a \rightarrow (b \rightarrow c))\\
+curry\; f\; x\; y = f\; (x,y) 
+\end{array}\]
+\end{definition}
+
+\begin{definition}{uncurry}
+\[\begin{array}{l}
+uncurry :: (a \rightarrow (b \rightarrow c)) \rightarrow ((a,b) \rightarrow c) \\
+uncurry \;f\; (x,y) = f\; x\; y 
+\end{array}\]
+\end{definition}
+
+In class we proved the following theorem:
+
+\begin{theorem}{}
+\[curry\;\; plus = plusc\]
+\Proof Note that both $curry\;plus$ and $plusc$ have the type
+$Integer\rightarrow (Integer \rightarrow Integer)$ {\em{i.e.}} they are
+functions mapping an $Integers$ to a function of type
+$Integer\rightarrow{}Integer$.  This means we can use extensionality to prove
+they are equal as functions.  We must show the following.
+\[\forall{}x:Integer.\; curry\;\; plus\; x = plusc\; x\]
+Assume $x$ is an arbitrary $Integer$. Then we must show
+\[curry\;\; plus\; x = plusc\; x\]
+But $curry\;\; plus \; x$ and $plusc\; x$ are functions of type
+$Integer\rightarrow{}Integer$. To show they are equal we use extensionality a
+second time, to show:
+\[\forall{}y:Integer.\; curry\;\; plus\; x\; y = plusc\; x\; y\]
+We choose an arbitrary $y$ of type $Integer$ and  show the following
+\[curry\;\; plus\; x\; y = plusc\; x\; y\]
+Starting with the left side of the equality we get the following:
+\[curry\;\; plus\; x\; y \stackrel{\pair{\pair{def.\,of\, curry}}}{=} plus\; (x,y)   \stackrel{\pair{\pair{def.\,of\, plus}}}{=} x + y \]
+On the right side of the equality, we have the following:
+\[plusc\; x\; y \stackrel{def.\,of\, plusc}{=} x + y \]
+Since both sides of the equality are equal to $x+y$ we see that the functions
+are equal.  \qed
+\end{theorem}
+\ \\
+
+
+\begin{problem}
+Prove the following theorem using extensionality.
+
+\begin{theorem}{\bf{[uncurry-plusc]}} 
+\[uncurry\;plusc = plus \]
+\end{theorem}
+
+Hint: The functions $(uncurry\;plusc)$ and $plus$ have the type
+$(Integer,Integer)\rightarrow{}Integer$.  Extensionality for functions $f$ and
+$g$ of this type can most conveniently  be written as
+\[\forall{}(x,y):(Integer,Integer).\; f (x,y) = g (x,y)\]
+
+\end{problem}
+\newpage
+\section{Function Composition}
+
+
+\goodbreak\noindent{}Now, consider the following two definitions.
+\vspace{.06125in}
+
+\begin{definition}{Function Composition}
+\[\begin{array}{l}
+compose :: (b\rightarrow{}c)\rightarrow (a\rightarrow{}b) \rightarrow (a \rightarrow c)\\
+compose\; f\; g \; x = f (g\; x)
+\end{array}
+\]
+\end{definition}
+
+In Haskell, $(compose\; f\; g)$ is written $(f\;.\;g)$, we will write
+$(f\circ{}g)$ here.
+
+\begin{definition}{Identity function}
+\[\begin{array}{l}
+id :: a \rightarrow {}a\\
+id\; x = x
+\end{array}
+\]
+\end{definition}
+
+\begin{theorem}{Compose-id-right}
+\[\forall{}f:a\rightarrow{}b.\; (f\circ{} id) = f\]
+\Proof
+Choose an arbitrary function $f::a\rightarrow{}b$ and show that 
+\[ f\circ{}id = f\]
+Since $f$ has type $a\rightarrow{}b$ and $id$ has type $a\rightarrow{}a$ we can
+see that $f\circ{}id$ has the same type. (why?)  We use extensionality to show
+that these two functions are equal, {\em{i.e.}} we must show:
+\[\forall{}x:a.\, (f\circ{}id)\,x =f\; x\]
+Chose an arbitrary $x$ in type $a$ and show
+\[(f\circ{}id)\,x =f\; x\]
+By definition of compose and definition of $id$ we get the following sequence of equalities.
+\[(f\circ{}id)x = compose\;f\;id\;x = f\,(id\;x) = f \; x\]
+This completes the proof.
+\qed
+
+\end{theorem}
+
+
+\begin{problem}
+Prove the following theorem. 
+\begin{theorem}{\bf{[compose-id-left]}} 
+\[\forall{}f:a \rightarrow b.\;id\circ{} f = f\]
+\end{theorem}
+
+Hint: First argue that $id\circ{}f$ and $f$ have the same type (note that
+$id::b\rightarrow{}b$) and then use extensionality.
+
+
+\end{problem}
+
+
+
+
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw3e"
+% fill-column:79
+% End:
+

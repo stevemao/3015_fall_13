@@ -1,0 +1,190 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{8}{26 September}
+
+\section{Lambda Abstractions}
+
+We have talked about Haskell expressions of the form
+\[(\backslash{}x \harrow  b)\]
+which denote (nameless) functions of one argument.  Expressions of this form
+are called {\em{$\lambda$-abstractions}} (read: lambda abstractions) or simply
+{\em{abstractions}}.  Abstractions of this kind are syntactically well-formed
+if $x$ is a variable, and $b$ is an expression (which we call the {\em{body}}).
+The variable $x$ is said to be {\em{bound}} in the body $b$ of the abstraction.
+Mathematically, this term is typically written
+\[\lambda{}x.e\]
+The ``$\backslash$'' in the Haskell notation is meant to suggest $\lambda$ and
+the use of the symbols ``$\harrow$'' instead of ``.'' for separating the name of
+the bound variable from the body of the definition is meant to suggest that
+expressions of this kind are functions.  Recall that function types are
+constructed by taking two types (say $\alpha$ and $\beta$) and putting them
+together as $\alpha\harrow\beta$.
+
+\smallsection
+
+Now, it turns out that, and we mentioned this in class more than once and in hw4,
+that  definitions in the left and right columns mean exactly the same thing.
+\[ \begin{array}{llcl}
+i.) & f\; x\;  =\; e\; \;  &\ \ &  f\; =\; (\backslash{}x\; \harrow \; e)                    \\
+ii.) & f\; x\; y\; =\; e\; \;  &\ \ &  f\; x =\; (\backslash{}y\; \harrow \; e)              \\
+iii.) & f\; x\; y\; =\; e\; \;  &\ \ &  f\; =\; (\backslash{}x\; \harrow (\backslash{}y\; \harrow \; e))             \\
+iv.) & (\backslash{}x\; \harrow (\backslash{}y\; \harrow \; e))  &\ \ &  (\backslash{}x\; y \; \harrow \; e)             \\
+\end{array}\]
+\begin{description}
+\item{i.)}
+The left side of (i.) is the definition of a function named $f$ which
+takes one argument $x$ and whose definition is given by the expression $e$.
+The right side says, $f$ is defined to be the expression $(\backslash{}x\;
+\harrow \; e)$, which is function of one argument named $x$ and whose
+definition is given by the expression $e$.  
+
+\item{ii.)}  The left side of (ii.)  defines a function of two arguments $x$
+and $y$ named $f$ whose definition is given by the expression $e$. The right
+side defines a function named $f$ of one argument $x$ whose body is the
+($\lambda$-abstraction) $(\backslash{}y\; \harrow \; e)$ which is a function of
+one argument (named $y$ here.)
+
+\item{iii.)}  The left side of (iii.) is as for (ii) -- but the right side
+defines $f$ to be an expression of the form $(\backslash{}x\; \harrow e_1)$ where
+$e_1$ itself is an abstraction of the form $(\backslash{}y \harrow e)$.  
+
+\item{iv.)} The left side is an expression containing nested abstractions and
+the right side shows that Haskell supports a nicer way of writing this down,
+you can just write down the variable names next to one another -- but both
+expressions mean the same thing.  Thus, the right side of (iii.) could have
+been more simply writen as $f = (\backslash{}x\; y \; \harrow \; e)$.
+\end{description}
+
+\begin{example}
+We have previously defined the compose function as follows:
+\begin{program*}
+\> compose f g x = f (g x)
+\end{program*}
+From the discussion above, we can conclude that the following definition is
+entirely equivalent.
+\begin{program*}
+\> compose = ($\backslash$f g x -> f (g x))
+\end{program*}
+So, evidently, we don't even need to give it a name to use it in the
+interpreter.  Instead of entering the following into the interpreter(after
+loading a Haskell script file containing the module called {\tt{Compose}}):
+\begin{program*}
+\> Compose> {\tt{compose (2+) (4*)}}
+\end{program*}
+we could directly enter the following expression.
+\begin{program*}
+\> Hugs> ($\backslash$f g x -> f (g x)) (2+) (4*)
+\end{program*}
+Note: If you do not understand that the expression {\tt{(2+)}} is a well-formed
+Haskell expression or if you don't know what function it is, you need to reread
+Bird pg. 14.
+
+\end{example}
+
+
+\smallsection
+
+In Haskell, as in many other languages, to apply a function to an argument we
+just write them next to one another.  So, the expression
+\[f \; e\] means, apply the function
+$f$ to the argument given by the expression $e$.  So evidently,
+\[(\backslash{}x \harrow b) \; e\] 
+means apply the function denoted by the expression $(\backslash{}x \harrow e)$
+to the argument $e$.
+
+
+
+To do this, {\em{i.e.}} to actually perform the application of the function
+$(\backslash{}x \harrow b)$ to the expression $e$ -- we replace all the $x$'s
+in the expression $b$ by $e$.  We write $b[x:=e]$ (read: substitute $e$ for $x$
+in $b$) to mean\footnote{ There are some complications in the definition of
+substitution if there are abstractions in the expression $b$ and there are name
+clashes of variables used to define abstractions and variable names in the
+expression $e$, but we will not worry about them here.}, replace all the $x$'s
+in $b$ by the expression $e$.
+
+We will write $e_1 \leadsto e_2$ if expression $e_1$ evaluates to $e_2$.  Using this notation,
+\[(\backslash{}x \harrow b) \, e \;\leadsto \;  b[x:=e] \]
+
+
+\begin{example}
+Here are some examples:
+\begin{program*}
+\>  ($\backslash$x -> x + 1) 5   $\leadsto$  (x + 1)[x:=5] {\rm{which is equal to}} (5 + 1)  
+\end{program*}
+The following example shows that the name of the variable does not matter.
+\begin{program*}
+\>  ($\backslash$y -> y + 1) 5   $\leadsto$  (y + 1)[y:=5] {\rm{which is equal to}} (5 + 1)  
+\end{program*}
+
+Note that {\tt{($\backslash$x y -> x - y)}} is the same as {\tt{($\backslash$x -> $\backslash$y -> x - y)}}.
+\begin{program*}
+\>  ($\backslash$x -> $\backslash$y -> x - y) 5   $\leadsto$  ($\backslash$y -> x - y)[x:=5] {\rm{which is equal to}} ($\backslash$y -> 5 - y) 
+\end{program*}
+
+The following example shows that the order of the arguments might matter.
+\begin{program*}
+\>  ($\backslash$y -> $\backslash$x -> x - y) 5   $\leadsto$  ($\backslash$x -> x - y)[y:=5] {\rm{which is equal to}} ($\backslash$x -> x - 5)
+\end{program*}
+
+Here's what happens when more than one argument is applied.
+\begin{program*}
+\>  ($\backslash$y -> $\backslash$x -> x - y) 5 7   $\leadsto$  (($\backslash$x -> x - y)[y:=5]) 7 {\rm{which is equal to}} ($\backslash$x -> x - 5) 7 \\
+\>  ($\backslash$x -> x - 5) 7 $\leadsto$ (x - 5)[x:=7] {\rm{which is equal to}} 7 - 5 \\
+\end{program*}
+
+\end{example}
+
+
+\begin{exercise}
+\label{ex1}
+Rewrite the following function definitions so they are in the purely functional
+form ({\em{i.e.}}  where the definition does not have anything left of the
+``{\tt{=}}'' except the function name.
+\begin{program*}
+\> {\rm{ a.)}}  constf x y = x \\
+\> {\rm{ b.)}}  substf g h x = g x (h x) \\
+\> {\rm{ c.)}}  applyf g x = g x \\
+\> {\rm{ d.)}}  flipf g x y  = g y x \\
+\end{program*}
+Enter you definitions into a Haskell script, and then evaluate each of them on at least three inputs.
+\end{exercise}
+
+\begin{exercise}
+Rerun the examples you made up for Exercise 1.2 but without using any named functions.
+{\em{e.g.}} instead of:
+\begin{program*}
+\> Hw8> constf 5 7 \\
+\> 5 \\
+\> Hw8>  \\
+\end{program*}
+Your interaction with Hugs   should look something like:
+\begin{program*}
+\> Hugs> ($\backslash$x y -> x) 5 7 \\
+\> 5 \\
+\> Hugs>  \\
+\end{program*}
+
+\ \\(Depending on your setup -- the prompt might read {\tt{Prelude>}} instead of {\tt{Hugs>}}.
+
+
+
+\end{exercise}
+
+
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "latex hw8; dvips hw8 -o hw8.ps; pdflatex hw8"
+% fill-column:79
+% End:
+
+
+
+

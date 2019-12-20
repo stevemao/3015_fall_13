@@ -1,0 +1,69 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{14}{30 October}
+
+Recall the list induction principle.
+
+\[\begin{array}{l}
+
+[P([\,]) \wedge \\
+\;\;\forall a:\alpha.\, \forall m:[\alpha].\, P(m) \Rightarrow P(a:m)] \\
+\;\;\; \Rightarrow \forall{}m:[\alpha]. P(m)
+\end{array}\]
+
+Thus, for a property $P$ of lists, to show that $\forall{}m:[\alpha].\; P(m)$
+it is enough to show two things:
+\[\begin{array}{rl}
+{\bf{i.)}} & P([\,]) \\
+{\bf{ii.)}} & \forall a:\alpha.\, \forall m:[\alpha].\, P(m) \Rightarrow P(a:m)\\
+\end{array}\]
+
+Here are some definitions.
+\[\begin{array}{l}
+
+head (h:t) = h \\
+head [\,] = \bot \\
+\ \\
+last [x] = x \\
+last (h:t) = last \; t \\
+last [\,] = \bot \\
+\ \\
+reverse [\,] = [\,]\\
+reverse (h:t) = (reverse \; t ) ++ [h] \\
+\ \\
+map\; f\, [\,] = [\,] \\
+map \; f \; (h:t) = (f\; h)\, :\, map \; f \; t \\
+\ \\
+(f\, .\, g)\; x = f\, (g\; x)\\
+
+\end{array}\]
+
+
+Prove the following by list induction.
+
+\[\begin{array}{ll}
+1.) & \forall{}m \!:\![\alpha].\; map \,(\backslash x \rightarrow x)\; m = m \\
+2.) & \forall{}m \!:\![\alpha].\; map \,(f\, .\; g)\, m = ((map\; f)\, .\, (map\; g))\; m\\
+3.) & \forall{}m \!:\![\alpha].\; head\, (reverse \; m) = last \; m \\
+4.) & \forall{}m \!:\![\alpha].\; last\, (reverse \; m) = head \; m
+\end{array}
+\]
+
+
+
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw14"
+% fill-column:79
+% End:
+
+
+
+

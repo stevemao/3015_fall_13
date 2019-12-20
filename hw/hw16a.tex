@@ -1,0 +1,111 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{16}{13 November}
+
+
+
+Here is the code for an implementation of sets as lists.
+
+\begin{program*}
+\> module Set where                \\
+\>                 \\
+\> import Lists                \\
+\>                 \\
+\> data (Eq a, Show a) => Set a = MkSet [a]                \\
+\>                 \\
+\> instance (Eq a, Show a ) => Show (Set a) where                \\
+\>    show m = "\{" ++ contents ++ "\}"                 \\
+\>      where MkSet m' = m                \\
+\>            contents = reverse (drop 1 (reverse ( drop 1 (show (unique m')))))                \\
+\>                 \\
+\> instance (Eq a, Show a ) => Eq (Set a) where                \\
+\>     s == t = all ((flip elem) s') t' \&\&  all ((flip elem) t') s'                 \\
+\>                where MkSet s' = s                \\
+\>                      MkSet t' = t                \\
+\>                 \\
+\> insert x (MkSet m) = MkSet (x:m)                \\
+\> delete x (MkSet m) = MkSet (remove\_all x m)                \\
+\> union (MkSet m) (MkSet n) = MkSet (m ++ n)                \\
+\> intersection (MkSet m) (MkSet n) = MkSet (filter ((flip elem) n) m)                \\
+\> ismem x (MkSet m) = elem x m                \\
+\end{program*}
+
+Here is a module containing the supporting definitions for operations on lists.
+
+\begin{program*}
+\> module Lists where                \\
+\>  \\
+\> unique [] = []                \\
+\> unique (h:t) = if (elem h t) then (unique t ) else h:(unique t)                \\
+\>                 \\
+\> remove\_all x = filter (/=x)                \\
+\end{program*}
+
+
+\subsection{Multisets}
+
+Multisets (sometimes called bags) are like sets except that
+ multiplicity does count {\em{e.g.}} 
+\begin{program*}
+\> [1,2,2] /= [1,2] \\
+\> [1,2,2] == [2,1,2] == [2,2,1] \\
+\end{program*}
+So the order of elements does not count for determining equality but the number
+of occurences of each element does. 
+
+\begin{definition}[multiset intersection]
+For multisets M and N, if there are $k$ occurences of $x$ in $M$ and there are
+$j$ occurences of $x$ in $N$ then there are $min(j,k)$ occurences of $x$ in the
+multiset {\tt{($m$ `intersection` $n$)}}.
+\end{definition}
+
+
+\begin{definition}[multiset union]
+For multisets $m$ and $n$, if there are $k$ occurences of $x$ in $m$ and there
+are $j$ occurences of $x$ in $n$ then there are $max(j,k)$ occurences of $x$ in
+the multiset {\tt{($m$ `union` $n$)}}.
+\end{definition}
+
+
+\begin{definition}[multiset delete]
+Given a multiset $m$, if $x$ occurs $k$ times in $m$ then there are
+$max(0,k-1)$ occurences of $x$ in the multiset {\tt{(delete $x$ $m$)}}.
+\end{definition}
+
+
+\begin{definition}[multiset insert]
+Given a multiset $m$, if $x$ occurs $k$ times in $m$ then there are
+$k+1$ occurences of $x$ in the multiset {\tt{(insert $x$ $m$)}}.
+\end{definition}
+
+
+\begin{definition}[multiset ismem]
+Given a multiset $m$, if $x$ occurs 1 or more times in $m$ then {\tt{(ismem $x$
+$m$)}} is true and is false otherwise.
+\end{definition}
+
+
+\exercise{
+Write Haskell code to implement Multisets as lists by modifying the Set module
+presented above.  You'll have to reimplement {\tt{show}}, {\tt{==}},
+{\tt{insert}}, {\tt{delete}}, {\tt{union}}, {\tt{intersection}}, and
+{\tt{ismem}} so they give the proper answers for multisets.
+ }
+
+\end{document}
+
+
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "latex hw16a; dvips hw16a -o hw16a.ps; pdflatex hw16a"
+% fill-column:79
+% End:
+
+
+
+

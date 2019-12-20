@@ -1,0 +1,206 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{13}{20 October}
+
+
+\section{Abstract Data Types in Haskell}
+
+In class we talked about how to use the Haskell module system to implement an abstract data type.
+
+An {\em{abstract data type}} (ADT) provides users with the type
+signatures of the operations supported on the type together with an
+abstract specification of the expected behavior of the type.  This
+specification takes the form of a list of axioms that relate the
+behaviors of the interactions of the operators with one another.  By
+only allowing users to access the interface it is possible to change
+an underlying implementation without having to change code that uses
+the ADT.
+
+Haskell's module system allows programmers to implement ADT's by
+providing a mechanism for hiding underlying representations and
+implementations and simply exporting the names and signatures of the
+interface.
+
+\begin{exercise}
+Read about Modules in Bird (pp.263-264). \\
+Read about modules in LYAHFGG {\tt{http://learnyouahaskell.com/modules}}.
+\end{exercise}
+
+
+
+\subsection{An Abstract Data Type of Trees}
+
+For example, as in class we defined a data type of trees.
+
+\subsubsection{Type Signature}
+
+The type signatures of the tree operations was given as follows:
+
+\begin{program**}
+\>                           Tree a             \=-- the type name  \\
+\>                           leaf                    \>:: a $\rightarrow$ Tree a \\
+\>                           branch                  \>:: Tree a $\rightarrow$ Tree a $\rightarrow$ Tree a \\
+\>                           cell                    \>:: Tree a $\rightarrow$ a \\
+\>                           left, right             \>:: Tree a $\rightarrow$ Tree a \\
+\>                           isLeaf                  \>:: Tree a $\rightarrow$ Bool \\
+\end{program**}
+
+
+
+\subsubsection{The Tree Axioms}
+
+If $x::a$ and $t_1,t_2 :: (Tree\; a)$ then the following axioms specify the
+behaviors of the operators.
+
+\[\begin{array}{ll}
+T1.) & cell (leaf\; x) = x\\
+T2.) & cell (branch \;t_1\; t_2) = \bot\\
+T3.) & left(leaf\; x) = \bot\\
+T4.) & left (branch \;t_1\; t_2) = t_1\\
+T5.) & right(leaf\; x) = \bot\\
+T6.) & right (branch \;t_1\; t_2) = t_2\\
+T7.) & isLeaf (leaf\; x) = True\\
+T8.) & isLeaf (branch \;t_1\; t_2) = False\\
+\end{array}\]
+
+\subsubsection{Haskell Implementation}
+
+A Haskell implementation is given by the following module.
+
+\begin{program**}
+\>             module TreeADT (Tree, leaf, branch, cell, left, right, isLeaf) where \\
+\>             data Tree a             \== Leaf a $\mid$ Branch (Tree a) (Tree a)  deriving (Eq,Show) \\
+\>             leaf                    \>= Leaf \\
+\>             branch                  \>= Branch \\
+\>             cell  (Leaf a)          \>= a \\
+\>             left  (Branch l r)      \>= l \\
+\>             right (Branch l r)      \>= r \\
+\>             isLeaf   (Leaf \_)      \>= True \\
+\>             isLeaf   \_             \>= False \\
+\end{program**}
+
+Note that the constructors {\it{Leaf}} and {\it{Branch}} are not in export list
+following the modules name.  In the absence of an export list, all declarations
+in the module are exported.  Since there is an export list in the
+{\em{TreeADT}} module, definitions that are not mentioned in the list are
+private.  Programs that import this module do not have access to {\it{Leaf}}
+and {\it{Branch}}.  Note that if you load this module into GHCI, you
+{\em{will}} have access to the {\em{Leaf}} and {\em{Branch}} constructors --
+but those constructors are not in the name-space of modules that import
+{\em{TreeADT}}.  Also, the deriving-clause which include the type {\it{Tree a}}
+in the {\it{Eq}} and {\it{Show}} type classes make it possible to test elements
+of the data type for equality and to display them.  Displaying them reveals the
+names of the underlying constructors, but because they were not exported, users
+of the module can not use them.
+
+\subsubsection{Unit Tests}
+
+Axioms can be used to design unit tests for an implementation.  This is
+especially easy for axioms that are stated in the form given above -- where we
+assume the varialbes $x$ and $T_1$ and $t_2$ are universally quantified in each
+axiom and the axiom takes the form of an equation.  If the axioms contain
+existential quantifiers the problem is more difficult.  In the {\em{TreeADT}}
+axioms {\it{T1}} through {\it{T8}}, the variables $x$, $t_1$ and $t_2$ that
+occur in each axiom become arguments to the test function for the behavior
+specified by that axiom.  If the behavior is specified to be undefined
+{\em{i.e.}} it is equal to $\bot$, then the test can be run to see if it
+results in an error.  Note that we have used $\bot$ to denote both run-time
+errors and looping forever. Obviously, testing if a program loops forever can
+not be done unless you are extremely patient and have unlimited time on your
+hands.
+
+Here is a Haskell module implementing unit tests for the {\em{TreeADT}} module.
+
+\begin{program**}
+\>            module TestTreeADT where  \\
+\>               \\
+\>            import TreeADT  \\
+\>              \\
+\>            test\_T1 x = cell (leaf x) == x  \\
+\>            -- the following test should raise an error on all inputs t1 and t2 \\
+\>            test\_T2 t1 t2 = cell (branch t1 t2)   \\
+\>            -- the following test should raise an error on all inputs x\\
+\>            test\_T3 x = left(leaf x)   \\
+\>            test\_T4 t1 t2 = left (branch t1 t2) == t1  \\
+\>            -- the following test should raise an error on all inputs x\\
+\>            test\_T5 x = right(leaf x)   \\
+\>            test\_T6 t1 t2 = right (branch t1 t2) == t2  \\
+\>            test\_T7 x = isLeaf (leaf x) == True  \\
+\>            test\_T8 t1 t2 = isLeaf (branch t1 t2) == False  \\
+\end{program**}
+
+\subsection{An Abstract Data Type for Sets}
+
+Here is a specification of a Set ADT.  Note that our sets are
+{\em{monomorphic}} in the sense that they can contain elements of a single
+type. 
+
+\subsubsection{Type Signature}
+
+\begin{program**}
+\>                           data Set a           \=-- the type name  \\
+\>                           empty                \>:: Set a\\
+\>                           ismem                \>:: a $\rightarrow$ Set a $\rightarrow$ Bool\\
+\>                           size                 \>:: Set a $\rightarrow$ Int\\
+\>                           insert               \>:: a $\rightarrow$ Set a $\rightarrow$ Set a\\
+\>                           delete               \>:: a $\rightarrow$ Set a $\rightarrow$ Set a\\
+\>                           union                \>:: Set a $\rightarrow$ Set a $\rightarrow$ Set a\\
+\>                           intersection         \>:: Set a $\rightarrow$ Set a $\rightarrow$ Set a\\
+\end{program**}
+
+\subsubsection{The Set Axioms}
+
+If {\it{s,t :: (Set a)}} and $x,y :: a$ the following axioms specify the behavior for the Set data type.
+
+\[\begin{array}{lrcl}
+S1.) & ismem\;x\; empty &=&False\\
+S2.) & ismem\;x \;(insert\; y \; s) &=& (x = y) \vee ismem\; x \; s\\
+S3.) & size \; empty &=& 0 \\
+S4.) & size (insert\; x \;s) &=&
+    \left\{ \begin{array}{ll} 
+                 size \; s &{\mathrm{if\ }} ismem\; x\;s\\
+                 (size\; s) + 1 & {\mathrm{otherwise}} \\
+           \end{array}\right.\vspace{.06125in}\\
+S5.) & (insert\; x\; s = empty) &=& False\\
+S6.) & insert\; x\; (insert\; x\; s) &=& insert\; x\; s\\
+S7.) & insert\; x\; (insert\; y\; s) &=& insert\; y\; (insert\; x\; s)\\
+S8.) & ismem\;x \;(delete \; y \;s ) &=& 
+    \left\{ \begin{array}{ll} 
+                 False &{\mathrm{if\ }} x = y\\
+                 ismem\; x\; s & {\mathrm{otherwise}} \\
+           \end{array}\right.\vspace{.06125in}\\
+S9.) & ismem\;x \;(union \; s \; t) &=& (ismem\;x \; s\; \vee \; ismem\;x \; t)  \\
+S10.) & ismem\;x \;(intersection \; s \; t) &=& (ismem\;x \; s\; \wedge \; ismem\;x \; t)  \\
+\end{array}\]
+
+
+
+\begin{exercise}
+Your assignment is build on the base code provided on the course web-page to
+finish an implementation of the {\it{Set}} data type using lists.  You also
+need to make a module {\em{TestSet}} which implements unit tests for each set
+axiom.
+
+Note that you may need to use the list function {\it{nub :: (Eq a) $\Rightarrow$ [a] $\rightarrow$
+[a]}} which eliminates duplicate elements of a list.  It requires the elements
+of the list to be members of the Eq type class.
+
+\end{exercise}
+
+
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw13c"
+% fill-column:79
+% End:
+
+
+
+

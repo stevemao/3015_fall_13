@@ -1,0 +1,54 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{2}{6 September}
+
+Prove the following.  You may use the methods taught by Cowles \&
+Velleman (Givens and Goals) or use the sequent rules from the handout.
+
+\goodbreak\noindent
+\begin{enumerate}
+% \item  $\vdash \neg\neg{}p \Rightarrow {}p$\\
+% \item  $\vdash {}p  \Rightarrow \neg\neg{}p$\\
+% \item  $\vdash \neg{}p  \Rightarrow (p\Rightarrow\bot)$\\
+% \item  $\vdash (p\Rightarrow\bot) \Rightarrow \neg{}p $\\
+\item  $\vdash (p\wedge{}q) \Rightarrow (p\vee{}q)$\\
+\item  $\vdash ((p\wedge{}q) \vee r) \Rightarrow (r\vee{}q)$\\
+% \item  $\vdash \neg(p \wedge q) \Rightarrow (\neg p \vee \neg q)$\\
+\item  $\vdash  (p \wedge (p \Rightarrow q)) \Rightarrow q$\\
+% \item  $\vdash \neg(p \vee q) \Rightarrow (\neg p \wedge \neg q)$\\
+% \item  $\vdash  p \vee \neg p $\\
+% \item   $\vdash \neg (\bot \wedge (p_1 \wedge (p_2 \wedge (p_3 \wedge (p_4 \wedge (p_5 \wedge (p_6 \wedge (p_7 \wedge p_8))))))))$\\
+\item   $\vdash ((p \wedge q) \Rightarrow r) \Rightarrow ((p \Rightarrow r) \vee (q \Rightarrow r))$
+
+\item{} \Sequent{}{(\exists{}x.P(x)\vee R(x)) \Rightarrow (\exists{}x.P(x)) \vee \exists{}x.R(x) }
+
+\item{} \Sequent{}{(\forall{}x.P(x)\wedge R(x)) \Rightarrow (\forall{}x.P(x)) \wedge \forall{}x.R(x) }
+
+\item{} \Sequent{}{\neg(\exists{}x.P(x)) \Rightarrow (\forall{}x.\neg{}P(x)) }
+
+\item{} \Sequent{}{(S \Rightarrow \forall{}x.P(x)) \Rightarrow \forall{}x. S \Rightarrow P(x) }
+
+\item{} \Sequent{(\forall{}x.P(x)) \Rightarrow S}{\exists{}x.(P(x) \Rightarrow S)}
+
+
+\end{enumerate}
+
+
+
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "\\> "
+% Comment-end: "\\\\ "
+% compile-command: "pdflatex hw2d"
+% fill-column:79
+% End:
+
+
+
+

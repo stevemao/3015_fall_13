@@ -1,0 +1,47 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{17}{11 November}
+
+
+In class we started to present the unification algorithm.  I have
+provided an implementation and some tests (in comments at the end.)
+Your assignment is to extend the code by adding a product type
+constructor to the datatype {\tt{Type}} and then to extend the rest of
+the functions to handle this new type.  Note that this include all
+functions that do pattern matching on the type constructors for
+datatype {\tt{Type}}.
+
+Recall:
+
+\begin{definition}
+Type terms $t_1$ and $t_2$ are {\em{unifiable}} if there is a substitution
+$\sigma$ such that $\sigma t_1 = \sigma t_2$.
+\end{definition}
+
+Thus, a unifier is a substitution that makes the terms equal.  
+
+The algorithm is specified as follows:
+
+\begin{description}
+\item{i.)} A variable (say $x$) unifies with any term (say $t$) as long as $x\not\in{} FV(t)$.
+\item{ii.)} If terms $t_1$ and $t_2$ are not variables, they unify if
+  they have the same constructor, and if their subterms unify.
+\end{description}
+
+\end{document}
+
+
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw17a"
+% fill-column:79
+% End:
+
+
+
+

@@ -1,0 +1,12 @@
+myflip f y x = f x y 
+
+
+mklist 0 x = []
+mklist k x = x :  mklist (k -1) x
+
+
+p x y = x + y
+
+
+data Term = Var String | Ap (Term, Term) | Abs (String, Term) deriving Show
+

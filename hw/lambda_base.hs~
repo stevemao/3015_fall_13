@@ -1,0 +1,77 @@
+data Term = V String 
+         | Ap Term Term 
+         | Abs String Term 
+	 | Pair Term Term
+         | Spread Term (String,String) Term
+  deriving (Eq)
+
+instance Show Term where
+  show (V x) = x
+  show (Ap m n) = "(" ++ show m  ++ " " ++ show n ++ ")"
+  show (Abs x m) = "(\\" ++ x ++ "->" ++ show m ++ ")"
+  show (Pair m n) = "<" ++ show m ++ "," ++ show n ++ ">"
+  show (Spread m (x,y) n) = "spread(" ++ show m ++ ";" ++ x ++ "," ++ y ++ "." ++ show n ++ ")"
+
+
+fv (V s) = [s]
+fv (Ap m n) = fv m ++ fv n
+fv (Abs x m) =   filter (/=x) (fv m)
+fv (Pair m n) = fv m ++ fv n
+fv (Spread m (x,y) n) = fv m ++ fv (Abs x (Abs y n))
+
+fresh x m = 
+   if x `elem` m then
+     fresh (x ++ x) m
+   else
+     x
+
+subst (y, n) (V s) = if y == s then n else (V s)
+subst (x, n) (Ap m k) = Ap (subst (x, n) m) (subst (x, n) k)
+subst (x, n) (Abs y m) = 
+    if x == y  then
+       Abs y m
+    else
+       if y `elem` (fv n) then
+          Abs z (subst (x,n) (subst (y, V z) m))
+       else
+          Abs y (subst (x,n) m)
+  where z = fresh y (x : y : ((fv n) ++ (fv m)))
+subst (x,n) (Pair m1 m2) = Pair (subst (x,n) m1) (subst (x,n) m2)
+subst (x,n) (Spread m (z,y) m1) = 
+     let m' = subst (x,n) m in
+     let t = (Abs z (Abs y m1)) in
+     let t' = subst (x,n) t in
+        case t' of
+           (Abs z' (Abs y' m1')) -> Spread m' (z,y) m1'
+           _ -> error "subst: impossible case!"
+             
+ 
+
+test_subst (x,n) t = "subst (" ++ x ++ ", " ++ show n ++ ") " ++ show t ++ "  -->  " ++ show (subst (x,n) t)
+
+beta (Ap (Abs x m) n) = subst (x,n) m
+beta t = t
+
+{- here's the bad spread -}
+spread' (Spread (Pair m m') (x,y) n) = subst (y,m') (subst (x,m) n)
+spread' t = t
+
+test f t = (show t ) ++ " ---> " ++ (show (f t))
+
+
+higher f t = 
+  let t' = f t in
+    if t' /= t then
+      t'
+    else
+      case t of
+        (V x) -> t
+        (Ap t1 t2) ->  Ap (higher f t1) (higher f t2)
+        (Abs x t1) -> Abs x (higher f t1)
+
+fixpoint f t = 
+  let t' = f t in
+    if t' == t then
+      t'
+    else fixpoint f t'
+

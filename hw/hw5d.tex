@@ -1,0 +1,50 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{5}{9 September}
+
+\problem{Read pp. 96-120 of Bird We will discuss list induction in class but
+you should have some familiarity with it from the readings. Read Chapters 1 and
+3 of LYAHFGG}
+
+
+\problem{Write functions having the following types:
+
+\[\begin{array}{lcl}
+first &::& [a] \rightarrow a\\
+last &::& [a] \rightarrow a\\
+select & :: & [a] \rightarrow {} Int \rightarrow a\\
+middle & :: & [a] \rightarrow a
+\end{array}\]
+
+The function {\em{first}} takes a non-empty list and returns the first element
+of the list; if the list is empty, call {\em{error}} with an appropriate
+message.  The {\em{last}} function takes a list and returns the last element of
+the list or calls {\em{error}} if the list is empty.  The function
+{\em{select}} takes a list (say ${\mathit{xs}}$) and an integer (say $k$) and returns the
+$k^{th}$ element of the list ${\mathit{xs}}$ (using zero based indexing).  If $k<0$ or $k
+\ge {\mathit{length}}\; {\mathit{xs}}$ then call {\em{error}}.  The {\em{middle}} function
+takes a list and returns the middle element -- if the list is of even length,
+you can implement your function to have a leftist or rightist bias -- your
+choice.
+
+You should implement some tests to convince the grader your code works.
+
+
+}
+
+\end{document}
+
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw5d"
+% fill-column:79
+% End:
+
+
+
+

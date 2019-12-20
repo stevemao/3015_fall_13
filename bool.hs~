@@ -1,0 +1,10 @@
+
+
+data Boolean = FF | TT deriving Show
+
+instance Eq Boolean where
+   (TT == FF)  = True
+   (FF == TT)  = True
+   (TT == TT)  = False
+   (FF == FF)  = FF
+   

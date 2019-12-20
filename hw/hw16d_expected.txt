@@ -1,0 +1,65 @@
+
+alpamayo 15% ./iQueue
+./iQueue
+queue so far = []
+>  1
+1
+queue so far = [1]
+>  2
+2
+queue so far = [1,2]
+>  3
+3
+queue so far = [1,2,3]
+>  dequeue
+dequeue
+queue so far = [2,3]
+>  dequeue
+dequeue
+queue so far = [3]
+>  dequeue
+dequeue
+queue so far = []
+>  dequeue
+dequeue
+you can't dequeue the empty queue. Try again.
+queue so far = []
+>  1
+1
+queue so far = [1]
+>  2
+2
+queue so far = [1,2]
+>  3
+3
+queue so far = [1,2,3]
+>  4
+4
+queue so far = [1,2,3,4]
+>  5
+5
+queue so far = [1,2,3,4,5]
+>  dequeue
+dequeue
+queue so far = [2,3,4,5]
+>  dequeue
+dequeue
+queue so far = [3,4,5]
+>  dequeue
+dequeue
+queue so far = [4,5]
+>  dequeue
+dequeue
+queue so far = [5]
+>  dequeue
+dequeue
+queue so far = []
+>  dequeue
+dequeue
+you can't dequeue the empty queue. Try again.
+queue so far = []
+>  ?
+?
+commands are: "dequeue", "quit" or, to queue up a number type the number.
+queue so far = []
+>  

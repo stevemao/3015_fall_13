@@ -1,0 +1,46 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{4}{13 September}
+
+\section{}
+
+\noindent{}In class we discussed the following code.
+
+\begin{program**}
+\>     addp (x,y) = x + y \\
+\>     addc x y = x + y \\
+\>     curry f x y  =  f(x,y) \\
+\>     uncurry f (x,y) = f x y \\
+\>     (f . g) x = f (g x) \\
+\>     id x = x \\
+\end{program**}
+
+\noindent{}Recall the extensionality rule for proving functions $f,g:A\rightarrow{}B$ are equal.
+\[ f = g \definedAs \forall{}x:A. \;f x = g x \hspace{2.5in} \]
+
+\noindent{}Following the proofs given in class, prove the following using extensionality.
+
+\begin{program**}
+\>       {\rm{i.)}}  curry  addp = addc \\
+\>       {\rm{ii.)}}  curry (uncurry  addc) = addc \\
+\>       {\rm{iii.)}}  uncurry (curry  addp) = addp \\
+\>       {\rm{iv.)}}  (f . id) = f \\
+\>       {\rm{v.)}}  (id . f) = f 
+\end{program**}
+
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "latex hw4a; dvips hw4a -o hw4a.ps; pdflatex hw4a"
+% fill-column:79
+% End:
+
+
+
+

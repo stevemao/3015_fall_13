@@ -1,0 +1,163 @@
+\documentclass[11pt]{article}
+
+\include{header}
+\newcommand{\sS}{{{Succ$\;$}}}
+\newcommand{\s}{{Succ\;}}
+
+\begin{document}
+\homework{7}{18 September}
+
+\section{}
+\problem{Read chapter 3 of Bird.}  \problem{Do exercises 3.2.1
+\footnote{{\em{i.e.}} prove $\forall m: Nat. \; \s Zero \times m = m$} and
+3.2.4 (for finite natural numbers) using the principle of mathematical
+induction given on page 63. Hint for 3.2.4: Choose arbitrary $m,n\in{}Nat$ and
+do induction on $p$.  }
+
+
+
+\section{Induction Examples from Class}
+
+In class we gave the following definitions.
+
+\begin{program**}
+\> date Nat = Zero $|$  \sS Nat   deriving (Eq,Ord,Show) \\
+\> \\
+\> (+) :: Nat $\rightarrow$ Nat $\rightarrow$ Nat \\
+\> m + Zero = m \\
+\> m + (\sS n) = \sS (m + n)\\
+\>
+\end{program**}
+
+We can prove properties of our addition function, verifying that it really
+behaves like the addition we know an love, by using full induction (see pp. 27
+of Bird).
+
+
+\begin{lemma}
+\label{lemma1}
+$\forall{}m:Nat. \;\; Zero + m = m $
+
+\Proof
+By induction on $m$.  The property $P$ is given as:
+\[P(m) \definedAs Zero + m = m \]
+
+\CASE[$P(\bot$)] We must show that $Zero + \bot = \bot$ but
+this holds for the definition of $+$ because $\bot$ will be
+evaluated (to see if it matches the patetrn $Zero$ or $\s \;n$) and
+this evaluation will loop forever {\em{i.e}} is $\bot$.\\
+\CASE[$P(Zero)$] We must show $Zero + Zero = Zero$, which holds by the
+definition of $+$ so the base case holds.\\
+\CASE[$P(\s k)$] Assume $P(k)$ and show $P(\s k)$.
+\[\begin{array}{rl}
+P(k) :& Zero + k = k \\
+P(\s k):&  Zero + (\s k) = (\s k) 
+\end{array}\]
+Starting on the left side of the equality  $P(\s k)$:
+\[Zero + (\s k) \byDef{(+)} \s(Zero + k) \byEq{P(k)} \s k\]
+\qed
+
+\end{lemma}
+
+\newpage
+
+\begin{lemma}
+\label{lemma2}
+$\forall{}n:Nat.\;\forall{}k:Nat.\; \s k + n = k + \s n$ \Proof By full
+induction on $n$. Then \[P(n)\definedAs \forall{}k\!:\!Nat.\; \s k + n = k + \s
+n \]
+
+\CASE[$P(\bot)$] We must show $\forall{}k\!:\!Nat.\; \s k + \bot = k + \s \bot$.
+Choose arbitrary $k$ and show $\s k + \bot = k + \s \bot$.  On the left side,
+\[\begin{array}{l}
+\s k + \bot \byDef{(+)}= \bot\\
+k+\s\bot \byDef{(+)} \s(k+\bot) \byDef{(+)}\bot
+\end{array}\]
+So the equality holds. \\
+
+\CASE[$P(Zero)$] We must show $\forall{}k\!:\!Nat.\; \s k + Zero = k + \s Zero $. Choose arbitrary $k$ and show $\s k + Zero = k + \s Zero$.  But, consider the following sequences of equalities:
+\[\begin{array}{l}
+\s k + Zero \byDef{(+)} \s k \\
+k + \s Zero \byDef{(+)} \s (k+ Zero) \byDef{(+)} \s k
+\end{array}\]
+so the base case holds.\\
+
+\CASE[$P(\s m)$] Assume $P(m)$ and show $P(\s m)$.
+\[\begin{array}{rl}
+P(m) :& \forall{}k\!:\!Nat.\; \s k + m = k + \s m \\
+P(\s m):&  \forall{}k\!:\!Nat.\; \s k + \s m = k + \s (\s m) 
+\end{array}\]
+
+Notice that in the second equation, substituting $\s m$ for $n$ in the term $\s
+n$ on the right side gives $\s (\s m)$, this could would be an easy place to
+make an error. To prove $p(\s m)$ holds, choose arbitrary $k\in{}Nat$ and show
+$\s k + \s m = k + \s (\s m) $ Consider the following sequences of equalities:
+\[\begin{array}{l}
+\s k + \s m \byDef{(+)} \s(\s k + m) \byEq{P(m)} \s(k + \s m)\\ 
+k + \s (\s m)  \byDef{(+)} \s(k + \s m)
+\end{array}\]
+
+
+
+\qed
+\end{lemma}
+
+Now, we prove the commutativity of addition for finite natural numbers.
+
+\begin{theorem} $\forall{}n: Nat.\; \forall {} m: Nat .\; m + n = n + m $
+\Proof By induction on $n$. Then \[P(n)\definedAs \forall {} m: Nat .\; m + n = n + m \] 
+
+% \CASE[$P(\bot)$] $\forall {} m: Nat .\; m + \bot = \bot + m$ Choose arbitrary
+% $m$ and show the equality holds.  On the left side
+% \[m + \bot \byDef{(+)} \bot\]
+% On the right, we consider cases, i.) $m=\bot$ or ii.) $m=Zero$ or iii.) for some $n$, $m=\s
+% n$. 
+% \[\begin{array}{ll}
+% {\mathrm{i.)}} & \bot + \bot \byDef{(+)} \bot \\
+% {\mathrm{ii.)}} & \bot + Zero \byDef{(+)} \bot \\
+% {\mathrm{iii.)}} & \bot + \s n \byDef{(+)} \s (\bot + n) \\
+
+
+\CASE[$P(Zero)$] We must show $\forall {} m: Nat .\; m + Zero = Zero + m
+$. Choose arbitrary $m$ and notice that by definition of (+) $m + Zero = m$ and
+by Lemma~\ref{lemma1} $Zero + m = m$.  Thus, the base case holds.
+
+
+
+\CASE[$P(\s m)$] Assume $P(m)$ and show $P(\s m)$.
+\[\begin{array}{rl}
+P(k) :&  \forall {} m: Nat .\; m + k = k + m \\
+P(\s k):&  \forall {} m: Nat .\; m + \s k = \s k + m  
+\end{array}\]
+
+To show $P(\s k)$ choose arbitrary $m$ and show $m + \s k = \s k + m$.
+\[\begin{array}{l}
+m + \s k \\
+\byDef{(+)} \s (m + k)  \\
+\byEq{P(k)} \s(k + m) \\
+\byDef{(+)[backwards]} k + \s m  \\
+\byEq{(Lemma~{\ref{lemma1}})} \s k + m\\
+\end{array}\]
+Note: In the second to last step, we use the equality $ k + \s m \byDef{(+)}
+\s(k + m)$ in the right to left direction. This can be seen as a step in which
+we {\em{fold up}} the definition of $(+)$.
+
+\qed
+\end{theorem}
+
+
+
+
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw7b"
+% fill-column:79
+% End:
+
+
+
+

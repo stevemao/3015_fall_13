@@ -1,0 +1,147 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{16}{6 November}
+
+\section{Substitution}
+
+Here is  some of the code given in class.
+
+\begin{program*}
+\>  data Term = V String  \\
+\>           | Ap Term Term  \\
+\>           | Abs String Term  \\
+\>           | Pair Term Term \\
+\>           | Spread Term (String,String) Term \\
+\>    deriving (Eq) \\
+\> \\
+\>  fv (V s) = [s] \\
+\>  fv (Ap m n) = fv m ++ fv n \\
+\>  fv (Abs x m) =   filter (/=x) (fv m) \\
+\>  fv (Pair m n) = fv m ++ fv n \\
+\>  fv (Spread m (x,y) n) = fv m ++ fv (Abs x (Abs y n))
+\> \\
+\>  fresh x m =  \\
+\>     if x `elem` m then \\
+\>       fresh (x ++ x) m \\
+\>     else \\
+\>       x \\
+\> \\
+\>  subst (y, n) (V s) = if y == s then n else (V s) \\
+\>  subst (x, n) (Ap m k) = Ap (subst (x, n) m) (subst (x, n) k) \\
+\>  subst (x, n) (Abs y m) =  \\
+\>      if x == y  then \\
+\>         Abs y m \\
+\>      else \\
+\>         if y `elem` (fv n) then \\
+\>            Abs z (subst (x,n) (subst (y, V z) m)) \\
+\>         else \\
+\>            Abs y (subst (x,n) m) \\
+\>    where z = fresh "z" (x : y : ((fv n) ++ (fv m))) \\
+\>  subst (x,n) (Pair m1 m2) = Pair (subst (x,n) m1) (subst (x,n) m2) \\
+\>  subst (x,n) (Spread m (z,y) m1) =  \\
+\>       let m' = subst (x,n) m in \\
+\>       let t = (Abs z (Abs y m1)) in \\
+\>       let t' = subst (x,n) t in \\
+\>          case t' of \\
+\>             (Abs z' (Abs y' m1')) -> Spread m' (z,y) m1' \\
+\>             \_ -> error "subst: impossible case!" \\
+\> \\
+\>  test f t = show t ++ " ---> " ++ show (f t)
+\> \\ 
+\end{program*}
+
+The rest of the code is in the file linked to from the homework page.
+
+There is problem with substitution on spread terms.  Consider the following evaluation.
+\begin{program*}
+\> Main> test (subst ("x", V "y")) (Spread (Pair (V "M") (V "N")) ("y","z") (V "x")) \\
+\> "subst (x, y) spread(<M,N>;y,z.x)  -->  spread(<M,N>;y,z.y)"  
+\end{program*}
+In this substitution, when the {\tt{x}} is replaced by {\tt{y}}, {\tt{y}} got captured.  This is what should happen.
+\begin{program*}
+\>  Main> test (subst ("x", V "y")) (Spread (Pair (V "M") (V "N")) ("y","z") (V "x")) \\
+\>  "subst (x, y) spread(<M,N>;y,z.x)  -->  spread(<M,N>;yy,z.y)" 
+\end{program*}
+In this case, the binding variable {\tt{y}} is renamed to {\tt{yy}} before the
+substitution is done and changing {\tt{x}} to {\tt{y}} is now safe.  
+
+Here's another case.
+\begin{program*}
+\>  Main> test (subst ("x", V "y")) \\
+\>             (Spread (Pair (V "M") (V "N")) ("y","z") (Ap (V "x")(V "y"))) \\
+\>  "subst (x, y) spread(<M,N>;y,z.(x y))  -->  spread(<M,N>;y,z.(y yy))" \\
+\end{program*} 
+It should read as follows:
+\begin{program*} 
+\>  Main> test (subst ("x", V "y")) \\
+\>             (Spread (Pair (V "M") (V "N")) ("y","z") (Ap (V "x")(V "y"))) \\
+\>  "subst (x, y) spread(<M,N>;y,z.(x y))  -->  spread(<M,N>;yy,z.(y yy))" 
+\end{program*}
+
+\exercise{Fix the {\tt{subst}} function to have the proper behavior\footnote{This is a really easy fix after you think about it for a few minutes, a very minor modification.}}
+\ \\
+\section{Evaluating Spread}
+
+In class I suggested the following semantics for evaluating the spread
+operator:
+
+\begin{program*}
+\>    spread'($\pair{{\tt{M1}},{\tt{M2}}}$;(x,y).N) $\longrightarrow$ (N[x:=M1])[y:=M2] 
+\end{program*}
+
+\noindent{}But under these semantics, the following bad behavior occurs.
+
+\begin{program*}
+\>  Main> test spread'  (Spread (Pair(V "y") (V "M")) ("x","y") (Ap (V "x") (V "y")))  \\
+\>  "spread(<y,M>;x,y.(x y)) ---> (M M)" 
+\end{program*}
+
+\noindent{}The problem is shown in more detail with the following step-by-step evaluation:
+\begin{program*}
+\>  spread'  (Spread (Pair(V "y") (V "M")) ("x","y") (Ap (V "x") (V "y"))) \\
+\>  $\longrightarrow$ subst ("y",V "M") (subst ("x", V"y") (Ap (V "x") (V "y")))  \\
+\>  $\longrightarrow$ subst ("y",V "M") (Ap (V "y") (V "y")))  \\
+\>  $\longrightarrow$ Ap (V "M") (V "M") 
+\end{program*}
+After substituting {\tt{y}} for {\tt{x}} it is essentially captured. This can
+be fixed by writing the code that explicitly tests for the appropriate cases,
+but instead we can use the code we've already written for the abstraction case
+and selective application of {\tt{beta}} reduction to take care of it for us.
+
+Here are the alternative semantics:
+
+\begin{program*}
+\>    spread($\pair{{\tt{M1}},{\tt{M2}}}$;(x,y).N) $\longrightarrow$ beta (beta ((($\lambda{}$x.$(\lambda$y.N))) M1) M2) 
+\end{program*}
+
+Defining it this way avoids having a {\tt{y}} that occurs in the free variables
+of {\tt{M1}} getting substituted for when {\tt{y}} is replaced by {\tt{M2}}.  So, for example,
+
+\begin{program*}
+\>  Main> test spread  (Spread (Pair(V "y") (V "M")) ("x","y") (Ap (V "x") (V "y")))  \\
+\>  "spread(<y,M>;x,y.(x y)) ---> (y M)" 
+\end{program*}
+
+\exercise{Define the {\tt{spread}} function (as we did in class for
+{\tt{beta}}) using the alternative semantics and test your code to show that it
+behaves properly in a number of situations.}
+
+
+\end{document}
+
+
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "\\>  "
+% comment-end: "\\\\"
+% compile-command: "pdflatex hw16b"
+% fill-column:79
+% End:
+
+
+
+

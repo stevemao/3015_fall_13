@@ -1,0 +1,70 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{20}{13 November}
+
+
+
+Here is the code for an implementation of sets as lists.
+
+\begin{program*}
+\> module Set where                \\
+\>                 \\
+\> import Lists                \\
+\>                 \\
+\> newtype (Eq a, Show a) => Set a = MkSet [a]                \\
+\>                 \\
+\> instance (Eq a, Show a ) => Show (Set a) where                \\
+\>    show m = "\{" ++ contents ++ "\}"                 \\
+\>      where MkSet m' = m                \\
+\>            contents = reverse (drop 1 (reverse ( drop 1 (show (unique m')))))                \\
+\>                 \\
+\> instance (Eq a, Show a ) => Eq (Set a) where                \\
+\>     s == t = all ((flip elem) s') t' \&\&  all ((flip elem) t') s'                 \\
+\>                where MkSet s' = s                \\
+\>                      MkSet t' = t                \\
+\>                 \\
+\> insert x (MkSet m) = MkSet (x:m)                \\
+\> delete x (MkSet m) = MkSet (remove\_all x m)                \\
+\> union (MkSet m) (MkSet n) = MkSet (m ++ n)                \\
+\> intersection (MkSet m) (MkSet n) = MkSet (filter ((flip elem) n) m)                \\
+\> ismem x (MkSet m) = elem x m                \\
+\end{program*}
+
+Here is a module containing the supporting definitions for operations on lists.
+
+\begin{program*}
+\> module Lists where                \\
+\>  \\
+\> unique [] = []                \\
+\> unique (h:t) = if (elem h t) then (unique t ) else h:(unique t)                \\
+\>                 \\
+\> remove\_all x = filter (not . (==x))                \\
+\end{program*}
+
+
+\exercise{Write Haskell code to implement Sets as Binary search trees
+by modifying the Set module presented above.  You'll have to
+reimplement {\tt{show}}, {\tt{==}}, {\tt{insert}}, {\tt{delete}},
+{\tt{union}}, {\tt{intersection}}, and {\tt{ismem}} in terms of the
+operations on binary search trees.
+
+
+ }
+
+\end{document}
+
+
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "latex hw20; dvips hw20 -o hw20.ps; pdflatex hw20"
+% fill-column:79
+% End:
+
+
+
+

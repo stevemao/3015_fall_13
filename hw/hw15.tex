@@ -1,0 +1,123 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage}
+\usepackage{hyperref}
+\usepackage{colordvi}
+\usepackage{xspace}
+\usepackage{amsmath, amssymb}
+%\usepackage{blackdvi}
+\usepackage{epsfig}
+\usepackage{graphicx,rotating,rotfloat}
+\raggedbottom
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  
+\newcommand\whenop{\mbox{\bf when}}
+\newcommand\afterop{\mbox{\bf after}}
+\newcommand\initiallyop{\mbox{\bf initially}}
+\newcommand\when[2]{#1\ \whenop\ #2}
+\newcommand\after[2]{#1\ \afterop\ #2}
+\newcommand\causlop{\prec}
+\newcommand\causl[2]{#1\ \causlop\ #2}
+
+\newcommand\Eall[3]{\mbox{For all #2 }#1.\ #3}
+\newcommand\Eand[2]{#1 \mbox{ and }#2}
+\newcommand\Eexist[3]{\mbox{there exists #2 }#1.\ #3}
+\newcommand\Eimpl[2]{#1\ \mbox{ implies }\ #2}
+\newcommand\Eneg[1]{\mbox{not }#1}
+\newcommand\Eq[2]{#1 = #2}
+\newcommand\Neq[2]{#1 \neq #2}
+
+\newcommand\XYZaa{message-automata\xspace}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\MPL}[1]{\hfill{\scriptsize\sf \{#1\}}}
+\renewcommand{\MPL}[1]{}
+
+\newcommand{\NOTION}[1]{{\em{#1}}}
+\newcommand{\Em}[1]{{\it{#1}}}
+\newcommand{\EM}[1]{{\it{\boldmath\bf#1}}}
+
+%%% CITATIONS %%%%%%
+%% \cite{name}
+%%% IMAGES %%%%%%%%%
+
+
+\newcommand{\citeauthoryear}[2]{#1 #2}
+
+\begin{document} 
+
+
+% \date{\today}
+${\bold{Homework 15}}$ \\
+Due: Tuesday October 30, 2006 
+\section{}
+Given the following definition of a binary tree:
+\[ \text{data NTree a} = \text{NLeaf a}\mid \text{ NNode a  (Ntree a) (Ntree a)}
+\]
+We can write definitions for size and height that are very similar to our trees
+which do not contain information in the internal nodes.
+
+\[ 
+\begin{array}{l}
+ size \text{::} \  NTree\  a\  \rightarrow \  Int \\
+\hspace{.5in}\text{size NLeaf x} = 1 \\
+\hspace{.5in}\text{size NNode }(x,t_1,t_2)\  =\  1 + size(t_1) + size(t_2) \\
+\end{array}
+\]
+We note that now we are including the internal nodes in the size of the tree.
+
+
+And the height function remains the same as we saw before:
+\[ 
+\begin{array}{l}
+ height \text{::} \  NTree\  a\  \rightarrow \  Int \\
+\hspace{.5in}\text{height NLeaf x} = 0 \\
+\hspace{.5in}\text{height NNode }(x,t_1,t_2)\  =\  1 + max(height(t_1),height(t_2)) \\
+\end{array}
+\]
+
+We saw that there was a relationship between the size and height of our Btrees
+as defined in Bird on page 179. There is a similar relationship between
+the size and height of our NTrees as defined here.  
+
+\[  \forall t: NTree. size(t) \le 2^{height(t) + 1} - 1 \]
+\\
+Prove by structural induction on t that this relationship holds.
+
+\section{Complete trees}
+A $\mathbf{Complete Binary}$ tree is defined to be one where 
+\begin{enumerate}
+\item All the leaves of the tree have the same depth.
+\item every node has exactly two subtress. 
+\end{enumerate}
+One way to think about the first item (the depth requirement) is that
+the difference between the max depth and min depth should be 0.
+
+Some examples of complete binary trees over the integers (NTree Int)\\
+\hspace{1in}NLeaf(5) \\
+\hspace{1in}NNode 4 (NNode 2 (NLeaf 3) (NLeaf 6)) (NNode 8 (NLeaf 17) (NLeaf 23))  \\
+\hspace{1in}NNode 5 (NLeaf 7) (NLeaf 4) \\
+
+Convince yourself that these are complete binary trees (by drawing
+pictures!). \\ 
+
+In haskell write a function that returns True if a tree is complete and 
+false otherwise.  
+\[  complete \text{::} \  NTree\  a\  \rightarrow \  Boolean \] \\
+
+You will need to write a depth function for NTrees, as in
+the first section of Bird but his is defined on Btrees, to determine the depth of all leaves.  And a predicate that determines if a tree has two subtrees.
+
+
+
+
+
+\end{document} 
+
+% Local Variables:
+% mode:latex 
+% comment-column:0 
+% comment-start: "% " 
+% compile-command: "latex hw15; bibtex hw15; latex hw15; latex hw15; dvips hw15 -o hw15.ps; pdflatex hw15" 
+% fill-column:79 
+% End:

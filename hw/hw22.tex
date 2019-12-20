@@ -1,0 +1,44 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{22}{7 December}
+
+Recall from class the primitive file IO commands.
+
+\begin{program*}
+\> writeFile :: FilePath -> String -> IO () \\
+\> appendFile :: FilePath -> String -> IO () \\
+\> readFile :: FilePath -> IO String \\
+\end{program*}
+
+
+\exercise{Write a function {\tt{cp fn1 fn2}} that copies file {\tt{fn1}} to file {\tt{fn2}}.
+\begin{program*}
+\> cpFile :: FilePath -> FilePath ->  IO()
+\end{program*}
+}
+
+\exercise{Write a function {\tt{grep fn s}} that, given a filePath {\tt{fn}}, prints to the screen (think {\tt{putStr}}) all lines that contain the string {\tt{s}} as a substring.
+\begin{program*}
+\> grep :: FilePath ->  String -> IO()
+\end{program*}
+}
+
+
+
+\end{document}
+
+
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "latex hw22; dvips hw22 -o hw22.ps; pdflatex hw22"
+% fill-column:79
+% End:
+
+
+
+

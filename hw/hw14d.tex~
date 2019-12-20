@@ -1,0 +1,74 @@
+\documentclass[11pt]{article}
+
+\include{header}
+\newcommand{\quot}[1]{"{\tt{{#1}}}"}
+\newcommand{\mybs}{$\backslash$}
+
+\begin{document}
+\homework{14}{6 November}
+
+\exercise{Read Chapter 11 (pp. 362-369 of the Bird Text.}
+
+The positive integers have representations as sequences of 1 or more
+digits.  A negative integer has the form ``$(- k )$'' where $k$
+is a positive integer.
+
+\exercise{Write a parser {\tt{intp}} that parses integers of this form.
+Here is some example behavior:
+
+\begin{program*}
+\> *Expr> :t intp \\
+\> intp :: Parser Int \\
+\> *Expr> apply intp "10" \\
+\> [(10,"")] \\
+\> *Expr> apply intp "01" \\
+\> [(1,"")] \\
+\> *Expr> apply intp "(-10)" \\
+\> [(-10,"")] \\
+\> *Expr> apply intp "(-10 " \\
+\> [] \\
+\> *Expr> apply intp " -10 " \\
+\> [] \\
+\> *Expr> apply intp "0000" \\
+\> [(0,"")] \\
+\end{program*}
+}
+
+Now, consider a language of expressions of the following form.
+
+\begin{program*}
+\> data Expr  = C Int | Add Expr Expr
+\end{program*}
+
+\exercise{Write a parser {\tt{expr}} of type {\tt{Parser Expr}} for parsing
+strings containing additions of integers into the {\tt{Expr}} type. (You will
+want to use your {\tt{intp}} parser from exercise 1.) So for example:
+
+\begin{program*}
+\> *Expr> apply expr "10" \\
+\> [(C 10,"")] \\
+\> *Expr> apply expr "10 + 12" \\
+\> [(Add (C 10) (C 12),"")] \\
+\> *Expr> apply expr "10 + (-12)" \\
+\> [(Add (C 10) (C (-12)),"")] \\
+\> *Expr> apply expr "10 + (-12) + 14" \\
+\> [(Add (C 10) (Add (C (-12)) (C 14)),"")] \\
+\end{program*}
+
+}
+
+
+\end{document}
+
+
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw14d"
+% fill-column:79
+% End:
+
+
+
+

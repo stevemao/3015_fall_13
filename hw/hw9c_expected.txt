@@ -1,0 +1,73 @@
+
+*Main> :l hw9.hs
+:l hw9.hs
+[1 of 1] Compiling Main             ( hw9.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> :t delete
+:t delete
+delete :: Column -> Row -> Row
+*Main> delete 0 []
+delete 0 []
+[]
+
+*Main> :t delete
+:t delete
+delete :: Column -> Row -> Row
+*Main> stock_options
+stock_options
+[[1234,1000000 options],[1235,1000 options],[1236,5000 options],[1237,2500 options],[1238,5 options]]
+*Main> delete 0 []
+[]
+*Main> delete 0 [EmployeeId 1234,Shares 1000000]
+[1000000 options]
+*Main> delete 1 [EmployeeId 1234,Shares 1000000]
+[1234]
+*Main> delete 2 [EmployeeId 1234,Shares 1000000]
+[1234,1000000 options]
+*Main> map (delete 0 ) stock_options
+[[1000000 options],[1000 options],[5000 options],[2500 options],[5 options]]
+*Main> map (delete 1 ) stock_options
+[[1234],[1235],[1236],[1237],[1238]]
+*Main> map (delete 2 ) stock_options
+[[1234,1000000 options],[1235,1000 options],[1236,5000 options],[1237,2500 options],[1238,5 options]]
+*Main> :t join
+join :: (Table, Column) -> (Table, Column) -> Table
+*Main> join (employees,0) (stock_options,0)
+[[1234,Smith, John,1000000 options],[1235,Jones, Mary,1000 options],[1236,Brown, Edwin,5000 options],[1237,Green, Marvin,2500 options],[1238,Edwards, Susan,5 options]]
+*Main> (employees,0) `join` (stock_options,0)
+[[1234,Smith, John,1000000 options],[1235,Jones, Mary,1000 options],[1236,Brown, Edwin,5000 options],[1237,Green, Marvin,2500 options],[1238,Edwards, Susan,5 options]]
+*Main> (employees,1) `join` (stock_options,0)
+[]
+*Main> (salary,1) `join` (stock_options,1)
+[]
+*Main> (salary,0) `join` (stock_options,0)
+[[1234,$1000000,1000000 options],[1235,$100000,1000 options],[1236,$55000,5000 options],[1237,$78000,2500 options],[1238,$0,5 options]]
+*Main> :t project
+project :: [Column] -> Table -> Table
+*Main> project [] salary
+[[],[],[],[],[]]
+*Main> project [0] salary
+[[1234],[1235],[1236],[1237],[1238]]
+*Main> project [1] salary
+[[$1000000],[$100000],[$55000],[$78000],[$0]]
+*Main> project [0,1] salary
+[[1234,$1000000],[1235,$100000],[1236,$55000],[1237,$78000],[1238,$0]]
+*Main> salary == project [0,1] salary
+True
+*Main> project [0,1,1] salary
+[[1234,$1000000,$1000000],[1235,$100000,$100000],[1236,$55000,$55000],[1237,$78000,$78000],[1238,$0,$0]]
+*Main> project [0,0] salary
+[[1234,1234],[1235,1235],[1236,1236],[1237,1237],[1238,1238]]
+*Main> join (project [1,0] salary, 1) (employees, 0)
+[[$1000000,1234,Smith, John],[$100000,1235,Jones, Mary],[$55000,1236,Brown, Edwin],[$78000,1237,Green, Marvin],[$0,1238,Edwards, Susan]]
+*Main> join (employees, 0) (project [1,0] salary, 1) 
+[[1234,Smith, John,$1000000],[1235,Jones, Mary,$100000],[1236,Brown, Edwin,$55000],[1237,Green, Marvin,$78000],[1238,Edwards, Susan,$0]]
+*Main> join (employees, 0) (positions,0) 
+[[1234,Smith, John,CEO],[1235,Jones, Mary,Manager],[1236,Brown, Edwin,Programmer],[1237,Green, Marvin,Programmer],[1238,Edwards, Susan,Intern]]
+*Main> project [1,2] (join (employees, 0) (positions,0) )
+[[Smith, John,CEO],[Jones, Mary,Manager],[Brown, Edwin,Programmer],[Green, Marvin,Programmer],[Edwards, Susan,Intern]]
+*Main> project [1,2] (join (employees, 0) (salary,0))
+[[Smith, John,$1000000],[Jones, Mary,$100000],[Brown, Edwin,$55000],[Green, Marvin,$78000],[Edwards, Susan,$0]]
+*Main> join (project [1,2] (join (employees, 0) (positions,0) ),0) (project [1,2] (join (employees, 0) (salary,0)), 0)
+[[Smith, John,CEO,$1000000],[Jones, Mary,Manager,$100000],[Brown, Edwin,Programmer,$55000],[Green, Marvin,Programmer,$78000],[Edwards, Susan,Intern,$0]]
+*Main> 

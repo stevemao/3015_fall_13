@@ -1,0 +1,77 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{11}{15 October}
+
+\noindent{}We've been writing some code in class for the few meetings.  It's your turn.
+
+
+\noindent{}Here's a type of binary trees.
+
+\begin{smallprogram*}
+\> data Btree a = Leaf $|$ Node a (Btree a) (Btree a) deriving (Eq,Show)
+\end{smallprogram*}
+
+\noindent{}Consider the Functor type class in Haskell.
+
+\begin{smallprogram*}
+\> class Functor f where   \\
+\>    fmap :: (a $\rightarrow$ b) $\rightarrow$ f a $\rightarrow$ f b  
+\end{smallprogram*}
+
+\begin{exercise}
+Make BTree an instance of the Functor type class by filling in the code for fmap below.
+
+\begin{smallprogram*}
+\> instance Functor BTree where   \\
+\>   fmap f Leaf  = ... \\
+\>   fmap f (Node x lt rt) = ... 
+\end{smallprogram*}
+\end{exercise}
+
+Data structures like trees can be folded just like lists - {\em{i.e.}} you can
+fold up a tree into a value by combining all the values in some way.  Here's an
+example that sums the values in a tree.
+
+\begin{smallprogram*}
+\> sum Leaf = 0\\
+\> sum (Node x lt rt) = x + (sum lt) + (sum rt)
+\end{smallprogram*}
+
+\begin{exercise}
+Generalize this function into a fold (like foldr for lists) that works on BTrees.
+\begin{smallprogram*}
+\> foldBTree :: (a $\rightarrow$ b $\rightarrow$ b $\rightarrow$ b) $\rightarrow$ b $\rightarrow$ BTree a $\rightarrow$ b\\
+\> foldBTree f e Leaf =  ... \\
+\> foldBTree f e (Node x lt rt) = ...
+\end{smallprogram*}
+\end{exercise}
+
+
+Here's come code to test you functions - see if you can figure out why they're
+correct (or even what it means for them to be correct.)
+\begin{smallprogram*}
+\> mkTree :: [a] $\rightarrow$ BTree a   \\
+ balanced rt \\
+\>   where height Leaf = 0\\
+\>         height (Node \_ lt rt) = 1 + max (height lt) (height rt)
+\end{smallprogram*}
+
+\begin{exercise}
+Run the test code on the web-page to test your fmap and foldBTree functions.
+\end{exercise}
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw12f"
+% fill-column:79
+% End:
+
+
+
+

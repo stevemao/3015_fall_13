@@ -1,0 +1,504 @@
+<HTML>
+<body bgcolor="#fffff" text="#000000"  >
+<HEAD>
+<TITLE>UW, COSC 3015, Fall 2013</TITLE></HEAD>
+<BODY>
+<! The following is the same for all department pages. >
+<H3>
+Department of Computer Science<BR>
+University of Wyoming
+</H3>
+<HR SIZE=2>
+<! End CS Dept. header >
+<CENTER><B><U><FONT SIZE=+1>COSC 3015:<br>  Functional Programming </FONT><br>
+</U><i><FONT SIZE=+1>Fall 2012</FONT><br></i>SYLLABUS</B></CENTER>
+<BR><BR>
+<P ALIGN="left">
+<! I Draft version/I>
+<! I Updated 14 June, 2000./I>
+<P>
+<TABLE width=40%> 
+<TR><TD><b>Professor:</b> <a href="http://www.cs.uwyo.edu/~jlc/">Caldwell</a></TD><TD><B>E-mail:</B>
+<tt><a href="mailto:jlc@cs.uwyo.edu">jlc@cs.uwyo.edu</a></tt>
+</TD></TR>
+<TR><TD><b>Office:</b>  4083 Engineering Building</TD><TD><b>Phone:</b>766-4913</TD></TR> 
+<TR><TD colspan=2><b>Office hours:</b> Tuesday and Thursday: 1:00-1:30, Monday and Wednesday 11-12, Walk-ins welcome if I am in my office and free. </TD></TR> 
+
+<TR><td><br></td></TR>
+
+<TR><TD><b>Grader:</b> Hadi Shafei</TD>
+    <TD><B>E-mail:</B><tt><a href="mailto:hshafei@uwyo.edu">hshafei@uwyo.edu</a></tt></TD>
+<TR><TD><b>Office:</b> 4071A Engineering Building</TD><TD><b>Phone:</b>766-5147</TD></TR> 
+<TR><TD colspan=2><b>Office hours:</b> TBD <!-- Tuesday and Thursday: 11:00 - 1:00 --></TD></TR>
+
+<TR><td><br></td></TR>
+
+<TR><TD colspan=2><b>Class:</b> meets Tuesday and Thursday from 11:00 -- 12:15 in Classroom Building room 306.</TD></TR>
+<TR><TD colspan=2><b>Web Page:</b> <tt> http://www.cs.uwyo.edu/~jlc/courses/3015/</tt></TD></TR>
+
+</TABLE>
+<BR>
+
+<P>
+<b>Prerequisites:</b> COSC 2030
+<BR>
+<P>
+<b>Textbooks:</b><br>
+
+<li> Required:
+ <TABLE WIDTH="100%" CELLPADDING=10 CELLSPACING=0 BORDER=0> 
+ <TR> 
+
+ <td valign=top align=left >
+  <a href="lyahfgg.jpeg"><img SRC="lyahfgg.jpeg" BORDER=1 height=100></a>
+ </td>
+ <td valign=center align=left >
+ <u><a
+   href="http://learnyouahaskell.com/">
+Learn You a Haskell for Great Good (LYAHFGG)</a></u> <br> by Miran Lipovaca, No Starch Press, 2012 <br> <i> This is considered one of the best resources for learning the Haskell programming language and is available free online <a href="http://learnyouahaskell.com/chapters">HERE</a>. </i>
+ </td>
+ </table> 
+
+
+<li> Recommended:
+
+ <TABLE WIDTH="70%" CELLPADDING=10 CELLSPACING=0 BORDER=0> 
+ <TR> 
+<td valign=top align=left> <a href="hutton_cover.jpg"><img
+SRC="hutton_cover.jpg" BORDER=1 height=100> </a> 
+</td> 
+
+<td valign=center ALIGN=left>
+<a href="http://books.google.com/books?id=olp7lAtpRX0C&dq=Programming+in+Haskell&ei=SRq3SKy0MIm2iwHUscAp"> Programming
+ in Haskell </a></u>&nbsp; <br>by <a
+ href="http://www.cs.nott.ac.uk/~gmh">Graham Hutton</a> Cambridge
+ <i>University Press</a>, 2007 <br> A good introduction to the language.</i>
+</td>
+
+
+<td valign=top align=left >
+  <a href="Bird_cover_large.jpg"><img SRC="Bird_cover_small.jpg" BORDER=1 height=100></a>
+</td>
+<td valign=center align=left >
+<u><a
+href="http://froogle.google.com/froogle?q=Introduction+Functional+Programming+in+Haskell%2C+richard+Bird+&hl=en&btnG=Search">
+Introduction Functional Programming using Haskell</a></u> <br> 
+by <a href="http://web.comlab.ox.ac.uk/oucl/people/richard.bird.html">Richard
+Bird</a>, Prentice Hall, 1998 <br> <i> The classic text introducing
+functional programming in Haskell. Covers some sophisticated topics.
+</i> <br> <a href="./bird_errata.pdf">errata sheet</a>
+</td>
+
+</tr>
+
+<tr>
+ </td> <td valign=top align=left > <a
+href="Okasaki_cover_large.jpg"><img SRC="Okasaki_cover_small.jpg"
+BORDER=1 height=100></a> </td> <td valign=center align=left >
+  <u><a
+href="http://froogle.google.com/froogle?lr=&oe=UTF-8&q=Purely+functional+data+structures">
+Purely Functional Data Structures</a></u> <br> by Chris
+Okasaki,Cambridge University Press, 1999 <br> <i>An excellent
+reference on efficient data structures and algorithms in a functional
+setting. Not required but highly recommended. </i> </td> </td> </tr>
+
+<td valign=top align=left >
+  <a href="Dominus_cover.gif"><img SRC="Dominus_cover.gif" BORDER=1 height=100></a>
+</td>
+<td valign=center align=left >
+  <u><a
+href="http://froogle.google.com/froogle?q=higher%20order%20programming%20in%20perl%20&ie=UTF-8&oe=UTF-8&client=firefox-a&rls=org.mozilla:en-US:official&sa=N&tab=wf">
+Higher-Order Perl: Transforming Programs with Programs</a></u> <br> by <a href="http://perl.plover.com/">Mark Jason Dominus</a>, Morgan Kaufmann, 2005 <br> <i> This highly praised book applies techniques of function programming in the setting of the Perl programming language. It is available free online <a href="http://hop.perl.plover.com/book/">HERE</a>. </i> 
+</td>
+
+<td valign=top align=left > <a
+href="rwh-200.jpg"><img SRC="rwh-200.jpg"
+BORDER=1 height=100></a> </td> <td valign=center align=left >
+
+  <u><a
+href="http://www.google.com/products/catalog?q=real+world+haskell&cid=3452840911984649367#">
+Real World Haskell</a></u> <br> by Bryan O'Sullivan, John Goerzen, Don Stewart, O'Reilly, 2009 <br> <i> Another recent Haskell book with some more advanced material. Available free online <a href="http://book.realworldhaskell.org/read/">HERE</a>. </i> </td> </td> </tr>
+
+ </table> 
+
+<P>
+<b>Abstract:</b> <a href="http://en.wikipedia.org/wiki/Functional_programming">Functional programming languages</a> are distinguished
+from the "ordinary" <a href="http://en.wikipedia.org/wiki/Imperative_programming">imperative programming</a> languages you already know ( <i>e.g.</i>
+Java, C++) by <ul> <li> their expressiveness over data-types like
+lists, trees and other inductively defined types.  <li> They are
+<i>expression</i> based rather than <i> command</i> based like the
+other languages you already know, and so, are closer to ordinary
+mathematics than so-called <i> imperative</i> programming languages.
+<li> In functional languages, functions are first class values (just
+like strings and ints) and so functional programs can accept functions
+as arguments and return functions as their values.  <li> Functional
+programs are typically more abstract, they read more like
+specifications than imperative programs do.  </ul> In this course we
+will cover the techniques of functional programming and will discuss
+applications of these techniques in other contexts of programming and
+software design.
+
+<p>
+<b>Grading and Other Policies: </b> Grades will be based on written
+homework, an in-class midterm exam and a final exam.  A standard
+grading scale will be used, where an overall average of 90%-100% earns
+an A, 80%-89% a B, 70%-79% a C, 60%-69% a D and 0%-59% an F.  Work is
+<I>due at the beginning of class</I>, and late work is accepted for a
+few days, or until a solution is distributed, at a substantial
+reduction in credit each day.  Returned work should be kept for
+verification of records.  <BR>
+<P>
+<CENTER>
+<TABLE WIDTH=30% BORDER ALIGN="CENTER">
+<TR align="right">
+<TD colspan=1 align="right"><p>Midterm Exam<BR></TD>
+<TD colspan=1 align="right"><b>25%</b><BR></TD></TR>
+<TR align="right">
+<TD colspan=1 align="right">Homework<BR></TD>
+<TD colspan=1 align="right"><b>45%</b><BR></TD></TR>
+<TR align="right">
+<TD colspan=1 align="right">Final Exam<BR></TD>
+<TD colspan=1 align="right"><b>30%</b><BR></TD></TR>
+<TR align="right">
+<TD colspan=1 align="right"><BR></TD>
+<TD colspan=1 align="right"><b>100%</b>
+<BR></TD></TR></TABLE></TD></TR>
+</TABLE>
+</CENTER>
+<BR>
+<P>
+The professor reserves the right to alter the grading scheme or to
+take extenuating circumstances into account when assigning grades.
+
+Discussion of the course material among students is encouraged,
+although students are expected to write up their own homeworks.
+Academic dishonesty will be treated in accordance with university
+standards.  Students are urged to read <a
+href="http://www.uwyo.edu/generalcounsel/_files/docs/Unireg802.pdf"> University
+regulation 802 </a>, section 3 defines academic dishonesty. .
+<P>
+<P>
+
+
+<b>Class Notes:</b><br><br> <a
+href="http://www.cs.uwyo.edu/~skothari/">Sunil Kothari</a> typed
+up lecture notes for a previous version of the course.  They can be found on his web-page,
+here <a href="./lectures"> Class
+Notes</a> <br><br>
+
+<b>Homework:</b><br><br>
+
+<table BORDER=1 cellpadding=4 cellspacing=3 BGCOLOR="#FFFFFF" >
+<tr>
+<td>No. </td>
+<td>Due Date </td>
+<td>Assignment</td>
+<td>Remarks</td>
+</tr>
+
+ <tr>
+ <td  valign=top> 1 </td>
+ <td  valign=top> Thursday: August 29 </td>
+ <td valign=top> 
+Read the following:
+<ul>
+<li> The <a href="http://learnyouahaskell.com/introduction">Introduction</a> to LYAHFGG
+<li> <a href="http://haskell.org/haskellwiki/Why_Haskell_matters">Why Haskell Matters</a>, and
+<li> any (or all) of Paul Graham's <a href="http://www.paulgraham.com/articles.html">  <a href="http://www.paulgraham.com/articles.html"> essays </a> , I personally like
+<a href="http://www.paulgraham.com/procrastination.html">Good and Bad Procrastination</a>.
+</ul>
+To get a leg up, you should install  <a href="http://hackage.haskell.org/platform/index.html">The Haskell Platform</a> on your own computer.  Then, Try running the quicksort code given in class.  
+
+  </td>  
+  <td  valign=top>  &nbsp;
+ Some files from class:  <a href="hw/qsort.hs">qsort.hs </a>.  <br>
+Nothing to hand in.</a> 
+</td> </tr> 
+
+ <tr>
+ <td valign=top> 2 </td>
+ <td valign=top> Tuesday: August 3</td>
+ <td valign=top> <a href="hw/hw2e.pdf">hw2</a>.
+</td>
+ <td valign=top>
+If you have not already done so, install the Haskell Platform on your computer. <br>
+  Read the  <a href="./proof_methods.pdf">notes discussed in class.</a> <br>
+ Here is a clear and interesting set of slides on using the Velleman strategies <a href="http://cs.swan.ac.uk/~csgs/howtoproveit.pdf">Click here</a>.
+</td>
+ </tr>
+
+
+<tr>
+<td valign=top> 3 </td>
+<td valign=top> Thursday: September 5</td>
+<td valign=top> <a href="./hw/hw3h.pdf"> hw3.pdf </a>  </td>
+<td valign=top> A few proofs about quantified formulas.  Use
+the <a href="proof_rules_all.pdf">proof rule sheet</a> handed out in
+class today or the Velleman style proofs.  By the way - you could order a copy of Velleman's book <a href="http://www.amazon.com/How-Prove-It-Structured-Approach/dp/0521675995">How to Prove It: A Structured Approach</a>.  My own <a href="book.pdf">lecture notes for COSC 2300</a> have more detailed explanations and examples of the Sequent proof system [see Chapters 2 and 4].
+
+</td>
+</tr>
+
+
+ <tr>
+ <td valign=top> 4 </td>
+ <td valign=top>Tuesday: September 10</td>
+ <td valign=top> <a href="./hw/hw4f.pdf"> hw4.pdf </a>  </td>
+ <td valign=top> Readh Ch 1 and 2 of LYAHFGG <a href="http://learnyouahaskell.com/introduction">online here.</a> </td>
+ </tr>
+
+
+ <tr>
+ <td valign=top> 5 </td>
+ <td valign=top>Thursday:<br> September 12</td>
+ <td valign=top> <a href="./hw/hw5g.pdf"> hw5.pdf </a>  </td>
+ <td valign=top> Read the assignment before class on Thursday - problems due Tuesday 17th.  </td>
+ </tr>
+
+ <tr>
+ <td valign=top> 6 </td>
+ <td valign=top>Tuesday:<br> September 17</td>
+ <td valign=top> <a href="./hw/hw6e.pdf"> hw6.pdf </a></td>
+ <td valign=top> </td> 
+</tr>
+
+ <tr>
+ <td valign=top> 7 </td>
+ <td valign=top> Tuesday: September 24 </td>
+ <td valign=top>  <a href="./hw/hw7g.pdf"> hw7.pdf </a>   </td>
+ <td valign=top>  </td>
+ </tr>
+
+ <tr>
+ <td valign=top> 8 </td>
+ <td valign=top> Thursday: September 26 </td>
+ <td valign=top>  <a href="./hw/hw8e.pdf"> hw8.pdf </a>   </td>
+ <td valign=top> &nbsp; </td>
+ </tr>
+
+
+ <tr>
+ <td valign=top> 9 </td>
+ <td valign=top> Tuesday: October 1 </td>
+ <td valign=top>  <a href="./hw/hw9e.pdf"> hw9.pdf </a>   </td>
+ <td valign=top> Check out issues #38, #39 and #40 of <a href="http://pragprog.com/magazines"> PragPub magazine</a> for some interesting articles on Haskell. </td>
+ </tr>
+
+ <tr>
+ <td valign=top> 10 </td>
+ <td valign=top> Tuesday: October 8  </td>
+ <td valign=top>  <a href="./hw/hw10e.pdf"> hw10.pdf </a>   </td>
+ <td valign=top> <a href="set.hs">Beginning of a sets as lists implementation.</a> <a href="interaction_10_3_13">interpreter interaction </a></td>
+ </tr>
+
+ <tr>
+ <td valign=top> 11 </td>
+ <td valign=top> Thursday: October 10  </td>
+ <td valign=top>  Read chapters 7 and 8 of <a href="http://learnyouahaskell.com/chapters">LYAHFGG</a>   </td>
+ <td valign=top> </td>
+ </tr>
+
+ <tr>
+ <td valign=top> 12 </td>
+ <td valign=top> Tuesday: October 15  </td>
+ <td valign=top>   <a href="./hw/hw12f.pdf">hw12.pdf</a>   </td>
+ <td valign=top> <a href="./hw/hw12f_base.hs">hw12_base.hs</a>, <a href="./hw/hw12f_expected.txt">hw12_expected.txt</a></td>
+ </tr>
+
+ <tr>
+ <td valign=top> 13 </td>
+ <td valign=top> Thursday: October 29  </td>
+ <td valign=top>  If you have not done so, Read chapters 7 and 8 of <a href="http://learnyouahaskell.com/chapters">LYAHFGG</a>   </td>
+ <td valign=top> </td>
+ </tr>
+
+
+
+ <tr>
+ <td valign=top> 13 </td>
+ <td valign=top> Tuesday: November 5  </td>
+ <td valign=top>  Watch the video of <a href="http://research.microsoft.com/en-us/um/people/emeijer/ErikMeijer.html">Eric Meijer</a> from Microsoft Research.
+ <a href="http://channel9.msdn.com/Series/C9-Lectures-Erik-Meijer-Functional-Programming-Fundamentals/C9-Lectures-Dr-Erik-Meijer-Functional-Programming-Fundamentals-Chapter-8-of-13">Video Lecture </a>. Discussion of parsers starts about 6 minutes in.
+You can also read about functional parsers in the Higher Order Perl book online: <a href="http://hop.perl.plover.com/book/pdf/08Parsing.pdf">Chapter 8</a>. Even if you don't know perl - pp 376 - 386 is a good presentation of recursive descent parsing.
+</td>
+ <td valign=top>
+ </td>
+ </tr>
+
+
+ <tr>
+ <td valign=top> 14 </td>
+ <td valign=top> Thursday, November 7   </td>
+ <td valign=top>  <a href="./hw/hw14e.pdf"> hw14.pdf </a>  </td>
+ <td valign=top> <a href="hw/Parser.hs">Parser.hs</a><br>
+                 <a href="hw/hutton.pdf">Functional Parsing</a><br>
+                 <a href="./parser_pearl.pdf">Monadic Parsing in Haskell </a><br>
+ </tr>
+
+<!-- <tr> -->
+<!--  <td valign=top> 15 </td> -->
+<!--  <td valign=top> Thursday, 8 November  </td> -->
+<!--  <td valign=top>  Read the Chapter <a href="http://learnyouahaskell.com/input-and-output"> Input and Output</a> in LYAHFGG </td> -->
+<!--  <td valign=top>  -->
+<!--  </tr> -->
+
+<!-- <tr> -->
+<!--  <td valign=top> 16 </td> -->
+<!--  <td valign=top> Wednesday, 14 November  </td> -->
+<!--  <td valign=top>  <a href="./hw/hw16f.pdf"> hw16.pdf </a>  </td> -->
+<!--  <td valign=top>  Read the Chapter <a href="http://learnyouahaskell.com/input-and-output"> Input and Output</a> in LYAHFGG </td> -->
+<!--  </tr> -->
+
+<!-- <tr> -->
+<!--  <td valign=top> 17 </td> -->
+<!--  <td valign=top> Friday, 16 November  </td> -->
+<!--  <td valign=top>  <a href="./hw/hw17d.pdf"> hw17.pdf </a>  </td> -->
+<!--  <td valign=top>  Read Chapters 11,12 and 13 in LYAHFGG book. Online this is covered in  <a href="http://learnyouahaskell.com/functors-applicative-functors-and-monoids"> Functors, Applicative Functors and Monoids</a> and <a href="http://learnyouahaskell.com/a-fistful-of-monads">A Fistfull of Monads</a> -->
+
+<!--  </td> -->
+<!--  </tr> -->
+
+
+
+
+<!-- <\!--  <tr> -\-> -->
+<!-- <\!--  <td valign=top> 16 </td> -\-> -->
+<!-- <\!--  <td valign=top>Tuesday, 3 November </td> -\-> -->
+<!-- <\!--  <td valign=top>  <a href="./hw/hw16d.pdf"> hw16.pdf </a>  </td> -\-> -->
+<!-- <\!--  <td valign=top> <a href="./hw/hw16d.hs"> hw16.hs </a>, <a href="./hw/hw16d_expected.txt"> hw16_expected.txt </a>  </td> -\-> -->
+<!-- <\!--  </tr> -\-> -->
+
+
+<!-- <\!--  <tr> -\-> -->
+<!-- <\!--  <td valign=top> 17 </td> -\-> -->
+<!-- <\!--  <td valign=top> Thursday, 3 November </td> -\-> -->
+<!-- <\!--  <td valign=top>  <a href="./hw/hw17c.pdf"> hw17.pdf </a> <br> -\-> -->
+<!-- <\!-- <a href="http://book.realworldhaskell.org/read/io-case-study-a-library-for-searching-the-filesystem.html"> Chapter 9 of RWH</a> -\-> -->
+<!-- <\!--  </td> -\-> -->
+<!-- <\!--  <td valign=top>  -\-> -->
+<!-- <\!-- <a href="./code/examples/ch09/RecursiveContents.hs">RecursiveContents.hs</a> -\-> -->
+<!-- <\!-- <a href="./code/examples/ch09/SimpleFinder.hs">SimpleFinder.hs</a> -\-> -->
+<!-- <\!-- <\\!-- <a href="./code/examples/ch09/BetterPredicate.hs">BetterPredicate.hs</a> -\\-> -\-> -->
+<!-- <\!-- </td> -\-> -->
+<!-- <\!--  </tr> -\-> -->
+
+
+
+<!-- <\!--  <tr> -\-> -->
+<!-- <\!--  <td valign=top> 18 </td> -\-> -->
+<!-- <\!--  <td valign=top> Tuesday, 8 November   </td> -\-> -->
+<!-- <\!--  <td valign=top>  <a href="./hw/hw18e.pdf"> hw18.pdf </a> <br> -\-> -->
+<!-- <\!-- <a href="http://learnyouahaskell.com/functors-applicative-functors-and-monoids"> Chapter 11</a> of LYAHFGG</a> -\-> -->
+
+<!-- <\!-- </td> -\-> -->
+<!-- <\!--  <td valign=top> <a href="./hw/hw18e.hs">hw18.hs</a>, <a href="./hw/hw18e_expected.txt">hw18_exptected.txt</a> -\-> -->
+<!-- <\!--  </td> -\-> -->
+<!-- <\!--  </tr> -\-> -->
+
+
+<!-- <\!--   <tr> -\-> -->
+<!-- <\!--  <td valign=top> 19 </td> -\-> -->
+<!-- <\!--  <td valign=top> Thursday, 10 November  </td> -\-> -->
+<!-- <\!--  <td valign=top> Read from LYAHFGG <a href="">Ch. 11 on Functors, Applicative Functors and Monoids</a> and  <a href="http://learnyouahaskell.com/a-fistful-of-monads">Ch. 12 on Monads</a>  </td> -\-> -->
+<!-- <\!--  <td valign=top> &nbsp; </td> -\-> -->
+<!-- <\!--  </tr> -\-> -->
+
+
+<!-- <\!--  <tr> -\-> -->
+<!-- <\!--  <td valign=top> 20 </td> -\-> -->
+<!-- <\!--  <td valign=top> Tuesday, 15 November   </td> -\-> -->
+<!-- <\!--  <td valign=top>  <a href="./hw/hw20c.pdf"> hw20.pdf </a>  </td> -\-> -->
+<!-- <\!--  <td valign=top> <a href="hw/hw20c.hs">hw20.hs</a>, <a href="hw/hw20c_expected.txt">hw20_expected.txt</a></td> -\-> -->
+<!-- <\!--  </tr> -\-> -->
+
+
+<!-- <\!-- <tr> -\-> -->
+<!-- <\!--  <td valign=top> 21 </td> -\-> -->
+<!-- <\!--  <td valign=top> Thursday, November 17  </td> -\-> -->
+<!-- <\!--  <td valign=top>  Read LYAHGG <a href="http://learnyouahaskell.com/a-fistful-of-monads">Monads</a> and <a href="http://learnyouahaskell.com/for-a-few-monads-more">For a Few Monads More</a> </td> -\-> -->
+<!-- <\!--  <td valign=top> </td> -\-> -->
+<!-- <\!--  </tr> -\-> -->
+
+
+<!-- <\!-- <tr> -\-> -->
+<!-- <\!-- <td valign=top> 22 </td>   -\-> -->
+<!-- <\!-- <td valign=top> Tuesday, 22 November   </td> -\-> -->
+<!-- <\!-- <td valign=top>  <a href="./hw/hw22a.pdf"> hw22.pdf </a>  </td>  -\-> -->
+<!-- <\!-- <td valign=top> Last One!! You can hand it in on the 29th but then there is no guarantee it will be graded by Dec 1.  </td> -\-> -->
+<!-- <\!-- </tr>  -\-> -->
+
+
+
+
+
+</table>
+
+
+</UL>
+<P> 
+<P> 
+<b>Exams:</b><br> 
+<P> 
+<UL> 
+<LI> <b> Midterm Exam:</b> TBA
+<LI>  <b>Final Exam:</b>  TBA  <br>
+
+</UL> 
+
+<P> 
+<UL>
+<li> <b>Miscellaneous Resources:</b><br> 
+<UL>
+<LI> <a href="http://www.cs.nott.ac.uk/~gmh//faq.html">Functional Progrmming FAQ </a> 
+<LI> <a href="http://homepages.inf.ed.ac.uk/wadler/guide.html"> Philip Wadler's guide to functional programming on the web</a>
+<LI> <a href="http://www.cse.chalmers.se/~rjmh/tutorials.html"> Tutorial Papers in Functional Progamming</a>
+</ul>
+</ul>
+<ul>
+<li><b>Haskell:</b><br>
+<ul>
+<li> <a href="http://www.haskell.org"> Haskell.org </a>
+
+<ul>
+<b> Tutorials and Online (free) references</b><br>
+<ul>
+<li> <a href="http://www.haskell.org/haskellwiki/Haskell_in_5_steps"> Haskell in 5 steps</a>
+<li> <a href="http://en.wikibooks.org/wiki/Haskell"> Haskell </a> a  <a href="http://en.wikibooks.org/wiki/Main_Page"> Wikibook</a>
+<!-- <li> <a href="./yet_another_haskell_tutorial.pdf"> Yet Another Haskell Tutorial </a> -->
+</ul>
+</ul>
+
+<ul>
+<b> System</b><br>
+<ul>
+<LI> <a href="http://hackage.haskell.org/platform/"> The Haskell Platform </a>
+<LI> <a href="http://lambda.haskell.org/platform/doc/current/start.html">Haskell Platform Documentation </a>
+</ul>
+</ul>
+
+<ul>
+<b> People</b><br>
+<ul>
+<LI> <a href="http://www.chalmers.se/cse/EN/people/hughes-john"> John Hughes at Chalmers University</a>
+<LI> <a href="http://www.cs.yale.edu/people/hudak.html"> Paul Hudak at Yale</a>
+<LI> <a href="http://research.microsoft.com/~simonpj/">  Simon Peyton Jones at Microsoft Research </a>
+<LI> <a href="http://www.cs.kent.ac.uk/people/staff/sjt/"> Simon Thompson at Kent </a>
+<LI> <a href="http://homepages.inf.ed.ac.uk/wadler/">  Philip Wadler at Edinburgh</a>
+</ul>
+</ul>
+</ul>
+
+<b>Some Industrial Functional Programming </b><br>
+<a href="http://cufp.galois.com/">Commercial Users of Functional programming (CUFP)</a>.<br>
+<a href="http://groups.google.com/group/cufp?pli=1">Google CUFP group </a><br>
+<a href="http://www.intellifactory.com/Home.aspx"> Intellifactory</a><br>
+<!-- <a href="http://antiope.com/downloads.html">Antiope</a><br> -->
+<!-- <a href="http://skydeck.com/developer/downloads/">Skydeck </a> <br> -->
+<a href="http://www.janestreet.com/">Jane Street Capital</a>
+</BODY>
+</HTML>
+
+
+
+
+

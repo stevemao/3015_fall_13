@@ -1,0 +1,212 @@
+This is pdfTeX, Version 3.14159-1.10b (Web2C 7.4.5) (format=pdflatex 2006.1.19)  7 NOV 2006 13:02
+**hw17
+(./hw17.tex{/usr/share/texmf/pdftex/config/pdftex.cfg}
+LaTeX2e <2001/06/01>
+Babel <v3.7h> and hyphenation patterns for american, french, german, ngerman, n
+ohyphenation, loaded.
+(/usr/share/texmf/tex/latex/base/article.cls
+Document Class: article 2001/04/21 v1.4e Standard LaTeX document class
+(/usr/share/texmf/tex/latex/base/size11.clo
+File: size11.clo 2001/04/21 v1.4e Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+\@input{header.aux}
+\openout2 = `header.aux'.
+
+(./header.tex (/usr/share/texmf/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2002/01/22 v2.2d
+
+(/usr/share/texmf/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2001/10/25 v2.2f
+\@emptytoks=\toks14
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 132.
+)) (./remark.sty)
+(/usr/share/texmf/tex/latex/html/html.sty
+(/usr/share/texmf/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2003/01/22 v6.73n Hypertext links for LaTeX
+
+(/usr/share/texmf/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks15
+)
+\@linkdim=\dimen103
+\Hy@linkcounter=\count87
+\Hy@pagecounter=\count88
+
+(/usr/share/texmf/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2003/01/22 v6.73n Hyperref: PDFDocEncoding definition (HO)
+)
+(/usr/share/texmf/tex/latex/config/hyperref.cfg
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive and teTeX
+)
+Package hyperref Info: Hyper figures OFF on input line 1792.
+Package hyperref Info: Link nesting OFF on input line 1797.
+Package hyperref Info: Hyper index ON on input line 1800.
+Package hyperref Info: Plain pages ON on input line 1805.
+Package hyperref Info: Backreferencing OFF on input line 1812.
+
+Implicit mode ON; LaTeX internals redefined
+Package hyperref Info: Bookmarks ON on input line 1916.
+(/usr/share/texmf/tex/latex/html/url.sty
+Package: url 1999/03/02  ver 1.4  Verb mode for urls, email addresses, and file
+ names
+)
+LaTeX Info: Redefining \url on input line 2055.
+\Fld@menulength=\count89
+\Field@Width=\dimen104
+\Fld@charsize=\dimen105
+\Choice@toks=\toks16
+\Field@toks=\toks17
+Package hyperref Info: Hyper figures OFF on input line 2513.
+Package hyperref Info: Link nesting OFF on input line 2518.
+Package hyperref Info: Hyper index ON on input line 2521.
+Package hyperref Info: backreferencing OFF on input line 2528.
+Package hyperref Info: Link coloring OFF on input line 2533.
+\c@Item=\count90
+\c@Hfootnote=\count91
+)
+*hyperref using default driver hpdftex*
+(/usr/share/texmf/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2003/01/22 v6.73n Hyperref driver for pdfTeX
+
+(/usr/share/texmf/tex/latex/psnfss/pifont.sty
+Package: pifont 2002/09/08 PSNFSS-v9.0a Pi font support (SPQR) 
+LaTeX Font Info:    Try loading font information for U+pzd on input line 62.
+
+(/usr/share/texmf/tex/latex/psnfss/upzd.fd
+File: upzd.fd 2001/06/04 font definitions for U/pzd.
+)
+LaTeX Font Info:    Try loading font information for U+psy on input line 63.
+
+(/usr/share/texmf/tex/latex/psnfss/upsy.fd
+File: upsy.fd 2001/06/04 font definitions for U/psy.
+))
+\Fld@listcount=\count92
+\@outlinefile=\write3
+)
+Package: html 1999/07/19 v1.38 hypertext commands for latex2html (nd, hws, rrm)
+
+\c@lpart=\count93
+\c@lchapter=\count94
+\c@chapter=\count95
+\c@lsection=\count96
+\c@lsubsection=\count97
+\c@lsubsubsection=\count98
+\c@lparagraph=\count99
+\c@lsubparagraph=\count100
+\c@lsubsubparagraph=\count101
+\ptrfile=\write4
+)
+(/home/faculty/jlc/papers/tex-stuff/bussproofs.sty
+Proof Tree (bussproofs) style macros. Version 0.6c.
+\theLevel=\count102
+\myMaxLevel=\count103
+\myBoxA=\box26
+\myBoxB=\box27
+\myBoxC=\box28
+\myBoxD=\box29
+\myBoxLL=\box30
+\myBoxRL=\box31
+\thisAboveSkip=\dimen106
+\thisBelowSkip=\dimen107
+\newScoreStart=\dimen108
+\newScoreEnd=\dimen109
+\newCenter=\dimen110
+\displace=\dimen111
+\leftLowerAmt=\dimen112
+\rightLowerAmt=\dimen113
+\scoreHeight=\dimen114
+\scoreDepth=\dimen115
+)
+\c@theorem=\count104
+\c@conjecture=\count105
+\c@corollary=\count106
+\c@example=\count107
+\c@fact=\count108
+\c@lemma=\count109
+\c@definition=\count110
+\c@claim=\count111
+\c@remark=\count112
+\c@slogan=\count113
+\c@axiom=\count114
+\c@note=\count115
+\c@problem=\count116
+\c@exercise=\count117
+) (./hw17.aux)
+\openout1 = `hw17.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+Package hyperref Info: Link coloring OFF on input line 5.
+ (/usr/share/texmf/tex/latex/hyperref/nameref.sty
+Package: nameref 2001/01/27 v2.19 Cross-referencing by name of section
+\c@section@level=\count118
+)
+LaTeX Info: Redefining \ref on input line 5.
+LaTeX Info: Redefining \pageref on input line 5.
+ (./hw17.out)
+(./hw17.out)
+\openout3 = `hw17.out'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 6--7
+
+ []
+
+LaTeX Font Info:    Try loading font information for U+msa on input line 54.
+(/usr/share/texmf/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2002/01/19 v2.2g AMS font definitions
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 54.
+
+(/usr/share/texmf/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2002/01/19 v2.2g AMS font definitions
+) [1
+
+
+
+{/usr/share/texmf/dvips/config/pdftex.map}] [2] (./hw17.aux) ) 
+Here is how much of TeX's memory you used:
+ 2757 strings out of 95437
+ 34895 string characters out of 1189055
+ 84327 words of memory out of 1000001
+ 5750 multiletter control sequences out of 10000+50000
+ 9463 words of font info for 36 fonts, out of 500000 for 1000
+ 14 hyphenation exceptions out of 1000
+ 38i,4n,26p,237b,337s stack positions out of 1500i,500n,5000p,200000b,5000s
+ 29 PDF objects out of 300000
+ 5 named destinations out of 131072
+ 16 words of extra memory for PDF output out of 65536
+{/usr/share/texmf
+/dvips/tetex/bbad153f.enc}</usr/share/texmf/fonts/type1/bluesky/cm/cmsy10.pfb>{
+/usr/share/texmf/dvips/tetex/09fbbfac.enc}</usr/share/texmf/fonts/type1/bluesky
+/cm/cmtt10.pfb>{/usr/share/texmf/dvips/tetex/f7b6d320.enc}</usr/share/texmf/fon
+ts/type1/bluesky/cm/cmr10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmbx10.p
+fb>
+Output written on hw17.pdf (2 pages, 40064 bytes).

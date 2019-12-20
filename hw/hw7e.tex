@@ -1,0 +1,101 @@
+\documentclass[11pt]{article}
+
+\include{header}
+\newcommand{\appenda}[2]{{\mathit{append}}\;{#1}\;{#2}}
+\newcommand{\List}[1]{[{#1}]}
+\newcommand{\definedAsM}{\stackrel{{\mathrm{def}}}{=}}
+\newcommand{\base}{\goodbreak\noindent{}Base case:}
+\newcommand{\indstep}{\goodbreak\noindent{}Induction Step:}
+\newcommand{\cons}{:}
+\newcommand{\dpair}[1]{{\langle\!\langle{{#1}}\rangle\!\rangle}}
+\renewcommand{\nil}{[\,]}
+\begin{document}
+\homework{7}{25 September}
+
+
+Recall the induction principle for finite lists.
+
+\[\begin{array}{l}
+
+[P([\,]) \wedge \\
+\;\;\forall x::a.\, \forall xs::[a].\, P(xs) \Rightarrow P(x:xs)] \\
+\;\;\; \Rightarrow \forall{}ys::[a]. P(ys)
+\end{array}\]
+
+Thus, for a property $P$ of lists, to show that $\forall{}xs::[a].\; P(xs)$
+it is enough to show two things:
+\[\begin{array}{rl}
+{\bf{i.)}} & P([\,]) \\
+{\bf{ii.)}} & \forall x::a.\, \forall xs::[a].\,\; P(xs) \Rightarrow P(x:xs)\\
+\end{array}\]
+
+Here are the definitions of some list functions.
+\[\begin{array}{l}
+
+length\, [\,] = 0  \\
+length\, (x:xs) = 1 + length\, xs \\
+\ \\
+append\, [\,] ys = ys \\
+append\, (x:xs) ys = x: (append\, xs ys) \\
+\ \\
+map\; f\, [\,] = [\,] \\
+map \; f \; (x:xs) = (f\; x)\, :\, map \; f \; xs \\
+\ \\
+(f\, .\, g)\; x = f\, (g\; x)\\
+
+\end{array}\]
+
+
+
+Definition of the append function shows directly that $\nil$
+is a left identity for $\appenda{}{}$, is it a right identity as well? The
+following theorem establishes this fact.
+
+\begin{theorem}[Nil right identity for $\appenda{}{}$]
+\label{thm:nil_right}
+\index{right identity@Nil for $\appenda{}{}$}
+\[\forall{}ys::\List{a}.\;\, \appenda{ys}{\nil} = ys\]
+\ \\{\bf{Proof:}}
+By list induction on $ys$.  The property $P$ of $ys$ is given as:
+\[P(ys)\definedAsM \appenda{ys}{\nil} = ys\]
+
+\base{} Show $P(\nil)$, {\em{i.e.}} that $\appenda{\nil}{\nil}=\nil$.  This
+follows immediately from the definition of append.
+
+\indstep{} Assume $P(xs)$ (the induction hypothesis) and show $P(x\cons{}xs)$
+for arbitrary $x$ of type $a$ and arbitrary $xs$ of type $\List{A}$.  The induction
+hypothesis is:
+\[\appenda{xs}{\nil} = xs\]
+We must show $\appenda{(x\cons{}xs)}{\nil} = (x\cons{}xs)$.  Starting with the left side
+of the equality we get the following:
+\[\appenda{(x\cons{xs})}{\nil} \stackrel{\dpair{{\mathit{def. of}} \appenda{}{}}}{=} x\cons(\appenda{xs}{\nil}) \stackrel{\dpair{ind. hyp.}}{=} x\cons{}xs\]
+So the induction step holds and the proof is complete.  \qed
+\end{theorem}
+
+
+
+\begin{exercise}
+
+Prove the following by list induction.
+
+\[\begin{array}{ll}
+1.) & \forall{}ys \!::\![a].\; length\, (map \,f\, ys) = length\, ys\\
+2.) & \forall{}ys\!::\![a].\;\forall{}xs \!::\![a].\; length\, (append\,\, xs\,ys) = (length\,\; xs) + (length\,\; ys) \\
+\end{array}
+\]
+
+For the second proof - choose an arbitrary lets $ys$ of type $[a]$ and then do list induction on $xs$.
+
+\end{exercise}
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw7e"
+% fill-column:79
+% End:
+
+
+
+

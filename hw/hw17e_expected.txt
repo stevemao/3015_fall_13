@@ -1,0 +1,40 @@
+
+*Unification> :l Unification
+:l Unification
+[1 of 1] Compiling Unification      ( Unification.hs, interpreted )
+Ok, modules loaded: Unification.
+*Unification> :t unify
+unify :: Type -> Type -> String -> Type
+*Unification> :t test
+test :: Type -> Type -> IO ()
+*Unification> test (TVar "a") (TVar "b")
+"s = [(a,b),(b,b)]"
+"subst s a = b"
+"subst s b = b"
+*Unification> test (BinType Arrow (TVar "a") (TVar "b")) (TVar "a") 
+"s = [(a,*** Exception: unify: Occurs check failure on a.
+*Unification> test (BinType Arrow (TVar "a") (TVar "b")) (TVar "b") 
+"s = [(a,*** Exception: unify: Occurs check failure on b.
+*Unification> test (BinType Arrow (TVar "a") (TVar "b")) (TVar "c") 
+"s = [(a,a),(b,b),(c,(a -> b))]"
+"subst s (a -> b) = (a -> b)"
+"subst s c = (a -> b)"
+*Unification> test (BinType Arrow (TVar "a") (TVar "b")) (BinType Arrow (TVar "c") ( TVar "a"))
+"s = [(a,c),(b,c),(c,c)]"
+"subst s (a -> b) = (c -> c)"
+"subst s (c -> a) = (c -> c)"
+*Unification> test (BinType Arrow (TVar "a") (TVar "b")) (BinType Arrow (TVar "b") ( TVar "a"))
+"s = [(a,b),(b,b)]"
+"subst s (a -> b) = (b -> b)"
+"subst s (b -> a) = (b -> b)"
+*Unification> test (BinType Arrow (TVar "a") (TVar "b")) (BinType Arrow (TVar "b") ( BinType Arrow(TVar "a") (TVar "b")))
+"s = [(a,*** Exception: unify: Occurs check failure on b.
+*Unification> test (BinType Arrow (TVar "a") (TVar "a")) (BinType Arrow (BinType Product (TVar "b") (TVar "c")) (TVar "d"))
+"s = [(a,(b X c)),(b,b),(c,c),(d,(b X c))]"
+"subst s (a -> a) = ((b X c) -> (b X c))"
+"subst s ((b X c) -> d) = ((b X c) -> (b X c))"
+*Unification> test (BinType Product (TVar "a") (TVar "b"))  (BinType Product (TVar "b") (TVar "c")) 
+"s = [(a,c),(b,c),(c,c)]"
+"subst s (a X b) = (c X c)"
+"subst s (b X c) = (c X c)"
+*Unification> 

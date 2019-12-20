@@ -1,0 +1,43 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{16}{15 November }
+
+Read about file IO in LYAHFGG.
+Recall the primitive file IO commands as discussed in LYAHFGG.
+
+\begin{program*}
+\> writeFile :: FilePath -> String -> IO () \\
+\> appendFile :: FilePath -> String -> IO () \\
+\> readFile :: FilePath -> IO String \\
+\end{program*}
+
+
+\exercise{Write and compile a program {\tt{cp.hs}} that expects two arguments which are file names and  copies the first to the second.  What will you do if the second file already exists?
+
+}
+
+\exercise{Write and compile a program {\tt{grep.hs}} that, given a string (say
+  {\tt{s}}) and a filename (say {\tt{fn}}), prints to the screen (think
+  {\tt{putStr}}) all lines of the file that contain the string {\tt{s}} as a
+  substring\footnote{Note that the real {\tt{grep}} command takes a regular expression as an argument - you program need only take a fixed string.}.
+}
+
+
+
+\end{document}
+
+
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw16f"
+% fill-column:79
+% End:
+
+
+
+

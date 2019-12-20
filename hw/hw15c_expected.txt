@@ -1,0 +1,32 @@
+
+*Parser> :l Lambda_parser
+:l Lambda_parser
+[1 of 3] Compiling Term             ( Term.hs, interpreted )
+[2 of 3] Compiling Parser           ( Parser.hs, interpreted )
+[3 of 3] Compiling Lambda_parser    ( Lambda_parser.hs, interpreted )
+Ok, modules loaded: Parser, Lambda_parser, Term.
+*Lambda_parser> applyParser pTerm "x"
+applyParser pTerm "x"
+V "x"
+*Lambda_parser> applyParser pTerm "x y"
+applyParser pTerm "x y"
+Ap (V "x") (V "y")
+*Lambda_parser> applyParser pTerm "x"
+applyParser pTerm "x"
+V "x"
+*Lambda_parser> applyParser pTerm "x y"
+applyParser pTerm "x y"
+Ap (V "x") (V "y")
+*Lambda_parser> applyParser pTerm "x y z"
+applyParser pTerm "x y z"
+Ap (Ap (V "x") (V "y")) (V "z")
+*Lambda_parser> applyParser pTerm "lambda x . x "
+applyParser pTerm "lambda x . x "
+Abs "x" (V "x")
+*Lambda_parser> applyParser pTerm "(lambda x . x) "
+applyParser pTerm "(lambda x . x) "
+Abs "x" (V "x")
+*Lambda_parser> applyParser pTerm "x ( y z) "
+applyParser pTerm "x ( y z) "
+Ap (V "x") (Ap (V "y") (V "z"))
+*Lambda_parser> 

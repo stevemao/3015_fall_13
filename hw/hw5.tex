@@ -1,0 +1,42 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{5}{14 September}
+
+\section{}
+
+\problem{Do problem 1.6.2 on page 25 of Bird.}
+
+\ \\
+The standard definition of {\it{curry}} works on functions taking a single
+argument packaged in a pair and turns it into a function that takes two
+arguments.
+
+\[curry :: ((a,b) \rightarrow c) \rightarrow a \rightarrow b \rightarrow c\]
+
+\problem{
+Define a function {\it{curry3}} where
+\[ curry3 :: ((a,b,c) \rightarrow d) \rightarrow a \rightarrow b \rightarrow c \rightarrow d \]
+}
+
+
+\problem{
+Give the type of the following function
+\[ f\;\; h \; (x,y,z) = h \; x \; y \; z \; \]
+}
+
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "latex hw5; dvips hw5 -o hw5.ps; pdflatex hw5"
+% fill-column:79
+% End:
+
+
+
+

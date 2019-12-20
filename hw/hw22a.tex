@@ -1,0 +1,305 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{22}{22 November}
+
+There are three exercises embedded in these notes.
+
+
+%% --------------------------------------------------------------------------------
+\section{The Monad Type Class}
+Here's the definitions of the type classes {\tt{Monad}}.
+
+\begin{verbatim}
+    class Monad m where
+      return :: a -> ma
+      (>>=) :: m a -> (a -> m b) -> mb
+      (>>) :: m a -> m b -> mb
+      m >> n  =  m >>= \_ -> n
+\end{verbatim}
+
+\noindent{}The monad laws are given as follows:\\
+
+\begin{tabular}{ll}
+Left Identity: & {\tt{(return x >>= f) = f x}} \\
+Right Identity: & {\tt{(m >>= return)  = m}} \\
+Associativity: & {\tt{((m >>= f) >>= g) = (m >>= ($\backslash$x -> f x >>= g))}} \\
+\end{tabular}
+
+\subsection{Maybe and List as instances of the Monad Type Class}
+
+\begin{verbatim}
+    instance Monad Maybe where
+      return  = Just
+      Nothing >>= f   = Nothing
+      (Just x) >>= f  = f x
+\end{verbatim}
+
+\begin{verbatim}
+    instance Monad [] where
+      return x = [x]
+      xs >>= f   = concat (map f xs)
+\end{verbatim}
+
+
+\subsection{Relating the instances to the Laws}
+
+Consider the list monad. 
+
+\begin{theorem}[Left Identity for Lists]
+{\tt{(return x >>= f) = f x}}
+\end{theorem}
+\Proof
+\[\begin{array}{l}
+{\mathtt{return \; x >>= f}}\\
+  \stackrel{\pair{\pair{{\mathrm{def}}.(>>=)}}}{=} {\mathtt{concat (map \; f (return \; x))}}\\
+  \stackrel{\pair{\pair{{\mathrm{def}}.{\mathtt{return}}}}}{=} {\mathtt{concat (map \; f\; [x])}} \\
+  \stackrel{\pair{\pair{{\mathrm{def}}.{\mathtt{map}}}}}{=} {\mathtt{concat [f \; x]}}
+\end{array}\]
+Now, by the type of {\tt{(>>=)}} we know {\tt{f :: a -> [b]}}.  This means {\tt{f x = [y]}} for some {\tt{y}}. This gives the following.
+\[
+  {\mathtt{concat [f\; x]}} = {\mathtt{concat \; [[y]]}} = [{\mathtt{y}}] = {\mathtt{f \; x}}
+\]
+\qed
+
+
+\begin{exercise}
+Use the definition of {\tt{(>>=)}} to show that {\tt{([] >>= f) = []}}.
+Recall that concat can be defined primitively as follows:
+\begin{verbatim}
+    concat [] = []
+    concat (xs:xss) = xs ++ (concat xss)
+\end{verbatim}
+\end{exercise}
+
+%% --------------------------------------------------------------------------------
+\section{The Monoid Type Class}
+
+Monoids have an associative operator with a left and right identity. 
+The type class {\tt{Monoid}} is give as follows.
+
+\begin{verbatim}
+    class Monoid m where 
+      mempty  :: m
+      mappend :: m -> m -> m
+\end{verbatim}
+
+
+\noindent{}The Monoid laws are as follows:\\
+
+
+\begin{tabular}{ll}
+Left Identity: & {\tt{ mempty `mappend` x =  x}} \\
+Right Identity: & {\tt{x `mappend` mempty = x}} \\
+Associativity: & {\tt{((x `mappend` y ) `mappend` z) = (x `mappend` (y `mappend` z))}} \\
+\end{tabular}
+
+
+\subsection{Maybe and List as instances of the Monoid Type Class}
+
+\begin{verbatim}
+    instance Monoid a => Monoid (Maybe a) where
+      mempty                    = Nothing
+      Nothing  `mappend` m      = m
+      m `mappend` Nothing       = m  
+      Just m1 `mappend` Just m2 = Just (m1 `mappend` m2)  
+\end{verbatim}
+
+\begin{verbatim}
+    instance Monad [a] where
+      mempty   = []
+      mappend  = (++)
+\end{verbatim}
+
+%% --------------------------------------------------------------------------------
+\section{The MonadPlus Type Class}
+
+The type class MonadPlus essentially extends monads that have some monadic structure. 
+is defined as follows:
+
+
+\begin{verbatim}
+    class (Monad m) => MonadPlus m where
+       mzero :: m a
+       mplus :: m a -> m a -> m a
+\end{verbatim}
+
+\noindent{}The laws relating {\tt{mzero}} and {\tt{mplus}} are the monoid laws.\\
+
+\begin{tabular}{ll}
+Left Identity: & {\tt{ mzero `mplus` x =  x}} \\
+Right Identity: & {\tt{x `mplus` mzero = x}} \\
+Associativity: & {\tt{((x `mplus` y ) `mplus` z) = (x `mplus` (y `mplus` z))}} \\
+\end{tabular} \vspace{.125in}\\
+
+But also (and this is not discussed in LYAHFGG) there must be a relationship
+between the MonadPlus operators and the operators in the underlying monad.  It
+turns out that there is some disagreement in the Haskell community about what
+the correct laws relating the two should be.
+
+\noindent{}The following laws relating the {\tt{mzero}} element of an instance
+of MonadPlus with the bind operator are universally accepted: \\
+
+\begin{tabular}{ll}
+Left Zero : & {\tt{(mzero >>= m)  =  mzero}} \\
+Right Zero : & {\tt{(m >> mzero)  =  mzero}} \\
+\end{tabular}
+\vspace{.125in} \\
+
+\noindent{}The following laws are sometimes accepted:\\
+
+\begin{tabular}{ll}
+Left Distribution: & {\tt{(m `mplus` n) >>= k  =  (m >>= k) `mplus` (n >>= k)}}\\
+Left Catch: & {\tt{((return a) `mplus` b) = return a}}\\
+\end{tabular}
+\vspace{.125in} \\
+The instantiation of lists as an instance of the MonadPlus type class satisfy
+the core laws, Left Zero, Right Zero, and Left Distribution.  Maybe, IO and the
+state Monoid satisfy Left and Right Zero, and Left Catch.
+
+
+\subsection{Maybe and List as instances of the MonadPlus Type Class}
+
+\begin{verbatim}
+    instance MonadPlus Maybe where
+      mzero                   = Nothing
+      Nothing  `mplus` m      = m
+      m `mplus` Nothing       = m  
+      Just m `mplus` Just n   = Just m
+\end{verbatim}
+
+\begin{verbatim}
+    instance MonadPlus [] where
+      mzero   = []
+      mplus  = (++)
+\end{verbatim}
+
+
+\subsection{Something about the laws}
+
+To see that the left distributive law does not hold for Maybe consider the
+following Haskell interaction.
+
+\begin{verbatim}
+    Prelude> :m + Control.Monad
+    Prelude Control.Monad> 
+    Prelude Control.Monad> let k b =  if b then Nothing else Just True
+    Prelude Control.Monad> (Just True `mplus` Just False) >>= k 
+    Nothing
+    Prelude Control.Monad> (Just True >>= k ) `mplus` (Just False >>=  k)
+    Just True
+\end{verbatim}
+
+\begin{exercise}
+Find an example that shows that lists do not satisfy the Left Catch rule.
+\end{exercise}
+
+%% --------------------------------------------------------------------------------
+\section{List Comprehensions, do notation and guards}
+
+\subsection{do notation}
+
+Recall that a sequence of bind operations can be rewritten using the do notion as follows:
+\begin{verbatim}
+   m1 >>= \x1 ->                    do x1 <- m1		     
+   m2 >>= \x2 ->                       x2 <- m2		     
+   ...                                  ...		     
+   mk >>= \xk ->                       xk <- mk		     
+   return (f x1 x2 ... xk)             return (f x1 x2 ... xk)
+\end{verbatim}
+Code written using bind
+
+
+\subsection{List comprehensions}
+Consider the evaluation of the following list comprehension.
+\begin{verbatim}
+    Prelude> [(x,y) | x <- [1..3], y <- "ab"]
+    [(1,'a'),(1,'b'),(2,'a'),(2,'b'),(3,'a'),(3,'b')]
+
+\end{verbatim}
+This code can be rewritten using do notion.
+
+\begin{verbatim}
+    Prelude> do {x <- [1..3]; y <- "ab"; return (x,y)}
+    [(1,'a'),(1,'b'),(2,'a'),(2,'b'),(3,'a'),(3,'b')]
+ 
+\end{verbatim}
+
+Now we can eliminate the do notation.
+\begin{verbatim}
+    Prelude> [1..3] >>= \x -> "ab" >>= \y -> return (x,y)
+    [(1,'a'),(1,'b'),(2,'a'),(2,'b'),(3,'a'),(3,'b')]
+\end{verbatim}
+
+Now, using the definitions of bind {\tt{(>>=)}} and {\tt{return}} for the list
+monad we get the following.
+
+\begin{verbatim}
+    Prelude> concat (map (\x -> (concat (map  (\y -> [(x,y)]) "ab")))  [1..3])
+    [(1,'a'),(1,'b'),(2,'a'),(2,'b'),(3,'a'),(3,'b')]
+\end{verbatim}
+But what about a list comprehension that contains a guard like the following:\\
+\begin{verbatim}
+    Prelude> [x | x <- [1..2], even x]
+    [2]
+\end{verbatim}
+Guards can be implemented as follows:
+\begin{verbatim}
+    guard :: MonadPlus m => Bool -> m ()
+    guard True  = return ()
+    guard False = mzero
+\end{verbatim}
+Using the guard, we can rewrite the list comprehension using do notation as follows:
+\begin{verbatim}
+    Prelude> do {x <- [1..2]; guard (even x); return x}
+    [2]
+\end{verbatim}
+
+\begin{exercise}
+Translate the do notation for the expression {\tt{do \{x <- [1..2]; guard (even
+x); return x\}}} into the bind operator and then use the definition of
+{\tt{(>>=)), guard,}} and {\tt{return}} to symbolically evaluate the expression
+to show how the result {\tt{[2]}} is arrived at.  Show every step.
+\end{exercise}
+
+
+
+
+
+% \noindent{}Consider the following list comprehension -- which returns a list of prime numbers less than 100.
+% \begin{tabular}{l}
+% {\tt{> [x | x <- [2..100], all ($\backslash$z -> rem x z /= 0) [2..(x-1)]]}} \\
+% {\tt{[2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97]}}
+% \end{tabular}
+
+% The expression {\tt{all ($\backslash$z -> rem x z /= 0) [2..(x-1)]}} is a predicate of
+% {\tt{x}} and returns {\tt{True}} if there are no divisors of {\tt{x}} between 2
+% and {\tt{x-1}} -- in which case {\tt{x}} is prime -- and it returns {\tt{False}}
+% otherwise.
+
+% With Haskell's do notation, which is supported for all monads including the
+% list monad, we can try to rewrite this as follows:
+
+
+%% guard :: MonadPlus m => Bool -> m ()
+%% guard True  = return ()
+%% guard False = mzero
+
+
+
+\end{document}
+
+
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw22a"
+% fill-column:79
+% End:
+
+
+
+

@@ -1,0 +1,33 @@
+\documentclass[11pt]{article}
+\usepackage{qtree}
+\include{header}
+
+
+\begin{document}
+\homework{17}{3 November}
+
+\exercise{
+Read chapter 9 of Real World Haskell: \ \\{\tt{http://book.realworldhaskell.org/read/io-case-study-a-library-for-searching-the-filesystem.html}}\ \\
+
+You should exercise the code and send some output of your experiments as your homework.
+I have made links to the code from chapter 9 of RWH on the couse web-page.
+
+
+\bibliographystyle{plain}
+\bibliography{./homework}
+
+\end{document}
+
+
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "\\>  "
+% comment-end: "\\\\"
+% compile-command: "pdflatex hw16e"
+% fill-column:79
+% End:
+
+
+
+

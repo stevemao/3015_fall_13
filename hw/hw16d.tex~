@@ -1,0 +1,40 @@
+\documentclass[11pt]{article}
+\usepackage{qtree}
+\include{header}
+
+
+\begin{document}
+\homework{16}{1 November}
+
+In this homework you will do some IO.  You are to write an interactive simulator for a queue of numbers.
+
+You can represent the queue itself using a list. When an item is queued up add it to the right end of th list. When an item is dequeued, just take it off the left end of the list.  The commands your program should respond to are :
+\begin{description}
+\item{``?''} When this command is entered, display a message describing the commands.
+\item{k} If k is a number, queue it up.
+\item{``dequeue''} remove an item from the head of the queue. 
+\item{``quit''} exit the interactive loop.
+\item{\_} For any other input suggest the user try the ``?'' command and to try again.
+\end{description}
+
+
+\exercise{Write a function {\tt{inv::Btree a $\rightarrow$ Rose a }} that implements the inverse mapping.}
+
+\bibliographystyle{plain}
+\bibliography{./homework}
+
+\end{document}
+
+
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "\\>  "
+% comment-end: "\\\\"
+% compile-command: "pdflatex hw16c"
+% fill-column:79
+% End:
+
+
+
+

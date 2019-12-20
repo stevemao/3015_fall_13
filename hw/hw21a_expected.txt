@@ -1,0 +1,50 @@
+
+*Parser> :l Lambda_parser
+:l Lambda_parser
+[1 of 3] Compiling Term             ( Term.hs, interpreted )
+[2 of 3] Compiling Parser           ( Parser.hs, interpreted )
+[3 of 3] Compiling Lambda_parser    ( Lambda_parser.hs, interpreted )
+Ok, modules loaded: Parser, Lambda_parser, Term.
+*Lambda_parser> applyParser pTerm "x"
+applyParser pTerm "x"
+V "x"
+*Lambda_parser> applyParser pTerm "x y"
+applyParser pTerm "x y"
+Ap (V "x") (V "y")
+*Lambda_parser> applyParser pTerm "x"
+applyParser pTerm "x"
+V "x"
+*Lambda_parser> applyParser pTerm "x y"
+applyParser pTerm "x y"
+Ap (V "x") (V "y")
+*Lambda_parser> applyParser pTerm "x y z"
+applyParser pTerm "x y z"
+Ap (Ap (V "x") (V "y")) (V "z")
+*Lambda_parser> applyParser pTerm "lambda x . x "
+applyParser pTerm "lambda x . x "
+Abs "x" (V "x")
+*Lambda_parser> applyParser pTerm "(lambda x . x) "
+applyParser pTerm "(lambda x . x) "
+Abs "x" (V "x")
+*Lambda_parser> applyParser pTerm "x ( y z) "
+applyParser pTerm "x ( y z) "
+Ap (V "x") (Ap (V "y") (V "z"))
+*Lambda_parser> applyParser pTerm "spread(<x, y>, <z,w> . <w,<w,z>>)"
+applyParser pTerm "spread(<x, y>, <z,w> . <w,<w,z>>)"
+Spread (Pair (V "x") (V "y")) ("z","w") (Pair (V "w") (Pair (V "w") (V "z")))
+*Lambda_parser> applyParser pTerm "spread(t, <z,w> . w)"
+applyParser pTerm "spread(t, <z,w> . w)"
+Spread (V "t") ("z","w") (V "w")
+*Lambda_parser> applyParser pTerm "spread(t, <z,w> . z)"
+applyParser pTerm "spread(t, <z,w> . z)"
+Spread (V "t") ("z","w") (V "z")
+*Lambda_parser> applyParser pTerm "<spread(t, <z,w> . z), lambda x .x >"
+applyParser pTerm "<spread(t, <z,w> . z), lambda x .x >"
+Pair (Spread (V "t") ("z","w") (V "z")) (Abs "x" (V "x"))
+*Lambda_parser> applyParser pTerm "<lambda x .x, spread(t, <z,w> . <w,z>)  >"
+applyParser pTerm "<lambda x .x, spread(t, <z,w> . <w,z>)  >"
+Pair (Abs "x" (V "x")) (Spread (V "t") ("z","w") (Pair (V "w") (V "z")))
+*Lambda_parser> applyParser pTerm "<x y , y x  >"
+applyParser pTerm "<x y , y x  >"
+Pair (Ap (V "x") (V "y")) (Ap (V "y") (V "x"))
+*Lambda_parser> 

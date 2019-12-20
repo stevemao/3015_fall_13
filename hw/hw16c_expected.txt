@@ -1,0 +1,13 @@
+Prelude> :l hw16.hs
+[1 of 1] Compiling Main             ( hw16c.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> map test trees
+[True,True,True,True,True,True,True]
+*Main> :t nat
+nat :: Rose t -> Btree t
+*Main> :t inv
+inv :: Btree t -> Rose t
+*Main> map nat trees
+map nat trees
+[Fork 1 Empty Empty,Fork 1 (Fork 2 Empty Empty) Empty,Fork 1 (Fork 2 (Fork 3 Empty Empty) Empty) Empty,Fork 1 (Fork 2 (Fork 3 Empty Empty) (Fork 4 Empty Empty)) Empty,Fork 1 (Fork 2 (Fork 3 Empty Empty) (Fork 4 (Fork 5 Empty Empty) Empty)) Empty,Fork 1 (Fork 1 Empty (Fork 1 (Fork 2 Empty Empty) (Fork 1 (Fork 2 (Fork 3 Empty Empty) Empty) (Fork 1 (Fork 2 (Fork 3 Empty Empty) (Fork 4 Empty Empty)) (Fork 1 (Fork 2 (Fork 3 Empty Empty) (Fork 4 (Fork 5 Empty Empty) Empty)) Empty))))) Empty,Fork 1 (Fork 2 Empty (Fork 3 Empty (Fork 4 Empty Empty))) Empty]
+*Main> 

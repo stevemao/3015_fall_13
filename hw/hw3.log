@@ -1,0 +1,129 @@
+This is pdfTeX, Version 3.14159-14h-released-20010417 (Web2C 7.3.3.1) (format=pdflatex 2006.5.13)  5 SEP 2006 15:33
+**hw3
+(./hw3.tex{/usr/share/texmf/pdftex/config/pdftex.cfg}
+LaTeX2e <2001/06/01>
+Babel <v3.7h> and hyphenation patterns for american, french, german, ngerman, i
+talian, nohyphenation, loaded.
+(/usr/share/texmf/tex/latex/base/article.cls
+Document Class: article 2001/04/21 v1.4e Standard LaTeX document class
+(/usr/share/texmf/tex/latex/base/size11.clo
+File: size11.clo 2001/04/21 v1.4e Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+\@input{header.aux}
+\openout2 = `header.aux'.
+
+(./header.tex (/usr/share/texmf/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2002/01/22 v2.2d
+
+(/usr/share/texmf/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2001/10/25 v2.2f
+\@emptytoks=\toks14
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 132.
+)) (./remark.sty)
+(/home/faculty/jlc/papers/tex-stuff/bussproofs.sty
+Proof Tree (bussproofs) style macros. Version 0.6c.
+\theLevel=\count87
+\myMaxLevel=\count88
+\myBoxA=\box26
+\myBoxB=\box27
+\myBoxC=\box28
+\myBoxD=\box29
+\myBoxLL=\box30
+\myBoxRL=\box31
+\thisAboveSkip=\dimen103
+\thisBelowSkip=\dimen104
+\newScoreStart=\dimen105
+\newScoreEnd=\dimen106
+\newCenter=\dimen107
+\displace=\dimen108
+\leftLowerAmt=\dimen109
+\rightLowerAmt=\dimen110
+\scoreHeight=\dimen111
+\scoreDepth=\dimen112
+)
+\c@theorem=\count89
+\c@conjecture=\count90
+\c@corollary=\count91
+\c@example=\count92
+\c@fact=\count93
+\c@lemma=\count94
+\c@definition=\count95
+\c@claim=\count96
+\c@remark=\count97
+\c@slogan=\count98
+\c@axiom=\count99
+\c@note=\count100
+\c@problem=\count101
+) (./hw3.aux)
+\openout1 = `hw3.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+
+Underfull \hbox (badness 10000) in paragraph at lines 6--7
+
+ []
+
+LaTeX Font Info:    Try loading font information for U+msa on input line 13.
+(/usr/share/texmf/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2002/01/19 v2.2g AMS font definitions
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 13.
+
+(/usr/share/texmf/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2002/01/19 v2.2g AMS font definitions
+)
+Underfull \hbox (badness 10000) in paragraph at lines 20--27
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 42--43
+
+ []
+
+[1
+
+
+
+{/usr/share/texmf/dvips/config/pdftex.map}] (./hw3.aux) ) 
+Here is how much of TeX's memory you used:
+ 849 strings out of 50453
+ 8565 string characters out of 690528
+ 54773 words of memory out of 1500001
+ 3892 multiletter control sequences out of 10000+25000
+ 8951 words of font info for 34 fonts, out of 400000 for 1000
+ 14 hyphenation exceptions out of 10000
+ 27i,6n,26p,236b,176s stack positions out of 3000i,500n,3000p,50000b,5000s
+</usr/share/texmf/font
+s/type1/bluesky/cm/cmti10.pfb></usr/share/texmf/fonts/type1/bluesky/symbols/msb
+m10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr8.pfb></usr/share/texmf/fon
+ts/type1/bluesky/cm/cmsy10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmmi10.
+pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr10.pfb></usr/share/texmf/fonts/
+type1/bluesky/cm/cmbx10.pfb>
+Output written on hw3.pdf (1 page, 48360 bytes).

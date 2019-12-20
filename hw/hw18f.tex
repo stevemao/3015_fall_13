@@ -1,0 +1,311 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{18}{3 December}
+
+\section{Type Inference}
+
+Recall the type of terms.
+
+\begin{program*}
+\>  data Term = V String \\
+\>            | Ap Term Term \\
+\>            | Abs String Term \\
+\end{program*}
+
+\noindent{}The data-type {\tt{Type}} with products is:
+
+\begin{program*}
+\>   data Type = TyVar String | Arrow Type Type deriving Eq \\
+\end{program*}
+
+\subsection{Proof Rules}
+
+Sequents in the system (which represent the state of a derivation) are of the form
+
+Sequents in the system (which represent the state of a type derivation) are of
+the form:
+
+\[\Gamma,E \vdash M : T\]
+In this structure, $\Gamma$ is a {\em{context}} representing a state of
+knowledge about the types of some variables.  Contexts have the form:
+ \[\Gamma = [x_1:\tau_1,\cdots{},x_k:\tau_k]\]
+where the $x_i$'s are variables and $\tau_i$'s are types.
+
+$E$ is a list of constraints between pairs
+of types and in the rules is presented as follows:
+\[E=\{\tau_{(1,1)} = \tau_{(1,2)}, \cdots , \tau_{(k,1)} = \tau_{(k,2)}\}\]
+wher $\tau_{i,j}$'s are types.  
+
+We write $\Gamma\backslash{}x$ to denote the list obtained from $\Gamma$ by
+deleting all pairs whose first element is $x$.
+
+As presented in the last homework, The proof rules for Wand's type
+inference system are given as follows:
+
+
+\AxiomRule{\Gamma,\{\alpha=\tau\}}{x:\tau}{Ax} {\hspace{.25in}} if $(x,\alpha)\in\Gamma$.
+\vspace{.125in}\\
+
+\SequentRule{\Gamma,E\cup{}\{\tau=\alpha\rightarrow\beta\}}{\lambda{}x.M : \tau}{[x:\alpha]{\tt{++}}(\Gamma\backslash{x}),\,E}{M:\beta}{Abs}
+{\hspace{.25in}} where $\alpha$ and $\beta$ are fresh.
+\vspace{.125in}\\
+
+\SequentRuleTwo{\Gamma,E_1\cup{}E_2}{MN:\tau}{\Gamma,E_1}{M:\alpha\rightarrow\tau}{\Gamma,E_2}{N:\alpha}{App}
+{\hspace{.25in}} where $\alpha$ is fresh.
+\vspace{.125in}\\
+
+A derivation in this system is a tree of instances of these rules where the
+leaves of the tree are all instances of the (Ax) rule.  To construct a proof
+that a closed term (no free variables) (say $M$) has a type, we postulate that
+$M$ has some type (say $\alpha$) and proceed by recursion on the structure of
+$M$ to show
+
+\[ \exists{}E.[(Type,Type)]. {\rm{\ such \ that\ the \ sequent\ }}[],E\vdash M:\alpha {\rm{\  is \ derivable.}}\]
+
+To find $E$, we use the proof rules above to try to construct a derivation
+(leaving the $E$'s blank to start) and then propagate the constraints in the
+$E$'s back down through the derivation tree from the leaves.
+
+\begin{example}
+Here is an example of a derivation that $\lambda{}x.x$ has a type by starting
+with the sequent of the form  $[],\{??\}\vdash (\lambda{}x.x) :\tau$.  The term is an abstraction
+so we apply the rule (Abs).
+
+\begin{center}
+\AxiomC{$[x:\alpha],E\vdash x : \beta$}
+\LeftLabel{}\RightLabel{(Abs)}
+\UnaryInfC{$[],\{\tau=\alpha \rightarrow \beta\}\cup{}E\vdash (\lambda{}x.x) :\tau$}
+\DisplayProof
+\end{center}
+
+But if we fill in the set $E$ with the constraint $\tau=\alpha$, we have an
+instance of the Axiom rule.
+
+
+\begin{center}
+\AxiomC{$E=\{\beta=\alpha\}$}
+\LeftLabel{}\RightLabel{(Ax)}
+\UnaryInfC{$[x:\alpha],E\vdash x : \beta$}
+\LeftLabel{}\RightLabel{(Abs)}
+\UnaryInfC{$[],\{\tau=\alpha \rightarrow \beta\}\cup{}E\vdash (\lambda{}x.x) :\tau$}
+\DisplayProof
+\end{center}
+
+\noindent{}If we completely instantiate the sets $E$ we get the following complete derivation.
+
+\begin{center}
+\AxiomC{}
+\LeftLabel{}\RightLabel{(Ax)}
+\UnaryInfC{$[x:\alpha],\{\beta=\alpha\}\vdash x : \beta$}
+\LeftLabel{}\RightLabel{(Abs)}
+\UnaryInfC{$[],\{\tau=\alpha \rightarrow \beta,\beta=\alpha\}\vdash (\lambda{}x.x) :\tau$}
+\DisplayProof
+\end{center}
+
+\end{example}
+
+
+The fact that there is a derivation indicates that the term $(\lambda{}x.x)$
+does have a type. We use the constraint set $E$ to actually determine the type of
+$\lambda{}x.x$.  To do this, we unify the set $E$ and apply the resulting
+substitution to the type $\tau$.  For this case, when we unify $E$ we get the
+substitution $[\tau := \alpha\rightarrow\alpha, \beta:=\alpha]$.  Applying this
+substitution to $\tau$ we determine that
+$(\lambda{}x.x):\alpha\rightarrow\alpha$.
+
+
+
+We can also do type derivations for terms containing free variables if we
+assume those free variables do have types.
+
+\begin{example}
+Consider the term $y(\lambda{}x.x)$. This should have a type if
+$y:(\alpha\rightarrow\alpha)\rightarrow\beta$.
+
+We start by trying to show there is some $E$ such that there is a derivation of the sequent
+
+\[[y:(\alpha\rightarrow\alpha)\rightarrow\beta],E\vdash y(\lambda{}x.x):\tau\]
+
+\noindent{}Since the term is an application, we use the (Ap) rule.
+
+\begin{center}
+\AxiomC{$[y:(\alpha\rightarrow\alpha)\rightarrow\beta],E_1\vdash y :\alpha'\rightarrow\tau$}
+\AxiomC{$[y:(\alpha\rightarrow\alpha)\rightarrow\beta],E_2\vdash (\lambda{}x.x):\alpha'$}
+\LeftLabel{}\RightLabel{(Abs)}
+\BinaryInfC{$[y:(\alpha\rightarrow\alpha)\rightarrow\beta],E_1\cup{}E_2\vdash y(\lambda{}x.x):\tau$}
+\DisplayProof
+\end{center}
+
+\noindent{}The left branch is an instance of an axiom because there is an entry for the variable $y$ in the context.
+
+\small{
+\begin{center}
+\AxiomC{$E_1 = \{\alpha'\rightarrow\tau=(\alpha\rightarrow\alpha)\rightarrow\beta\}$}
+\LeftLabel{}\RightLabel{(Ax)}
+\UnaryInfC{$[y:(\alpha\rightarrow\alpha)\rightarrow\beta],E_1\vdash y :\alpha'\rightarrow\tau$}
+\AxiomC{$[y:(\alpha\rightarrow\alpha)\rightarrow\beta],E_2\vdash (\lambda{}x.x):\alpha'$}
+\LeftLabel{}\RightLabel{(Abs)}
+\BinaryInfC{$[y:(\alpha\rightarrow\alpha)\rightarrow\beta],E_1\cup{}E_2\vdash y(\lambda{}x.x):\tau$}
+\DisplayProof
+\end{center}
+}
+
+\noindent{}On the right branch we rebuild the proof given above.
+
+\small{
+\begin{center}
+\AxiomC{$E_1 = \{\alpha'\rightarrow\tau=(\alpha\rightarrow\alpha)\rightarrow\beta\}$}
+\LeftLabel{}\RightLabel{(Ax)}
+\UnaryInfC{$[y:(\alpha\rightarrow\alpha)\rightarrow\beta],E_1\vdash y :\alpha'\rightarrow\tau$}
+% \AxiomC{$[y:(\alpha\rightarrow\alpha)\rightarrow\beta],E_2\vdash (\lambda{}x.x):\alpha'$}
+\AxiomC{$E_3=\{\beta'=\alpha''\}$}
+\LeftLabel{}\RightLabel{(Ax)}
+\UnaryInfC{$[x:\alpha'',y:(\alpha\rightarrow\alpha)\rightarrow\beta],E_3\vdash x : \beta'$}
+\LeftLabel{}\RightLabel{(Abs)}
+\UnaryInfC{$[y:(\alpha\rightarrow\alpha)\rightarrow\beta],E_2=(\{\alpha'=\alpha'' \rightarrow \beta'\}\cup{}E_3)\vdash (\lambda{}x.x) :\alpha'$}
+\LeftLabel{}\RightLabel{(Abs)}
+\BinaryInfC{$[y:(\alpha\rightarrow\alpha)\rightarrow\beta],E=(E_1\cup{}E_2)\vdash y(\lambda{}x.x):\tau$}
+\DisplayProof
+\end{center}
+}
+
+Putting together the constraints, we get the following set:
+
+\[\begin{array}{lcl}
+E & = & E_1 \cup E_2 \\
+  & = & \{\alpha'\rightarrow\tau=(\alpha\rightarrow\alpha)\rightarrow\beta\} \cup (\{\alpha'=\alpha'' \rightarrow \beta'\}\cup{}E_3)\\
+  & = & \{\alpha'\rightarrow\tau=(\alpha\rightarrow\alpha)\rightarrow\beta\} \cup (\{\alpha'=\alpha'' \rightarrow \beta'\}\cup{}\{\beta'=\alpha''\})\\
+  & = & \{\alpha'\rightarrow\tau=(\alpha\rightarrow\alpha)\rightarrow\beta,\alpha'=\alpha'' \rightarrow \beta', \beta'=\alpha''\})\\
+\end{array}\]
+
+Unification of this results in the substitution:
+
+\[s = [a' := (b' \rightarrow b'),t := b,a := b',a'' := b']\]
+
+When $s$ is applied to $\tau$ we get the type $\beta$, as expected.
+
+\end{example}
+
+
+
+\subsection{Implementation}
+
+
+In Haskell we encode contexts as list of type
+{\tt{[(String,Type)]}}. Constraint sets are represented in the Haskell
+implementaiton as a list of type {\tt{[(Type,Type)]}}. $M$ denotes a
+lambda-term, and in Haskell is represented by elements of the data-type
+{\tt{Term}}.  $T$ denotes a type and is represented in Haskell by elements of
+the data-type {\tt{Type}}.
+
+
+The implementation Here is the type of the {\tt{infer\_type}} function:
+\begin{program*}
+\> infer\_type :: [(String, Type)] \\ 
+\>               -> Term \\ 
+\>               -> Type \\ 
+\>               -> [String] \\ 
+\>               -> ([(Type, Type)], [String]) \\ 
+
+\end{program*}
+This function takes a context (denoted $\Gamma$ in the rules above and
+represented by a list of {\tt{String}}, {\tt{Type}} pairs.), a term to infer
+the type of, a type (denoted $\tau$ in the rules above and initially a type
+variable not occurring anywhere in the context), and a string list containing
+the names of all variables used so far.
+
+\begin{program*}
+\>  infer\_type context trm typ vars = \\ 
+\>   case trm of \\ 
+\>     (V x) ->  \\ 
+\>        case (lookup x context) of  \\ 
+\>          (Just a) -> ([(typ,a)],vars) \\ 
+\>          Nothing ->  error ("infer\_type: " ++ x ++ " not in context!") \\ 
+               
+\>     (Ap m n) ->  \\ 
+\>        let a = fresh "a" vars in \\ 
+\>        let (e1,vars1) = infer\_type context m (Arrow (TyVar a) typ)(a:vars) in \\ 
+\>        let (e2,vars2) = infer\_type context n (TyVar a) vars1 in \\ 
+\>          (e1 ++ e2, vars2) \\ 
+
+\>     (Abs x m) ->  \\ 
+\>        let a = fresh "a" vars in \\ 
+\>        let b = fresh "b" (a : vars) in \\ 
+\>        let (e1,vars1) = infer\_type ((x,(TyVar a)):context) m (TyVar b) (a:b:vars) in \\ 
+\>          ( [(typ, Arrow (TyVar a) (TyVar b))] ++ e1 , vars1) \\ 
+\end{program*}
+
+The case {\tt{V x}} implements the Axiom rule, the case labeled {\tt{(Ap m
+n)}} implements the (Ap) rule and the case labeled {\tt{(Abs x m)}} implements
+the (Abs) rule.
+
+
+\subsection{Adding product types.}
+
+To add product types  we extend the data-types {\tt{Type}} and {\tt{term}} as follows:
+
+\begin{program*}
+\> data Op = Arrow | Product  \\
+\>         deriving (Eq,Show) \\
+\> \\
+\> data  Type =   TVar  String |  BinType Op  Type   Type \\
+\>         deriving (Eq) \\
+\> \\
+\> data  Term =   Var String \\ 
+\>              | Abs  String Term   \\
+\>              | Ap Term Term   \\
+\>              | Pair Term Term  \\
+\>              | Fst Term  \\
+\>              | Snd Term \\
+\>        deriving (Eq) \\
+\end{program*}
+
+Mathematically we write $M\times{}N$ for the Haskell term {\tt{Prod A B}} and
+render the Haskell term {\tt{(Pair M N)}} as $\langle{}M,N,\rangle$.
+\ \\
+Here are the additional proof rules:
+\vspace{.125in}\\
+
+\SequentRuleTwo{\Gamma,E_1\cup{}E_2\cup{}\{\tau=\alpha\times\beta\}}{\pair{M,N} : \tau}{\Gamma,E_1}{M:\alpha}{\Gamma,E_2}{N:\beta}{Pair}
+{\hspace{.25in}} where $\alpha$ and $\beta$ are fresh.
+\vspace{.125in}\\
+
+\SequentRule{\Gamma,E}{{\mathit{fst}}\, M : \tau}{\Gamma,E}{M:\tau\times\alpha}{Fst}
+{\hspace{.25in}} where $\alpha$ is fresh.
+\vspace{.125in}\\
+
+\SequentRule{\Gamma,E}{{\mathit{snd}}\, M : \tau}{\Gamma,E}{M:\alpha\times\tau}{Snd}
+{\hspace{.25in}} where $\alpha$ is fresh.
+\vspace{.125in}\\
+
+
+\begin{exercise}
+Using the base code provided (which includes unification for products) extend
+the {\tt{infer\_type}} function to implement these additional type inference
+rules.
+\end{exercise}
+
+
+\begin{exercise}
+Design a number of test cases to show that your extension works.  You should at least include the test  examples in the file {\tt{hw18\_expected.txt}}.  Include at least six more.
+\end{exercise}
+
+
+\end{document}
+
+
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "\\> "
+% comment-end: "\\\\ "
+% compile-command: "pdflatex hw18f"
+% fill-column:79
+% End:
+
+
+
+

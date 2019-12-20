@@ -1,0 +1,48 @@
+\documentclass[11pt]{article}
+
+\include{header}
+
+\begin{document}
+\homework{13}{13 October}
+
+
+\section{Abstract Data Types in Haskell}
+
+In class we talked about how to use the Haskell module system to implement an abstract data type.
+
+An {\em{abstract data type}} (ADT) provides users with the signatures
+of the operations supported on the type together with an abstract
+specification of the expected behavior of the type.  This
+specification takes the form of a list of axioms that relate the
+behaviors of the interactions of the operators with one another.  By
+only allowing users to access the interface it is possible to change
+an underlying implementation without having to change code that uses
+the ADT.
+
+Haskell's module system allows programmers to implement ADT's by
+providing a mechanism for hiding underlying representations and
+implementations and simply exporting the names and signatures of the
+interface.
+
+
+For example, as in class we defined a tree type.
+
+
+
+
+
+
+
+
+\end{document}
+% Local Variables:
+% mode:latex
+% comment-column:0
+% comment-start: "% "
+% compile-command: "pdflatex hw13b"
+% fill-column:79
+% End:
+
+
+
+

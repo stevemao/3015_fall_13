@@ -1,0 +1,91 @@
+
+*FinFun> let f =  (FinFun (foldr (\(x,y) -> insert $ P x y) mempty (zip ['a'..'z'] [1..10])))
+z'] [1..10])))
+
+<interactive>:1:51: Not in scope: `mempty'
+*FinFun> let f =  (FinFun (foldr (\(x,y) -> insert $ P x y) empty (zip ['a'..'z'] [1..10])))
+'] [1..10])))
+
+<interactive>:1:51:
+    Ambiguous occurrence `empty'
+    It could refer to either `FinFun.empty', defined at FinFun.hs:14:0
+                          or `Avl.empty', imported from Avl at FinFun.hs:5:0-9
+                                            (defined at Avl.hs:15:0)
+*FinFun> let f =  (FinFun (foldr (\(x,y) -> insert $ P x y) Avl.empty (zip ['a'..'z'] [1..10])))
+..'z'] [1..10])))
+*FinFun> f
+f
+['a' := 1,'b' := 2,'c' := 3,'d' := 4,'e' := 5,'f' := 6,'g' := 7,'h' := 8,'i' := 9,'j' := 10]
+*FinFun> dom f
+dom f
+"abcdefghij"
+*FinFun> range f
+range f
+[1,2,3,4,5,6,7,8,9,10]
+*FinFun> apply f 'c'
+apply f 'c'
+3
+*FinFun> apply f 'g'
+apply f 'g'
+7
+*FinFun> apply f 'k'
+apply f 'k'
+*** Exception: apply:'k' not in domain.
+*FinFun> update f ('a',-1)
+update f ('a',-1)
+['a' := -1,'b' := 2,'c' := 3,'d' := 4,'e' := 5,'f' := 6,'g' := 7,'h' := 8,'i' := 9,'j' := 10]
+*FinFun> update f ('a',2)
+update f ('a',2)
+['a' := 2,'b' := 2,'c' := 3,'d' := 4,'e' := 5,'f' := 6,'g' := 7,'h' := 8,'i' := 9,'j' := 10]
+*FinFun> update f ('k',11)
+update f ('k',11)
+['a' := 1,'b' := 2,'c' := 3,'d' := 4,'e' := 5,'f' := 6,'g' := 7,'h' := 8,'i' := 9,'j' := 10,'k' := 11]
+*FinFun> update empty (1,"Jim")
+update empty (1,"Jim")
+
+<interactive>:1:7:
+    Ambiguous occurrence `empty'
+    It could refer to either `FinFun.empty', defined at FinFun.hs:14:0
+                          or `Avl.empty', imported from Avl at FinFun.hs:5:0-9
+                                            (defined at Avl.hs:15:0)
+*FinFun> update FinFun.empty (1,"Jim")
+update FinFun.empty (1,"Jim")
+[1 := "Jim"]
+*FinFun> update(update FinFun.empty (1,"Jim")) (2,"Kim")
+update(update FinFun.empty (1,"Jim")) (2,"Kim")
+[1 := "Jim",2 := "Kim"]
+*FinFun> update (update(update FinFun.empty (1,"Jim")) (2,"Kim")) (3,"Barb")
+update (update(update FinFun.empty (1,"Jim")) (2,"Kim")) (3,"Barb")
+[1 := "Jim",2 := "Kim",3 := "Barb"]
+*FinFun> 
+
+*FinFun> update (update (update(update FinFun.empty (1,"Jim")) (2,"Kim")) (3,"Barb")) (4,"Jim")
+arb")) (4,"Jim")
+[1 := "Jim",2 := "Kim",3 := "Barb",4 := "Jim"]
+*FinFun> let g = update (update (update(update FinFun.empty (1,"Jim")) (2,"Kim")) (3,"Barb")) (4,"Jim")
+)) (3,"Barb")) (4,"Jim")
+*FinFun> g
+g
+[1 := "Jim",2 := "Kim",3 := "Barb",4 := "Jim"]
+*FinFun> apply g 4
+apply g 4
+"Jim"
+*FinFun> apply g 1
+apply g 1
+"Jim"
+*FinFun> apply g 2
+apply g 2
+"Kim"
+*FinFun> map (apply g) [1..4]
+map (apply g) [1..4]
+["Jim","Kim","Barb","Jim"]
+*FinFun> update FinFun.empty (1,'a')
+update FinFun.empty (1,'a')
+[1 := 'a']
+*FinFun> update FinFun.empty (1,'b')
+update FinFun.empty (1,'b')
+[1 := 'b']
+*FinFun> apply (update FinFun.empty (1,'b')) 1
+apply (update FinFun.empty (1,'b')) 1
+'b'
+*FinFun> 
